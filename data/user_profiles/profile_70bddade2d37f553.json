@@ -1,0 +1,312 @@
+{
+  "email": "bhavyasharma8109@gmail.com",
+  "age": 19,
+  "profession": "Software Engineer (Desk Job)",
+  "smoking_status": "non_smoker",
+  "alcohol_consumption": "none",
+  "chronic_risk_factors": [
+    "Sedentary Workday",
+    "None Reported",
+    "Anxiety / Gastric"
+  ],
+  "primary_health_goal": "Physical Activity & Longevity",
+  "baseline_status": "active_calibrated",
+  "onboarding_completed": true,
+  "prescriptions": [
+    {
+      "id": "9520d3c87834",
+      "prescriber_name": "Dr. Sanjeev Saxena",
+      "clinic_or_place": "Maharao Bhim Singh Hospital, Kota",
+      "prescription_date": "17/7/24",
+      "diagnosed_diseases": [
+        "Anxiety / Gastric"
+      ],
+      "medicines": [
+        {
+          "name": "Rozavel",
+          "strength": "10",
+          "dosage": null,
+          "frequency": "AC 7 AM",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Ambulex",
+          "strength": null,
+          "dosage": "1",
+          "frequency": "BD",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Petil Pse",
+          "strength": null,
+          "dosage": "1",
+          "frequency": "OD HS",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Placida",
+          "strength": null,
+          "dosage": "1",
+          "frequency": "OD",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Emozet",
+          "strength": "4 mg",
+          "dosage": null,
+          "frequency": "TID 6 PM",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        }
+      ],
+      "raw_transcription": "Dr. Sanjeev Saxena M.B.B.S., S.M.O. Reg. No. 18819 SENIOR MEDICAL OFFICER MAHARAO BHIM SINGH HOSPITAL, KOTA MOB. : 94141-86586\nName: Ramesha chauhan Sex: F Age: 38 Date: 17/7/24\nBP: 130/80\nSPO2: 98%\nAnxiety / Gastric\nRx\nCap. Rozavel 10 AC 7 AM\nT. Ambulex 1 BD\nT. Petil Pse 1 OD HS\nT. Placida 1 OD\nT. Emozet 4 mg TID 6 PM\n- Diet\n- walk/exercise\nFollow for 1 month\n1-J-26, VIGYAN NAGAR, KOTA 324005 (RAJ.)",
+      "created_at": "2026-11-02T22:11:54.821909+00:00"
+    },
+    {
+      "id": "a5e8cc11155c",
+      "prescriber_name": "Dr. ASIT GUIN",
+      "clinic_or_place": "Jabalpur (M.P.)",
+      "prescription_date": "2020-09-22",
+      "diagnosed_diseases": [],
+      "medicines": [
+        {
+          "name": "Thyrox",
+          "strength": "25 mcg",
+          "dosage": null,
+          "frequency": "100 x 1",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "B-Rise",
+          "strength": null,
+          "dosage": null,
+          "frequency": "OD",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Vit C",
+          "strength": null,
+          "dosage": null,
+          "frequency": "100 T/W",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Zincovit",
+          "strength": null,
+          "dosage": null,
+          "frequency": "1 G/W",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Clopilet",
+          "strength": "75 mg",
+          "dosage": null,
+          "frequency": "100 x 1",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Rixorge",
+          "strength": null,
+          "dosage": null,
+          "frequency": null,
+          "duration": null,
+          "route": null,
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Prasugrel",
+          "strength": null,
+          "dosage": null,
+          "frequency": "BID SOS",
+          "duration": null,
+          "route": "Oral",
+          "instructions": null,
+          "notes": null,
+          "included": true
+        }
+      ],
+      "raw_transcription": null,
+      "created_at": "2026-11-03T00:05:19.735446+00:00"
+    }
+  ],
+  "diagnosed_conditions": [
+    "Anxiety / Gastric"
+  ],
+  "active_medications": [
+    {
+      "name": "Rozavel",
+      "strength": "10",
+      "dosage": null,
+      "frequency": "AC 7 AM",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Ambulex",
+      "strength": null,
+      "dosage": "1",
+      "frequency": "BD",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Petil Pse",
+      "strength": null,
+      "dosage": "1",
+      "frequency": "OD HS",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Placida",
+      "strength": null,
+      "dosage": "1",
+      "frequency": "OD",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Emozet",
+      "strength": "4 mg",
+      "dosage": null,
+      "frequency": "TID 6 PM",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Thyrox",
+      "strength": "25 mcg",
+      "dosage": null,
+      "frequency": "100 x 1",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "B-Rise",
+      "strength": null,
+      "dosage": null,
+      "frequency": "OD",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Vit C",
+      "strength": null,
+      "dosage": null,
+      "frequency": "100 T/W",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Zincovit",
+      "strength": null,
+      "dosage": null,
+      "frequency": "1 G/W",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Clopilet",
+      "strength": "75 mg",
+      "dosage": null,
+      "frequency": "100 x 1",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Rixorge",
+      "strength": null,
+      "dosage": null,
+      "frequency": null,
+      "duration": null,
+      "route": null,
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Prasugrel",
+      "strength": null,
+      "dosage": null,
+      "frequency": "BID SOS",
+      "duration": null,
+      "route": "Oral",
+      "instructions": null,
+      "notes": null,
+      "included": true
+    }
+  ],
+  "created_at": "2026-11-02T16:46:29.012097+00:00",
+  "updated_at": "2026-11-03T00:05:19.736674+00:00"
+}

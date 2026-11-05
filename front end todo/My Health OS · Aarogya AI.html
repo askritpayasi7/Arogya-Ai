@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Health OS · Aarogya AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6faf8;--card:#fff;--ink:#0f2a1d;--mute:#53645c;--line:#e4ece7;--g:#22a36a;--g2:#e1f6ea;--amber:#d99a1f;--red:#d6503f;--jar:#14352a;
+--grad:linear-gradient(135deg,#4ade80 0%,#14b8a6 55%,#38bdf8 100%);--soft:linear-gradient(135deg,#ecfdf3,#e6f7fb);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1713;--card:#112620;--ink:#e8f3ec;--mute:#94a89f;--line:#1e3a30;--g:#4cd68a;--g2:#173a2a;--jar:#0a1f17;--soft:linear-gradient(135deg,#12332a,#10303a);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1713;--card:#112620;--ink:#e8f3ec;--mute:#94a89f;--line:#1e3a30;--g:#4cd68a;--g2:#173a2a;--jar:#0a1f17;--soft:linear-gradient(135deg,#12332a,#10303a);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button{font-family:inherit;cursor:pointer}
+.app{display:flex;min-height:100vh}
+aside{width:244px;background:var(--card);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;transition:transform .25s;z-index:30}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;margin:4px 8px 22px}
+.logo i{width:36px;height:36px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-style:normal}
+nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;color:var(--mute);text-decoration:none;font-weight:600;font-size:14px;margin-bottom:4px}
+nav a:hover{background:var(--g2);color:var(--g)}
+nav a.on{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(20,184,166,.3)}
+.side-foot{margin-top:auto;padding:12px;border-radius:14px;background:var(--soft);font-size:12px;color:var(--mute)}
+.side-foot b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+main{flex:1;min-width:0;padding:20px 24px 40px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.ham{display:none;border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;font-size:18px;color:var(--ink)}
+h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px}
+.sub{color:var(--mute);font-size:13px}
+.sp{flex:1}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 13px;font-size:12px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 2px 10px rgba(20,60,40,.04)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}.c3{grid-column:span 3}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--mute);margin:0 0 10px;font-weight:600}
+.hero{background:var(--grad);color:#fff;border:0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hero h2{color:rgba(255,255,255,.85)}
+.hero .big{font-size:30px;font-weight:800}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:99px;padding:6px 14px;font-weight:800;font-size:13px;margin-top:6px}
+.v{border:1.5px solid var(--line);border-radius:16px;padding:14px;background:var(--card);text-align:left;color:var(--ink);width:100%}
+.v:hover{transform:translateY(-2px)}
+.v.sel{border-color:transparent;background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box;border:2px solid transparent}
+.v .l{font-size:12px;color:var(--mute);font-weight:600}.v .n{font-size:26px;font-weight:800;margin:2px 0}.v .n small{font-size:12px;color:var(--mute)}
+.v .z{font-size:11px;font-weight:700}
+.ok{color:var(--g)}.warn{color:var(--amber)}.bad{color:var(--red)}
+.tabs{display:inline-flex;background:var(--bg);border-radius:99px;padding:3px;border:1px solid var(--line)}
+.tabs button{border:0;background:none;color:var(--mute);padding:6px 14px;border-radius:99px;font-weight:600;font-size:12px}
+.tabs button.on{background:var(--grad);color:#fff}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--line)}.dot.ok{background:#6ee7a8}.dot.today{outline:2px solid var(--ink);outline-offset:2px}
+input[type=range]{width:100%;accent-color:#14b8a6}
+.status{display:inline-block;border-radius:99px;padding:6px 14px;font-weight:800;font-size:13px;background:var(--g2);color:var(--g)}
+.status.w{background:#fbf0d8;color:#b7791f}.status.c{background:var(--line);color:var(--mute)}
+.ai{background:var(--soft);border-radius:14px;padding:14px;font-size:14px;line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}th{color:var(--mute);font-weight:600;font-size:12px}
+.tw{overflow-x:auto}
+svg{max-width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--mute);flex-wrap:wrap;margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:12px;overflow-x:auto;margin:0}
+.ev{border-left:3px solid #14b8a6;padding:6px 10px;margin:8px 0;font-size:13px}.ev small{color:var(--mute)}
+.chat{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.m{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;max-width:88%}
+.m.u{align-self:flex-end;background:var(--grad);color:#fff}.m.a{background:var(--soft)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row input[type=text]{flex:1;min-width:150px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;background:var(--card);color:var(--ink)}
+.btn{background:var(--grad);color:#fff;border:0;border-radius:12px;padding:11px 18px;font-weight:700}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
+select,input[type=number]{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font:inherit;background:var(--card);color:var(--ink)}
+.mut{color:var(--mute);font-size:12px;margin-top:8px}
+footer{text-align:center;color:var(--mute);font-size:11px;margin-top:24px}
+.scrim{display:none}
+@media(max-width:900px){.c4,.c5,.c6,.c7,.c8,.c3{grid-column:span 12}
+ aside{position:fixed;left:0;top:0;transform:translateX(-100%)}
+ body.open aside{transform:none;box-shadow:0 0 40px rgba(0,0,0,.25)}
+ body.open .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:20}
+ .ham{display:block}main{padding:16px}
+ .vgrid{grid-template-columns:repeat(2,1fr)!important}}
+.vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@keyframes sp{to{transform:rotate(360deg)}}@keyframes pl{0%{box-shadow:0 0 0 0 rgba(214,80,63,.5)}100%{box-shadow:0 0 0 12px rgba(214,80,63,0)}}@keyframes hb{to{stroke-dashoffset:-400}}
+.lg{position:relative;width:48px;height:48px;border-radius:50%;flex-shrink:0;display:grid;place-items:center}
+.lg:before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(#4ade80,#38bdf8,#14b8a6,#4ade80);animation:sp 6s linear infinite}
+.lg img{position:relative;width:42px;height:42px;border-radius:50%;border:2px solid var(--card);background:#fff}
+.brand b{display:block;font-size:16px;line-height:1.1}.brand small{font-size:10px;color:var(--mute);font-weight:600;letter-spacing:.4px}
+.wel{position:relative;overflow:hidden;display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--soft)}
+.wel h3{margin:0;font-size:26px;letter-spacing:-.5px}.moto{font-style:italic;color:var(--g);font-weight:700;margin:4px 0 12px}
+.wm{position:absolute;right:-30px;top:-30px;width:210px;height:210px;opacity:.13;border-radius:50%;pointer-events:none}
+.hbl{position:absolute;right:0;bottom:10px;opacity:.5;pointer-events:none}.hbl path{stroke-dasharray:200 200;animation:hb 3s linear infinite}
+.ring{position:relative;width:104px;height:104px;flex-shrink:0}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:26px}
+.ring small{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:9px;color:var(--mute);font-weight:600}
+.mood button{font-size:18px;padding:5px 11px}.mood button.on{background:var(--g2);border-color:var(--g)}
+.al{display:flex;gap:12px;padding:14px;border-radius:16px;border:1px solid var(--line);border-left:5px solid var(--g);background:var(--card);margin-bottom:10px}
+.al.bad{border-left-color:var(--red);background:linear-gradient(90deg,rgba(214,80,63,.12),var(--card))}.al.warn{border-left-color:var(--amber);background:linear-gradient(90deg,rgba(217,154,31,.12),var(--card))}
+.al .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--g2);font-size:20px;flex-shrink:0}.al.bad .ic{animation:pl 1.6s infinite}
+.al b{font-size:14px;color:var(--ink)}.al span.d{display:block;font-size:13px;color:var(--ink);opacity:.86;margin:3px 0 10px;line-height:1.55}.al a.chip{text-decoration:none}
+.sec{display:flex;align-items:center;gap:8px;margin:4px 0 10px}.sec h2{margin:0}.cnt{background:var(--red);color:#fff;border-radius:99px;padding:1px 9px;font-size:11px;font-weight:800}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.pc{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.pc button.on{background:var(--grad);color:#fff;border-color:transparent}
+.mid{background:linear-gradient(135deg,#14352a,#0f5a4a);color:#fff;border:0}.mid h2{color:rgba(255,255,255,.7)}.mid .r{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:13px}.mid .r b{text-align:right}
+main{overflow-x:hidden}
+.dash{display:flex;gap:18px;align-items:flex-start}.dmain{flex:1;min-width:0}
+.dside{width:350px;flex-shrink:0;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;overflow-x:hidden;padding:10px 6px 6px;margin-top:-10px}
+.dside .sec{margin-top:0}
+@media(max-width:1500px){.dmain .c7,.dmain .c5{grid-column:span 12}}
+@media(max-width:1180px){.dash{flex-direction:column}.dside{order:-1;width:100%;position:static;max-height:none;overflow:visible}}
+.aw{display:grid;grid-template-rows:1fr;margin-bottom:10px;touch-action:pan-y;transition:grid-template-rows .4s ease,opacity .35s ease,margin .4s ease,transform .3s ease}
+.awi{overflow:hidden;min-height:0}.aw .al{margin:0}
+.aw.out{grid-template-rows:0fr;opacity:0;margin-bottom:0}
+.aw.enter{animation:up .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*100ms)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+.al.info{border-left-color:#e8943a;background:linear-gradient(90deg,rgba(232,148,58,.12),var(--card))}.al.info .ic,.al.warn .ic{background:rgba(232,148,58,.18)}
+.ic{transition:transform .2s}.al:hover .ic{transform:rotate(-8deg) scale(1.1)}.ic span{display:inline-block}
+.ic.br span{animation:br 3.2s ease-in-out infinite}@keyframes br{50%{transform:scale(1.25)}}
+.ic.gl span{animation:gl 2.8s ease-in-out infinite}@keyframes gl{50%{filter:drop-shadow(0 0 8px #f5c542);transform:scale(1.1)}}
+.ic.bn span{animation:bn 1s ease-in-out infinite}@keyframes bn{50%{transform:translateY(-4px)}}
+.ic.hbt span{animation:hbt 1.2s infinite}@keyframes hbt{15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.18)}}
+.cnt.pulse{animation:cp 1s ease-in-out 2}@keyframes cp{50%{transform:scale(1.35);box-shadow:0 0 0 7px rgba(214,80,63,.25)}}
+.ask{position:relative;overflow:hidden;background:var(--grad)!important;color:#fff!important;border-color:transparent!important;font-weight:700;transition:transform .15s ease,box-shadow .2s}
+.ask:hover{box-shadow:0 6px 16px rgba(20,184,166,.4)}
+.ask:after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sh 3.5s ease-in-out infinite}
+@keyframes sh{0%,60%{left:-60%}100%{left:130%}}
+.walkpill{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--jar);color:#fff;border-radius:99px;padding:10px 16px;font-weight:700;font-size:14px;z-index:40;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;gap:10px;align-items:center}.walkpill[hidden]{display:none}
+.o2in{width:110px;border:1px solid var(--line);border-radius:99px;padding:6px 12px;font:inherit;font-size:12px;background:var(--card);color:var(--ink)}
+@media(prefers-reduced-motion:reduce){.lg:before,.hbl path,.al.bad .ic,.ic span,.ask:after,.cnt.pulse,.aw.enter{animation:none!important}}
+</style></head>
+<body>
+<div class="scrim" onclick="document.body.classList.remove('open')"></div>
+<div class="app">
+<aside>
+ <div class="logo brand"><div class="lg"><img id="sbl" alt="Aarogya AI logo"></div><div><b>My Health OS</b><small>by aarogya ai</small></div></div>
+ <nav id="nav"></nav>
+ <div class="side-foot"><b id="nm"></b>Day <span id="sf">12</span> of 15 · baseline<div style="margin-top:8px;font-style:italic;color:var(--g);font-weight:700">It’s for you, not for everyone.</div></div>
+</aside>
+<main>
+ <div class="top">
+  <button class="ham" onclick="document.body.classList.toggle('open')" aria-label="Menu">☰</button>
+  <div><h1 id="title"></h1><div class="sub" id="subt"></div></div>
+  <div class="sp"></div>
+  <button class="chip" id="bell">🔔 0</button><button class="chip" id="theme">◐ Theme</button>
+ </div>
+ <div id="view"></div>
+ <footer>AI‑assisted monitoring · Human clinical review · Not a diagnosis. Emergency? Call 112. Sample data shown.</footer>
+</main></div>
+<div id="walk" class="walkpill" hidden></div>
+<script>
+const M=[
+{n:'Heart',u:'bpm',d:0,t:78,w:'resting heart rate',data:[58,67,62,70,61,66,64,72,60,65,69,63,59,68,66]},
+{n:'Oxygen',u:'%',d:0,t:94,w:'blood oxygen',data:[97,96,97,98,96,97,97,96,98,97,96,97,98,97,96]},
+{n:'Sleep',u:'h',d:1,t:5.4,w:'sleep duration',data:[7.2,6.8,7.5,6.5,7.0,7.8,6.9,7.1,6.4,7.3,7.0,6.6,7.4,7.2,6.9]},
+{n:'Move',u:'min',d:0,t:21,w:'daily activity',data:[48,55,40,62,35,58,45,52,38,60,50,42,57,46,53]}];
+const E=[
+{t:'Short sleep combined with nicotine use amplifies sympathetic activation and nocturnal heart rate.',s:'Mackenbach et al. (2024)',c:84.2,f:p=>p.smoke==='current'},
+{t:'Alcohol close to bedtime fragments sleep and lifts overnight heart rate.',s:'Sample rule',c:71,f:p=>p.alc!=='none'},
+{t:'Short sleep is associated with higher resting heart rate and lower next‑day activity.',s:'Sample rule',c:76,f:p=>true},
+{t:'With hypertension or a heart condition, a resting heart rate above your norm deserves a blood-pressure check.',s:'Sample rule',c:73,f:p=>p.cond.includes('Hypertension')||p.cond.includes('Heart condition')},
+{t:'Oxygen readings below personal norm deserve a check‑in, especially for smokers.',s:'Sample rule',c:68,f:p=>p.smoke==='current'}];
+let ent=true,lgo=false,wk=null,day=12,sel=0,mode='jar',mood='',pendQ=null,dis={},chat=[],P={name:'Ravi Sharma',age:28,sex:'Male',h:172,w:70,blood:'B+',smoke:'current',alc:'moderate',sleepGoal:7,cond:[],allergy:'None known',meds:'None',doc:'Dr. Mehta',emg:'+91 90000 00000'};
+const LOGO='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAABIFBMVEX//vr+/Pf8+/b8+vX7+vX7+fX7+fT6+PX6+PT7+PP6+PP6+PL69/P5+fT5+PX5+PT5+PP5+PL59/T59/P59/L4+PT49/T49/P49/L0+PLq+e/n+O759vL49vL49vH39vH39fH29PDz8u7p9O3l8uvh8+jv7uri8Onf7+fe7eXq6eXj6OLi4t7d3dnS7t3P6Nu+6NDD38+15sqy5ciz5Miy5Mex5Mex4sav48at38St3sOq3cGs28Gp28DV1tLOzsun2r+u1sCm2L2k2Lyj1rqi1bqi1Lig0bbHyMS/wL2xvLSvtbCrrqqipaKTopmTl5SKj4yBh4N6fnxweHNrcG5ebWBiZ2ZaZF5WXFtQVlRIT008Q0IkLCsVHh0THRwPGBjBB9yIAAAdD0lEQVR42o2bC2Oa2LaA8YE1aA4YdCA9QZS0tEGJxiYxT0jTpAEVFaUoapr//y/uWnuDmjSdc/fMdIxRPtZ7rb0p8xHXf5P1+bjV7nwj6/z84uL8/OzivH38ab/UcLzJbD4LJ+OBa1tmw9BUgfunwgslVdONpmW7/dEknM9nU89paodH7c7F+ekZLrxWp9Npt48/E8RHupg/uZ0Ee4H/wef395vuaBoG07HXdx2r2TB0TauJ+XxFFEVBVOuANpomsL3xJAiDcc/c/3jUPr84Pzvrds/OThH8lvwK/PkYxD3/9u3sDJEXBPuRqZl9f76IpkPX0tMMrlQ6k2Hz+TwPYJ5ls+l0irzPaKY7nEaLaNI3tY/HgL7owjqjKuwk5P8mYHwVc2M9w83Cgo9+3q81XT9aRn7P1OWKpEgSsPh8vPjNS7gHRcnnKrrpjufwebepfYWrga7hSmdbMm9UvS0vfDLW8vnFWfv4sG64/iwKRq6pi5lMls3/sXgJV8xn0+lMHsQeBdHcdw3tqH36jYDR1IjeaJv572suxaLAndbRbs0ZzxHbYFMse6CqEly8KP4BrlQIuIhCH+xkUkID0bORtf/fFjrZ+Tno+7TzbU3eBsfc2JmJdVONQbCIxo5R4dWaKubJ9cGub0QmK9Y2/E6s1Wq7OQNueRH0G/tf2xcXKPT5GfFuJFNVb7hoX2IRXO2jfbU5WiwnjqHIJbx8bMm1WmPTkj8kif4pifR/Ql5WDTdYLUdN9bB9AR57DhdOtE2cKgETeQHYBUdE836taM50GY0sNZXiSq8E/NPOIrUy/Aocj4LZVEqzxoulb+9/bHVQlC4ampCJsmPwEckb50TPFxed1iepOQiXs4HBsKpaFvJ/WUWRL8Y65qnBKRjuoCpnGGMQLqY9AwML/evs/NvpaUyOwZ8Jd63m4/26NZotfFsDLJ//+yqKqNw8VyjQnysS2gLBXKGs1rOaM1nMPFMn5MTO7dbnBEwSxxZX02w/Cj2zlmP/hZrnE9UTMJeYm4I5eCWUdGsURWMLUiiYmMRVTCZgwo2z1dlF51hTnCl4pJFm88X/BabBxZXE2NlFutDXJUmVs+XmgKjuc/viPHFu4toA/nQc+zPkN7Dv8b7mBsupq6WLSpHnef5fwTGvJNEXvFiEfxKwBP6R0vph5Fv7R+0Lom4An6KZAfy1RVPb2fnZ6TlwdeQ69X9EgQYpleMvDsbHTkXAyW3Cn9TJJFERK1ovAG1DFjsnFOLbra8MUTQJ3273FPz5UHen0cTR2G1JSYD+q5NhvYg/JaLRudjaksiyRh/I4GE0P0Gx+vat3WIwgs++xXo+ax3y9gS56apML1nES8Y58dXiONSpyCW3JlGpSWAhmCZxeFMFchiNzMPWxcW3JG+3ma+tDvHoLgZx+1PW8pEry7IQOwupfX9ami+USvlcocDtkdQhia/ApQ0Y7qlogId5DchhF6dJwWASA0NV+tY+qhjjRehqSj6WES8jvqdmUdzhBJYrFXIsL5KUWaEyk+xZgNtOBM5LCq/q3mLe1z61LzuIBWV3mHabGhianNPjfWOwWPT1lJJ/ZeD3HPuggD2PodcFgfpzIuFW2k7sLIkM5P2pDRX6IqkXDHrWGWZSKEiHdXe+GBnp7cpXXPtMkhdx7eUPDGc0Cab+wNLyH4o7G7AIn9zj97bSiSQpRcaaROPG/jEpFyg10+nQknR20f4q2dOlb8o7yrZK45vPb9V7AB+Aqy5fXl5WC9/RWRK4W+Dt6kHeq6U1N4wG+sd2hwQVgJNUCZlDbY5BH1n5Td1BIL8JUlxyRnfD1fPvZ/h3ObHqnJIXxTVlE99ibHZRFjjDi+bO7lH7G3GpUwR3iUe39mv9+dxVs8Lr9oJ+Wdz2a66aMf3ly28E//699Jo5BX8tboycFwQskeSmyR0pebnpL6fWPrQkRMMEfI4G/pw2AzAwU8//L3CRy2r9COXF9XsFYUB//QYca4uCpXrKCZcjTNqnFAxc9OjWrjFchladVd8Hi9vgtDVZ/X7+HaOXIxMuvzHMGwPHC4pkfzl3tGPa5zPY+HYvuu2vu24UeVqW3Du5DLf5Lr/daYm5suEtnhFM0L9X874e+/0rcOxvcoXm7TrT8Be+eYh1ioKh3+m09sFqfrPCKjAboDuIQoHU1PhSW5oWM+Chz+DRsci/n1fgX2y5QAoWdcE99HP6XblEWjYedF1ywnlPPzojYJI7LtufNW8R9bJ1CcD0C0KhUHofnG2OV8+r5eolVjUoe6gzdW7d4/NCWV6Dy6UCR6wGaVgfRb65DxPG6SlDMsklCBwsR410PTaqJP3DcxsjrftJKnAvel6MB/7y+SXxsMjO5jc5Fhl7NAdUeGhPCBneFarOdOamv3ag72S6pIn+rPcXC5tR5TjwSLLgK1tgXood7CADnrX0GprRX748k4B6fln5JlMj8oKOESzwyY0iuEDLJF9qDufj5sc2QBl06Wu08GIMoSQT30pKa+wdtGUnnl3k2QN9sFhNmkyK0Serl2di6N8vy4FWBZmlCtWYXOK4Tf0kPRleqya5YdirHEMsI/i8+7nuziAaszWadtb5mY8z0RosHbCsPV3Ne3VZ42pOiFjU9stz6Kis8s/aONSwydrhYnDKAgF1jGWGjN4fm6O535RYFS3CxWEhJq0qAdNwVkVWHy5hQMjkyuWs5i0JFuHLcZMXVVQP+S4ILK79gvR/pFhkjH4U2ofHZ6Dqs8vzo5Q9nQ20CigaLbIV9dhiCOuXolhPH9iz1cyB4CmI7AeSR56ph0V9Pa3GkkngETSw+LjTjRenWGHkGZ8758wZNLSfav3Z1KlUFPAMTihvcUnrKm88u84YPkxEjZQKl9tT0L9fKPj3amqlYMoqEu9EU+epu6CB1xdU2cYomlqf2ufM6cV5ax80PTLzvEJaRenvYDlb7y2fA6e+A3dYFuWsOSKeTfLI0tNTsiSuwyLW8itwjdXcWeQetkDVl53jij2ZD3TUqcjzb8GCsCl21ZQdPi89I13m0FnLMNmFqziUX1YztyxL0mswCae1skUlU7WmC884PmUuIGvV+2HglMoVGjlkt0EkZUWkLXI8AYtssTlaPQeWmi7TS0pZzNrUyr9/r3xLzqqvsg7cHt5hnMbh2hzJXtbnDgPZ45Mxgo47q1ZoUw5Zay+fgCuV/KskPX9eDupx+uTyEls3/dVLksBAlLT0CrxHMjjHJ4MNvJ3uhaH7qc2cnx4fNlH6lMonTVuFj+vSqzlcZAUTkrRvpjcjlZCrw/z9QhaIHDr1jcjkOwScT6oqlgDGns4Hn46Yi86RZs8WLgRKkqkgCAuQqzH9bC4igoH1fvSytLdaBV4oybo7Wa5WNJqhMu+qSSjzcb4sCTwF49uKmDLBk5uHAIY8PZ/ZEhTEddopFWTpH8i44gbM52tpc7JajfQELEpKTa0WUnXT6Q8n4QLK1fPc1QQSTLTp4zFdlgTcOOHpvhiEsj6YwRCHYAiticlK6lq7AC7K4KBywi3il9Jaf/EcWspO3O3uZFIMk9Wgt4YG27R7o2m0XIJ/FXE3bAMGtcRgnoDVrDsL7Apz0f5oTrGZriUJShAAXCitqbS083LKmkJV0jPk5lk2w9YN03L63nA0Gg5c2zRtdzSduFo+r9D8+mbugdSC2q4xdhC6e0y3tW/NF4M6qWpJPyrL8mvvBM+Cfme5CmwlQ7orsaw1nGEAMi7BwstlFPr9pmZYjm3UKFjit/s00gmR69egt5/168z58a6zmMMdqGTKJmVIEOSkYcIgwCg7yGKuAIFr/4E3BAij/iRarn6jOz+vomDsuZaeSaXqmsKmWfrdSty4UMkxVgAs1lLmeObpzNmx4i5Cey+tbMAc9weYzzVHy9XUrtX+kfO5asMdRxhFEL+rZTjqWToD9taNZrNpmk1Dex/MU3DDm48aTPcICvvUFDNgyyTFrIeCdRshZnV3tloMDEWR5JxmenSOwEZvNnIMlReLVb1puwNvOBx6jiHxKqnjtB0QkrIII5WgpIwB1GCm+xmynt+QWARDPk+CkN8CQ0jnIHdASoTrqaJmjaLV8wvpAZaTXlPLprMiDHHeeDINfv0KJoPGGgxXjPdjNmDIfxMTwDBBjrUKMoRSAca+SiUZNaHjKBYhlCCVaL35Kurp2ZpSK5qjxfPLb5oxYGTLZri6vGP2x9Nfv2az2Xw26Wk8LSuCWCxAlYHMD5VNpt2qlK47UBkBDO3WMC2IMXiHi7t3CibbSEqZCDxuypVakW0OFzQ3w6w4seu5allm883BFKi/YM1+Da38FrgImQuR5QScUewYPFl4DG6PYQTv7OzQXpaoWojDqVDvRVD1VFbdKdIpAqvRCzibBr0IpzLGYBpTf82Cnk4zCBRUqMYHKCqWZSi7CFYzoj0PbABbk8WAKZVpc5mPMxv+JMtws2D5ck5tQt8xNASYBnSP6hkL8MRWc7lyocRBvp5ReQHtW6RQ0A0RCPgy9jWFnQImMfBviZWteeAgeBr1AQy/LlJwkjVKpRJxyjojQEcbOnu1g0wDuaQCQ69jF0HPkOTqzvgXxf76NQ/6RgbBRQre49FNOG4NFgE8C1zmgoI5BOMmKAXztIgLBKwwzQD6jkYaGgHChR7+BbhOLVMTuXK2bHpBjAX+2FRlJW70xO3dKQLmMQcS8OVnOyBgAGKAg/UT58KUVxQFldE96DvAjVRIIhhGv4m8dBMOwLrrx3pGRbs6pwrb2+ivl6DmSlYI4C6Ce4wAXRRJadDqJKaGEYbnFbnOOBHp5DRrvKT2BS5u/h0cgLPu1K1hsJZ32m/Igsyvk/Pr0xqskuVcIQZbKDGCyQZkhchKP16BNKeIcmO8+h06BmRn7N8hPf9eQfwCtwj3ymUa/QmlgtiTgYnz1yY5vwaTMQrAVNXUxgoOKJKYJFjyEy1OWn/+/DzzPD+CmoB6Xi1nQ0vbVcBpeLFmuD5IOkNs4A9MjRS2ePx4u/NKBrhMiXj1FYAhnDgljoDNuQftR3c4Y7SAwhctIEuCnuHlbOw260IOvEHhgDsmVMBOhm5TS3Y+qEH/3AAV5GyVxPEljWPxAFtqcP21YWhyPYCM0RtPIAmH8yiaz8LA91wT3Ar3OiU1r1mePw2C6dQfwfu6yhb3EjB6HvfnfqSSrdkRgr/CAOcl4K22IS7mgqxBo2HZjkuWY5s6n8mp2NIBmNdMd4Cr51hNbXdXFt8FbzcESobm6stjc7wY1XBLG0sIv9ZJvKXHY+/DslkWF/y5m8vjNrIUbx2QDU1YuvrhA1QkaW/NzUPuEEQ67EnxyQEGM1anaELAUJ0MGFFfzR3cZrDOs5l0vFKpFD1HXZ8+lAu5HLoRm02zdKBP9pj57S1FegiHvd+Ogl2ybzJX7Za3mJig+W3wmy1iUVGUGixFVWuvrYYjCvaz0GYpChZxId565KUtcDEG44yuMIYXjZvMdee4t4CmdQPmyRbX344g/kxGGPw8Odvj+XjfYgtMWoB8js3HYEzA4/nQYK5Pj7DZk1P1uJdFOPQNe/9+CkF3svnXZ5vS+1vb5HrEergJo0CXOR9ozNXpV9LeAjj+roSBLvyhdSivNCGJ2+B1U0byPB2I3xzzCmxe1rQat5OA7WDWO2SuuscWNvSpurIGi3K1qkLqI/pTDsqwYHSSFQXfgEii7D1JlcsQC1DXxCJAlZoMv1aqVfFAiU+/yvAdtZqXjH7fhNm2QCbWlAMZ84i5um5ZZIQRlXUHz4L7prPop/RlJpNmcxn0bRbfwGNxWDn8Ffwuk82woiQI+UxWyGXo59k4HCAMcrkUa459u56qkskxAyl44rSZq7t2qz+fO2qWZmfwBSFfrNWqZRWa68qHvVpdFVWZL1erJbWulvO7qiZDlhZKOfagXhdADdDygneVy6qqCkK9ru7CGFYhRZGDL8vVstIYeFY9UwYv3MuncN/j5JS5vOsc2+Gip6eTXXZBNuz+wDFtp5ktGvaAvtRty+65zbTuDAZuM5+D7trqeT3bgmU3VVCiAeMLJrK+ZTnNOluGOd7qDXqWaZmG2zdrCBbLHJ5OeK1L5vK624J2b9gk4GJeFuqmNw3DiQ8DWDZ+OZm45ng6DXzbHAaQr0e2VjZ6kzAMJhPfG4wHOpfW3alnuuMgDP3p1NUBA58I4BP+uG+OxnY9XcODR45xw1m/dQXg286RN5/YGZnMKrLQ9GbRdBIsVos+9Pz05XLgzJeL6cgdLeCNWeRbhhssQn8SQWn2wompMpa/HNqTeTiZzlYrz0iLei9YBBOY6xYjJ5i79RSMhXs7nOZFk177mrm6vLv87IKD18hOkbqrOdPQs01nAmAbXoLiJqtl35lHI8schPOBafWC2dDx5yOwgbdcjpwJdLSpfhj0YOR24b3FCoayOoRr/IkhbtoSsJiRQb2jkw6Ar64vWzbkkgbZNlQzxiAcm2z6P+4iGvThJfhsb7noO+HUYXSSc9K6FwZeENhyagdDsenN/YY2jjx7HPY1hjNxS4XR3DAE/aaawWIIArh1BsbCcgaGzkX/pEvBl60B6DrLIjjd9AJPFzXGnEfeAF5WNcaKQPjAt3KNaWjXuFwZVDcK/QZ3kIL0NzLscG5DVrCtSeDsygW8B4PRe+GkmaszZfiEjRITcMoYRYHTvkbw1fWPYycI+0Uca9W0MQhGzZLK2IuF14eXHDR7S1A1gNO6PxvoqZzWD0MvmFoimyG7CUAajeFGTB8EyxSMyRLBbhhY1TKjwycSsMhlrBA03b4D54J11z4Zz8ZGkZXFKld3wrCnV2BYAv0G8FI1YYwAc48thh9EESgc+tKRPYlGDbYxABsbTG+2WAZu3RjNx5aouxG18TTyzJLRAxsTVUMCKcPMsZj32t9uIZyuri6vL056s8CupRXoGNLN0Swcj8Bfo15jiC+hy0NVj61U2hwvg9F4Gk1sPBOejPzZCsFNnGHNYg0mmcloHODOQVrWwRPhE+FqsQHDBRa+1b2+ukRVQ0S17el8qDMqpFK2bo7CcBZA1Do8vgwhgCeuNfbMXEWyRrN5GI4drdSAOW0WhvP5SM/k3CWwPrCGO8HPhxDHWWkXJrkQQ33ctyCOa2kAH0AQD44hkAB8eXl1fXd64s1ndqZEzhXrDdvtO5ZtN9ha0+5BdoKXhmXqHMzbDaffc0wtpxr45JgLMg71dNpdhvYHVi7rlttzbduGzAUVB37qu5DZTN2yDQWSXaExisbfz8CfqY0vry87TgA6S5FjNjYLnVS9AFmXpy/5KqTuerXIS5VsWtX1+odMRnM9t1HT3dmsVwVVL4d1kVfzGU7TNVWpK0XykNUu/MTmq2q5Xpdx/7HsTKMBeBYgAYy6hlgeQjsAYNwA+CcHRaWYw/jiocDkxEwml8tlc+D1ShneyEpVqDFBOHS9aTQ280x/PnMYaIrkMnwzld1hSXWSZA5KGfuBxdIG73CCNowm3zt3IDABX19f34GV8aRNyuAm3h40WNWDsirhAwJV6Ldg2uTKMtmhU8pQqpVytm6N5rMgnPn2XrHmBcNmqgatQgGKWBXrN21KFFAV6QihnuerKc4OowHiwLGIqiGUr29beLaoZ3CLKz5Aon2B+ObhHpwleUEo1U3XGw37ls7ydQt6fOof3A6uQgHKM59MjDCVY89aYwx/Mf3eBe4ltfHVNSaR9sloEVh1riYLAt3Wjk8J8m/Oz+mRVD6b1ZrgNkUWhmqoy1ypFJ/0cLQ33tpQhLsRhCruhc4HN5e3FNxFeVHiu46NWYjREBzv2P4B3pwS5CsVlvQiYkUCE+aTRpz/8znCGMw44dI/oZoG8GkX/wfgH5cng1nkwp1zRXF9rvd3MMqP1s/zya4l3aFNPiluz4icyLINfxX2Ore3xMRXTPv0imgb/OvqBPKSzaj54vp08T0wdDpiPJKQP/mkp00en4C5+vXjOgXIHKw2WCx7rQfCRVW32+hcxLN/tHvBctzYzx3k1235+iGjV4fg68cDSb8uvn6qDs8Wtp6M4HHHv0bK4ei080A1DXF83O6SgEIrX59Cx+E1sn/sXbwBr8fo16rfnO9vPy5DzleLGcuP/JO7x2sCvr7sMketdpdKjGb+7s3nfYPd/tb2gz7bYHJQ8R54/YX4IAL+K2ebw/m0dw/2JNzrbof5ctTqXFHy7d1992QcBS6M9fnkwTBR2np0a1vVZOuIrr88bBabAz6l6lAKht17wkXTdk6YL1+PT7okoK5vb+/vut/x6SaF5ZVEx1Ixjg56DLY52OalZGYS/23O4mWRhaZxMfx+e0cFhoR50gIwKpsaGUT+2elNI2j708U1WIxP296AJen/C84ZvTDyv1883sWh1O20jpgvX1DZ6Ng3oOu7u/vv/enct7XNOEZQ4trk4ubhGqL99cHDe/qGtCJWjd50Nv4O6kQwStw5OfqCYFD2Kc3XQP5x+30QLCZOHXdcuXgb4a0DJQfZybaBKObff6qQq5Y5rReE459XdwCm3NOT468UjGa+ubmmEv+4uxlMo6n7n1SxyonJyfkfTwviA4xFrvAKDP+LZ9nkIajqDqMNwnD48/oBBb4FyFW33Tr68oX5hOCvrZMrJCP4/sdDtzdZgG+n2HfB4nYy5F6H+xswDI/gV7Ph/e3DPbr07c3VNRr4C4KBnJj5OkHf/PShLdCLNVWKbfpKl5DPBbqfXfjrpkWeKx8ouVJztAi9m7sfRF7UdPeUcBMwuHane0W1fX//cHf15Ef4qHFWVcXN4Qi/lfXpfrbA/dWzymotpTp+OPFur+/vUWCQFyP4+Ms2GMzcQW0T8P3D4+33cTT3e0YqncctgL33wHia+j4Yt5tzqXSz7wf+0+WPR+RSMHGsGByLTMm3GMyg7Me77950HniWlmf5dW3mN2D+nQeAt1IWmxF1y5tOhj8ffoCeaSjdIJco+sunBAwyHwEZ0XfEt3/cPzwN8ZlUoyKoapnjk0L5P/eCRPFArOzuNnrTqff0dP+DiEtzR8IFKII/EW4sM4pMfRtcceDPwpGjs+mcLNcUkqqkV15NNS1sQo3Dv7SQSVUarjceD+/vfvz4Eev5lsr79Q0YJUbyGgyG/vlw+X38KxgPnKaWSmXyykGc8/8K5srY37J60+6P/OH385+g6Pu1gQl3DT483FI2kC8TM4O2fzw+3fwcTqY+oHWZZdk/97251wkyl+OqetPpe+PhE945wVKBX3MRfLjWNsjcglJ1syY/QL55ehqOxj7MPxrDFGo1pVzmtvbbk9d70IDV6jkmpdt9D9bT0yN8eyPuzdVJC7lfKffw8A346AjIVN33xNA/f/64/fnkjcbwT9+q41+EKQh5QSxD61XFpRzg80BcnsW/DqPZ/cFggNj7u4fHR8qFa93cdE9aR8A9eg9MHAwNfXqzASP68eHh4cnzp/6o75gNrZDBvbbUepFNtswHDac48KjB93v4ArFuDAaBT5EbC7wBvzIzIVNtk6hCff/EBfXSpwcDTXzWV+GT56jJXztqmHZ/PPX73++f8MNwq7E7g6KpWx1tGfhwC7wtM6r7JnFuID/ipe5ufj4NPW/k+yMPxlOHLhhJbcftDYbj4aCPKr5/fKQ62nC7aN6jjYGR+wYc2xkMDdWKehgRGslPT093F93vAwhP4A9hjWDhazQr/Ph01QV3eErkjeP3BrJzi1wUwZ/egAn50xYZhD69onmbaPsR5HhE9hMUkJt78PStBW9+v759wF+jmh8fqZqRe4PWPY65VFzKPWQ+fjx8R9sgNAksKjQ42QNhr9fTm7X+BSoZgjDGXnVPqLhfX9n38JD+Da93wSg06Jt6JvUxYmvCBKlQrIfk3TX8MfGqe+xkrrbEpTXpy5/gtbbXZII+3bI1kTqW+w9x8VbWtoUYQiUn2C2/otwY/PEPO2+jwcGTDIpXfnz4+e6iOk6cCjPGSasVX2ZdGTaa/vh/vscNF5uNUVIAAAAASUVORK5CYII=';
+const bmi=()=>P.w/((P.h/100)**2),bmiT=()=>{const b=bmi();return f(b,1)+' · '+(b<18.5?'Underweight':b<25?'Healthy':b<30?'Overweight':'High')};
+const ub=()=>{$('bmi').textContent=bmiT()};
+function askFrom(q){pendQ=q;location.hash='#insights';if(location.hash==='#insights')go()}
+function alerts(){const r=R(),L=[],o=M[1].t,h=M[0].t,s=M[2].t,a=M[3].t;
+ if(o<92)L.push({id:'o2',s:'bad',i:'🫁',t:'Blood oxygen is low',d:`SpO₂ ${o}%. Sit upright, breathe slowly, re-measure in 5 min. If it stays under 92% or you feel breathless, get care now.`,q:'Why is my oxygen low?',call:1,act:'log'});
+ else if(o<95)L.push({id:'o2',s:'warn',i:'🫁',t:'Oxygen slightly under 95%',d:`SpO₂ ${o}%. Re-check after resting. ${P.cond.includes('Asthma')?'With asthma, keep your inhaler close.':'Smoking can lower readings.'}`,q:'Why is my oxygen low?',act:'log'});
+ if(h>100)L.push({id:'hr',s:'bad',i:'💓',t:'Resting heart rate is high',d:`${h} bpm at rest. Rest, hydrate and avoid caffeine. Call a doctor if it persists or you feel chest pain.`,q:'Why is my heart rate high?',call:1});
+ if(s<6)L.push({id:'sl',s:'warn',i:'🌙',t:'Short sleep',d:`${s} h vs your ${P.sleepGoal} h goal. Try a screen-free wind-down tonight.`,q:'How is my sleep?'});
+ if(a<30)L.push({id:'mv',s:'info',i:'🚶',t:'Low activity today',d:`Only ${a} min so far. A 10-minute walk lifts mood and sleep quality.`,q:'How is my activity?',act:'walk'});
+ if(day>=15)M.forEach((m,i)=>{const x=r[i];if(x.out)L.push({id:'p'+i,s:Math.abs(x.z)>2.5?'bad':'warn',i:'✦',t:m.n+' is outside YOUR normal',d:`${f(Math.abs(m.t-x.mu),m.d)} ${m.u} ${m.t>x.mu?'above':'below'} your personal mean (${f(x.z,1)}σ). Personal baseline alert.`,q:'Summary'})});
+ return L.filter(x=>!dis[x.id])}
+function score(){return Math.max(35,100-alerts().reduce((t,x)=>t+(x.s==='bad'?20:x.s==='warn'?9:3),0))}
+const K={o2:'br',sl:'gl',mv:'bn',hr:'hbt'};
+function alertHtml(){const L=alerts(),en=ent?' enter':'';
+ if(!L.length)return `<div class="al"><div class="ic"><span>✅</span></div><div><b>All clear</b><span class="d">No alerts right now. Safety limits and your personal baseline are both looking good.</span></div></div>`;
+ return `<div class="sec"><h2>Aarogya alerts</h2><span class="cnt${ent?' pulse':''}">${L.length}</span></div>`+L.map((x,i)=>`<div class="aw${en}" data-id="${x.id}" style="--i:${i}"><div class="awi"><div class="al ${x.s}"><div class="ic ${K[x.id]||''}"><span>${x.i}</span></div><div><b>${x.t}</b><span class="d">${x.d}</span><div class="row"><button class="chip ask" onclick="askFrom('${x.q}')">✦ Ask Aarogya</button>${x.act==='log'?(lgo?'<input id="o2in" class="o2in" type="number" min="50" max="100" placeholder="SpO₂ %"><button class="chip" onclick="saveO2()">Save</button>':'<button class="chip" onclick="lgo=true;go()">📈 Log new reading</button>'):''}${x.act==='walk'?'<button class="chip" onclick="startWalk()">🚶 Start 10‑min walk</button>':''}${x.call?'<a class="chip" href="tel:112">📞 Call 112</a>':''}<button class="chip" onclick="dismiss('${x.id}')">Got it</button></div></div></div></div></div>`).join('')}
+function dismiss(id,el,fly){el=el||document.querySelector('[data-id="'+id+'"]');if(!el||el.classList.contains('out'))return;if(fly)el.style.transform=`translateX(${fly}px)`;el.classList.add('out');setTimeout(()=>{dis[id]=1;go()},430)}
+function saveO2(){const v=+$('o2in').value;if(v>=50&&v<=100){M[1].t=v;lgo=false;delete dis.o2;go()}}
+function walkUI(msg){const e=$('walk');if(msg){e.hidden=false;e.textContent=msg;return}if(!wk){e.hidden=true;return}const l=wk.left;e.hidden=false;e.innerHTML=`🚶 Walk ${String(l/60|0).padStart(2,'0')}:${String(l%60).padStart(2,'0')} <button class="chip" onclick="stopWalk()">Stop</button>`}
+function startWalk(){if(wk)return;wk={left:600};walkUI();wk.iv=setInterval(()=>{wk.left--;if(wk.left<=0){clearInterval(wk.iv);wk=null;M[3].t+=10;delete dis.mv;walkUI('🎉 Walk complete · +10 min logged');go();setTimeout(()=>walkUI(),3500)}else walkUI()},1000)}
+function stopWalk(){if(wk){clearInterval(wk.iv);wk=null}walkUI()}
+let sw=null;
+document.addEventListener('pointerdown',e=>{const el=e.target.closest('.aw');if(!el||e.target.closest('button,a,input'))return;sw={el,x:e.clientX,dx:0}});
+document.addEventListener('pointermove',e=>{if(!sw)return;sw.dx=e.clientX-sw.x;if(Math.abs(sw.dx)>6){sw.el.style.transition='none';sw.el.style.transform=`translateX(${sw.dx}px)`;sw.el.style.opacity=1-Math.min(Math.abs(sw.dx)/260,.7)}});
+const sup=()=>{if(!sw)return;const{el,dx}=sw;sw=null;el.style.transition='';el.style.opacity='';if(Math.abs(dx)>90)dismiss(el.dataset.id,el,dx>0?500:-500);else el.style.transform=''};
+addEventListener('pointerup',sup);addEventListener('pointercancel',sup);
+document.addEventListener('mousemove',e=>{const b=e.target.closest&&e.target.closest('.ask');if(!b)return;const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.25}px)`});
+document.addEventListener('mouseout',e=>{const b=e.target.closest&&e.target.closest('.ask');if(b)b.style.transform=''});
+function welcome(){const sc=score(),C=2*Math.PI*44,fn=new Date().getHours()<12?'Good morning':new Date().getHours()<17?'Good afternoon':'Good evening';
+ const mm={'😄':'Great. Keep the routine going.','😐':'Okay. A short walk could help.','😴':`Tired fits with ${M[2].t} h sleep. Try an early night.`,'😟':'Sorry to hear that. Tell Aarogya more in AI Insights.'};
+ return `<div class="card wel c12"><img class="wm" src="${LOGO}" alt=""><svg class="hbl" width="260" height="50" viewBox="0 0 260 50"><path d="M0 25h80l10-18 14 36 12-18h144" fill="none" stroke="#14b8a6" stroke-width="2.5"/></svg>
+ <div class="ring"><svg viewBox="0 0 104 104"><circle cx="52" cy="52" r="44" fill="none" stroke="var(--line)" stroke-width="9"/><circle cx="52" cy="52" r="44" fill="none" stroke="${sc>=80?'#22a36a':sc>=60?'#d99a1f':'#d6503f'}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*sc/100} ${C}" transform="rotate(-90 52 52)"/></svg><b>${sc}</b><small style="bottom:16px">HEALTH SCORE</small></div>
+ <div style="position:relative;flex:1;min-width:220px"><h3>${fn}, ${P.name.split(' ')[0]}</h3><div class="moto">“It’s for you, not for everyone.”</div>
+ <div class="mut" style="margin:0 0 6px">How are you feeling right now?</div><div class="row mood">${Object.keys(mm).map(e=>`<button class="chip ${mood===e?'on':''}" onclick="mood='${e}';go()">${e}</button>`).join('')}</div>${mood?`<div class="mut">${mm[mood]}</div>`:''}</div></div>`}
+function pin(l,k,t){return `<label>${l}</label><input type="${t||'text'}" value="${P[k]}" ${t==='number'?`oninput="P.${k}=+this.value;ub()"`:`onchange="P.${k}=this.value"`} style="width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font:inherit;background:var(--card);color:var(--ink)">`}
+const sel_=(l,k,o)=>`<label>${l}</label><select onchange="P.${k}=this.value;go()">${o.map(([v,t])=>`<option value="${v}" ${P[k]==v?'selected':''}>${t||v}</option>`).join('')}</select>`;
+const $=id=>document.getElementById(id),f=(v,d)=>v.toFixed(d);
+const R=()=>M.map(m=>{const a=m.data.slice(0,day),mu=a.reduce((x,y)=>x+y,0)/a.length,s=Math.sqrt(a.reduce((x,y)=>x+(y-mu)**2,0)/a.length)||.01,z=(m.t-mu)/s;return{a,mu,s,z,lo:mu-1.5*s,hi:mu+1.5*s,out:Math.abs(z)>1.5}});
+function sum(){const r=R(),n=day>=15?r.filter(x=>x.out).length:0,conf=Math.min(92,Math.round(15+6*r.reduce((s,x)=>s+(x.out?Math.min(Math.abs(x.z),3):0),0)));
+ let l,c;if(day<15){l='CALIBRATING · alerts paused';c='c'}else if(!n){l='STABLE';c=''}else{l=(n>1?'▲ MONITOR':'WATCH')+' · '+conf+'% confidence';c='w'}return{r,n,conf,l,c}}
+function insight(){const {r,n}=sum();
+ if(day<15)return `<b>Still learning your normal.</b> Over ${day} days your sleep averaged ${f(r[2].mu,1)} h and resting heart rate ${f(r[0].mu,0)} bpm. Clinical risk alerts stay off until day 15 because a smaller sample can’t measure your natural variation reliably.`;
+ const o=M.map((m,i)=>({m,x:r[i]})).filter(q=>q.x.out);if(!o.length)return '<b>Everything is within your personal range.</b> Keep your routine going.';
+ const ev=E.filter(e=>e.f(P)).slice(0,2).map(e=>e.t).join(' ');
+ return `<b>${o.length} signal${o.length>1?'s':''} outside your baseline.</b> Your ${o.map(({m,x})=>`${m.w} is ${f(Math.abs(m.t-x.mu),m.d)} ${m.u} ${m.t>x.mu?'above':'below'} your personal mean (${f(x.z,1)}σ)`).join('; ')}. Given your profile (${P.smoke==='current'?'current smoker':'non‑smoker'}, ${P.alc} alcohol), literature suggests: ${ev} A check‑in today would help.`}
+function viz(){const p=day/15,y=190-150*p;if(mode==='jar')return `<svg width="190" viewBox="0 0 170 220"><rect x="55" y="8" width="60" height="16" rx="5" fill="none" stroke="#14b8a6" stroke-width="3"/><rect x="28" y="28" width="114" height="170" rx="22" fill="var(--jar)" stroke="#14b8a6" stroke-width="3"/><clipPath id="cj"><rect x="30" y="30" width="110" height="166" rx="20"/></clipPath><g clip-path="url(#cj)"><path d="M0 ${y} q21 -10 42 0 t42 0 t42 0 t42 0 V200 H0Z" fill="${day>=15?'#4ade80':'#f0b94a'}"/></g><text x="85" y="125" text-anchor="middle" fill="#fff" font-size="26" font-weight="800">${day}/15</text></svg>`;
+ let l='';for(let i=0;i<15;i++){const yy=190-i*11,lf=i%2==0,on=i<day;l+=`<ellipse cx="${lf?72:98}" cy="${yy}" rx="14" ry="5" transform="rotate(${lf?-20:20} ${lf?72:98} ${yy})" fill="${on?'#22a36a':'none'}" stroke="${on?'none':'var(--line)'}" stroke-dasharray="3 2"/>`}
+ return `<svg width="190" viewBox="0 0 170 220"><line x1="85" y1="205" x2="85" y2="20" stroke="#22a36a" stroke-width="3"/>${l}<path d="M58 200h54l-6 18H64z" fill="#14b8a6"/></svg>`}
+function dots(){let d='';for(let i=1;i<=15;i++)d+=`<span class="dot ${i<=day?'ok':''}${i===day?' today':''}"></span>`;return `<div class="dots">${d}</div>`}
+function vcards(){const r=R();return `<div class="vgrid">`+M.map((m,i)=>{const x=r[i],c=day<15?'':(x.out?(Math.abs(x.z)>2.5?'bad':'warn'):'ok');return `<button class="v ${i===sel?'sel':''}" onclick="sel=${i};go()"><div class="l">${m.n}</div><div class="n">${m.t}<small> ${m.u}</small></div><div class="z ${c}">${day<15?'Building baseline':x.out?(x.z>0?'▲ +':'▼ ')+f(x.z,1)+'σ':'✓ in range'}</div></button>`}).join('')+`</div>`}
+function chart(){const m=M[sel],x=R()[sel],a=x.a,W=640,H=220,pl=36,pr=10,pt=10,pb=24,all=[...a,m.t,x.lo,x.hi],lo=Math.min(...all),hi=Math.max(...all),mn=lo-(hi-lo)*.1,mx=hi+(hi-lo)*.1,X=i=>pl+i*(W-pl-pr)/15,Y=v=>pt+(mx-v)*(H-pt-pb)/(mx-mn);
+ let s=`<svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#4ade80"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs><rect x="${pl}" y="${Y(x.hi)}" width="${W-pl-pr}" height="${Y(x.lo)-Y(x.hi)}" fill="#14b8a6" opacity=".15"/><line x1="${pl}" x2="${W-pr}" y1="${Y(x.mu)}" y2="${Y(x.mu)}" stroke="#14b8a6" stroke-dasharray="4 3"/>`;
+ for(let i=0;i<=3;i++){const v=mn+(mx-mn)*i/3;s+=`<text x="${pl-5}" y="${Y(v)+4}" font-size="10" text-anchor="end" fill="var(--mute)">${f(v,m.d)}</text>`}
+ for(let i=1;i<=15;i+=2)s+=`<text x="${X(i-1)}" y="${H-6}" font-size="10" text-anchor="middle" fill="var(--mute)">D${i}</text>`;
+ s+=`<polyline fill="none" stroke="url(#lg)" stroke-width="3" points="${a.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`+a.map((v,i)=>`<circle cx="${X(i)}" cy="${Y(v)}" r="3.5" fill="#14b8a6"><title>Day ${i+1}: ${v} ${m.u}</title></circle>`).join('')+`<circle cx="${X(day)}" cy="${Y(m.t)}" r="6" fill="#d6503f"><title>Today: ${m.t} ${m.u}</title></circle></svg>`;
+ return `<h2>${m.n} · ${day}-day view</h2>${s}<div class="legend"><span><i style="background:#14b8a6;opacity:.3"></i>Normal range μ ± 1.5σ</span><span><i style="background:#14b8a6"></i>Daily</span><span><i style="background:#d6503f"></i>Today</span></div><div class="mut">μ <b>${f(x.mu,m.d)} ${m.u}</b> · σ <b>${f(x.s,2)}</b> · range <b>${f(x.lo,m.d)}–${f(x.hi,m.d)}</b></div>`}
+function slider(){return `<label style="margin-top:0">Preview baseline day: <b>${day}</b></label><input type="range" min="1" max="15" value="${day}" oninput="day=+this.value;go()"><div class="mut">Below 15 days risk alerts are suppressed. At 15 your μ and σ lock in.</div>`}
+function tabs(){return `<div class="tabs"><button class="${mode==='jar'?'on':''}" onclick="mode='jar';go()">Jar</button><button class="${mode==='plant'?'on':''}" onclick="mode='plant';go()">Plant</button></div>`}
+const V={
+dashboard:()=>{const s=sum();return `<div class="dash"><div class="dmain"><div class="grid">${welcome()}
+<div class="card hero c12"><div>${viz().replace('width="190"','width="120"')}</div><div><h2>Baseline status</h2><div class="big">${day>=15?'Baseline locked':'Day '+day+' of 15'}</div><div class="badge">${s.l}</div></div></div>
+<div class="card c12"><h2>Today’s vitals · tap to inspect</h2>${vcards()}</div>
+<div class="card c7">${chart()}</div>
+<div class="card c5"><h2>AI insight</h2><div class="ai">${insight()}</div>${slider()}</div></div></div><div class="dside">${alertHtml()}</div></div>`},
+baseline:()=>`<div class="grid"><div class="card c5" style="text-align:center"><div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">15‑day baseline</h2>${tabs()}</div>${viz()}${dots()}<span class="status ${sum().c}">${sum().l}</span></div>
+<div class="card c7"><h2>How calibration works</h2><div class="ai"><b>Calibration mode (&lt; 15 days):</b> descriptive insights only; clinical risk alerts are suppressed because σ isn’t reliable yet.<br><br><b>Active mode (≥ 15 days):</b> μ and σ lock in. Readings are judged against <i>your own</i> range, μ ± 1.5σ.<br><br><b>Drift:</b> an exponentially weighted average (EWMA) lets the baseline follow gradual lifestyle changes.</div><div style="margin-top:14px">${slider()}</div></div></div>`,
+vitals:()=>{const r=R();return `<div class="grid"><div class="card c12">${vcards()}</div><div class="card c7">${chart()}</div><div class="card c5"><h2>All metrics vs your baseline</h2><div class="tw"><table><tr><th>Metric</th><th>μ</th><th>σ</th><th>Range</th><th>Today</th></tr>${M.map((m,i)=>`<tr><td>${m.n}</td><td>${f(r[i].mu,m.d)}</td><td>${f(r[i].s,2)}</td><td>${f(r[i].lo,m.d)}–${f(r[i].hi,m.d)}</td><td class="${day>=15&&r[i].out?'bad':''}">${m.t}</td></tr>`).join('')}</table></div></div></div>`},
+insights:()=>{const r=R(),ev=E.filter(e=>e.f(P)),m=M[0],x=r[0];
+ return `<div class="grid"><div class="card c12"><h2>Ask Aarogya</h2><div class="chat" id="chat">${chat.length?chat.map(c=>`<div class="m ${c.r}">${c.t}</div>`).join(''):'<div class="m a">Hi '+P.name.split(' ')[0]+', ask me about your sleep, heart, oxygen or activity. I’ll answer against your own baseline.</div>'}</div>
+ <div class="row"><input type="text" id="q" placeholder="e.g. Why is my heart rate high?" onkeydown="if(event.key==='Enter')ask()"><button class="btn" onclick="ask()">Send</button></div>
+ <div class="row" style="margin-top:8px">${['How is my sleep?','Why is my heart rate high?','Summary'].map(t=>`<button class="chip" onclick="$('q').value='${t}';ask()">${t}</button>`).join('')}</div></div>
+
+<div class="card c12"><h2>Evidence retrieved for your profile</h2>${ev.map(e=>`<div class="ev">${e.t}<br><small>${e.s} · confidence ${e.c}</small></div>`).join('')}</div></div>`},
+profile:()=>`<div class="grid"><div class="card c6"><h2>Personal details</h2>${pin('Full name','name')}<div class="fg"><div>${pin('Age','age','number')}</div><div>${sel_('Sex','sex',[['Male'],['Female'],['Other']])}</div><div>${pin('Height (cm)','h','number')}</div><div>${pin('Weight (kg)','w','number')}</div></div><div class="mut">BMI: <b id="bmi">${bmiT()}</b></div>${sel_('Blood group','blood',['A+','A-','B+','B-','O+','O-','AB+','AB-'].map(x=>[x]))}</div>
+<div class="card c6"><h2>Lifestyle and conditions</h2>${sel_('Smoking','smoke',[['current','Current smoker'],['never','Non‑smoker']])}${sel_('Alcohol','alc',[['none'],['moderate'],['heavy']])}${pin('Sleep goal (hours)','sleepGoal','number')}<label>Existing conditions</label><div class="pc">${['Hypertension','Diabetes','Asthma','Thyroid','Heart condition'].map(c=>`<button class="chip ${P.cond.includes(c)?'on':''}" onclick="P.cond=P.cond.includes('${c}')?P.cond.filter(x=>x!=='${c}'):[...P.cond,'${c}'];go()">${c}</button>`).join('')}</div></div>
+<div class="card c6"><h2>Medical info and contacts</h2>${pin('Allergies','allergy')}${pin('Current medicines','meds')}${pin('Your doctor','doc')}${pin('Emergency contact','emg')}<div class="mut">These details tune alerts and the evidence Aarogya retrieves. Saved for this session.</div></div>
+<div class="card mid c6"><h2>Medical ID · emergency card</h2><div style="display:flex;gap:12px;align-items:center;margin-bottom:8px"><div class="lg"><img src="${LOGO}" alt=""></div><div><b style="font-size:18px">${P.name}</b><div style="font-size:12px;opacity:.7">${P.age} yrs · ${P.sex} · ${P.blood}</div></div></div><div class="r"><span>Allergies</span><b>${P.allergy}</b></div><div class="r"><span>Medicines</span><b>${P.meds}</b></div><div class="r"><span>Conditions</span><b>${P.cond.join(', ')||'None'}</b></div><div class="r"><span>Doctor</span><b>${P.doc}</b></div><div class="r"><span>Emergency</span><b>${P.emg}</b></div><div style="margin-top:12px;font-style:italic;opacity:.8;font-size:12px">It’s for you, not for everyone.</div></div></div>`
+};
+const T={dashboard:['My Health OS','It’s for you, not for everyone'],baseline:['Baseline','Establishing your personal normal'],vitals:['Vitals','Heart, oxygen, sleep and movement'],insights:['AI Insights','Personalized, never generic'],profile:['Profile','Lifestyle context for the AI']};
+const IC={dashboard:'▦',baseline:'◔',vitals:'♡',insights:'✦',profile:'☺'};
+function ask(){const q=$('q').value.trim();if(!q)return;const r=R(),ql=q.toLowerCase();let a;
+ const one=i=>{const m=M[i],x=r[i];return day<15?`Over ${day} days your ${m.w} averages ${f(x.mu,m.d)} ${m.u}. I’m still calibrating, so I won’t flag risk yet.`:`Your ${m.w} today is ${m.t} ${m.u} versus your norm of ${f(x.mu,m.d)} ${m.u} (${x.z>0?'+':''}${f(x.z,1)}σ). ${x.out?'That’s outside your personal range.':'That’s within your range.'}`};
+ if(/sleep/.test(ql))a=one(2);else if(/heart|pulse|bpm/.test(ql))a=one(0)+(day>=15&&r[0].out&&P.smoke==='current'?' As a current smoker with short sleep, nicotine can amplify nighttime heart rate.':'');else if(/oxygen|spo2/.test(ql))a=one(1);else if(/move|step|activity|exercise/.test(ql))a=one(3);else a=insight().replace(/<[^>]+>/g,'');
+ chat.push({r:'u',t:q.replace(/</g,'&lt;')},{r:'a',t:a});go();const c=$('chat');if(c)c.scrollTop=c.scrollHeight}
+function go(){const h=(location.hash||'#dashboard').slice(1),k=V[h]?h:'dashboard';
+ $('nav').innerHTML=Object.keys(T).map(n=>`<a href="#${n}" class="${n===k?'on':''}"><span>${IC[n]}</span>${n==='dashboard'?'Home':T[n][0]}</a>`).join('');
+ $('title').textContent=T[k][0];$('subt').textContent=T[k][1];$('sf').textContent=day;$('nm').textContent=P.name;$('sbl').src=LOGO;$('bell').textContent='🔔 '+alerts().length;
+ const af=document.activeElement,keep=af&&af.id==='q'?af.value:null;
+ $('view').innerHTML=V[k]();ent=false;if(keep!==null&&$('q')){$('q').value=keep;$('q').focus()}
+ document.body.classList.remove('open');if(pendQ){const q=pendQ;pendQ=null;$('q').value=q;ask()}}
+addEventListener('hashchange',()=>{window.scrollTo(0,0);ent=true;go()});
+$('bell').onclick=()=>{location.hash='#dashboard';scrollTo(0,0);go()};
+$('theme').onclick=()=>{const r=document.documentElement,dk=matchMedia('(prefers-color-scheme:dark)').matches,c=r.dataset.theme||(dk?'dark':'light');r.dataset.theme=c==='dark'?'light':'dark'};
+go();
+</script></body></html>

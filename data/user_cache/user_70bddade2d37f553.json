@@ -1,0 +1,1644 @@
+{
+  "user_email": "bhavyasharma8109@gmail.com",
+  "last_synced": "2026-11-03T05:05:55.276978+00:00",
+  "records": [
+    {
+      "date": "2026-05-06",
+      "formatted_date": "May 06",
+      "day_name": "Wed",
+      "steps": 9159,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-07",
+      "formatted_date": "May 07",
+      "day_name": "Thu",
+      "steps": 8565,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-08",
+      "formatted_date": "May 08",
+      "day_name": "Fri",
+      "steps": 14705,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-09",
+      "formatted_date": "May 09",
+      "day_name": "Sat",
+      "steps": 7126,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-10",
+      "formatted_date": "May 10",
+      "day_name": "Sun",
+      "steps": 4694,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-11",
+      "formatted_date": "May 11",
+      "day_name": "Mon",
+      "steps": 23150,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-12",
+      "formatted_date": "May 12",
+      "day_name": "Tue",
+      "steps": 7728,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-13",
+      "formatted_date": "May 13",
+      "day_name": "Wed",
+      "steps": 10601,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-14",
+      "formatted_date": "May 14",
+      "day_name": "Thu",
+      "steps": 12075,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-15",
+      "formatted_date": "May 15",
+      "day_name": "Fri",
+      "steps": 5704,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-16",
+      "formatted_date": "May 16",
+      "day_name": "Sat",
+      "steps": 4558,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-17",
+      "formatted_date": "May 17",
+      "day_name": "Sun",
+      "steps": 11374,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-18",
+      "formatted_date": "May 18",
+      "day_name": "Mon",
+      "steps": 23142,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-19",
+      "formatted_date": "May 19",
+      "day_name": "Tue",
+      "steps": 17657,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-20",
+      "formatted_date": "May 20",
+      "day_name": "Wed",
+      "steps": 8130,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-21",
+      "formatted_date": "May 21",
+      "day_name": "Thu",
+      "steps": 9932,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-22",
+      "formatted_date": "May 22",
+      "day_name": "Fri",
+      "steps": 3340,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-23",
+      "formatted_date": "May 23",
+      "day_name": "Sat",
+      "steps": 5414,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-24",
+      "formatted_date": "May 24",
+      "day_name": "Sun",
+      "steps": 11317,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-25",
+      "formatted_date": "May 25",
+      "day_name": "Mon",
+      "steps": 13106,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-26",
+      "formatted_date": "May 26",
+      "day_name": "Tue",
+      "steps": 15623,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-27",
+      "formatted_date": "May 27",
+      "day_name": "Wed",
+      "steps": 3028,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-28",
+      "formatted_date": "May 28",
+      "day_name": "Thu",
+      "steps": 6639,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-29",
+      "formatted_date": "May 29",
+      "day_name": "Fri",
+      "steps": 1702,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-30",
+      "formatted_date": "May 30",
+      "day_name": "Sat",
+      "steps": 11874,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-05-31",
+      "formatted_date": "May 31",
+      "day_name": "Sun",
+      "steps": 15540,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-01",
+      "formatted_date": "Jun 01",
+      "day_name": "Mon",
+      "steps": 20352,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-02",
+      "formatted_date": "Jun 02",
+      "day_name": "Tue",
+      "steps": 11890,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-03",
+      "formatted_date": "Jun 03",
+      "day_name": "Wed",
+      "steps": 8685,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-04",
+      "formatted_date": "Jun 04",
+      "day_name": "Thu",
+      "steps": 8476,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-05",
+      "formatted_date": "Jun 05",
+      "day_name": "Fri",
+      "steps": 2896,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-06",
+      "formatted_date": "Jun 06",
+      "day_name": "Sat",
+      "steps": 3634,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-07",
+      "formatted_date": "Jun 07",
+      "day_name": "Sun",
+      "steps": 17895,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-08",
+      "formatted_date": "Jun 08",
+      "day_name": "Mon",
+      "steps": 13428,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-09",
+      "formatted_date": "Jun 09",
+      "day_name": "Tue",
+      "steps": 12332,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-10",
+      "formatted_date": "Jun 10",
+      "day_name": "Wed",
+      "steps": 17029,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-11",
+      "formatted_date": "Jun 11",
+      "day_name": "Thu",
+      "steps": 11724,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-12",
+      "formatted_date": "Jun 12",
+      "day_name": "Fri",
+      "steps": 8680,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-13",
+      "formatted_date": "Jun 13",
+      "day_name": "Sat",
+      "steps": 1069,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-14",
+      "formatted_date": "Jun 14",
+      "day_name": "Sun",
+      "steps": 16917,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-15",
+      "formatted_date": "Jun 15",
+      "day_name": "Mon",
+      "steps": 18629,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-16",
+      "formatted_date": "Jun 16",
+      "day_name": "Tue",
+      "steps": 11640,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-17",
+      "formatted_date": "Jun 17",
+      "day_name": "Wed",
+      "steps": 8260,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-18",
+      "formatted_date": "Jun 18",
+      "day_name": "Thu",
+      "steps": 8728,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-19",
+      "formatted_date": "Jun 19",
+      "day_name": "Fri",
+      "steps": 9618,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-20",
+      "formatted_date": "Jun 20",
+      "day_name": "Sat",
+      "steps": 10996,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-21",
+      "formatted_date": "Jun 21",
+      "day_name": "Sun",
+      "steps": 73,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-22",
+      "formatted_date": "Jun 22",
+      "day_name": "Mon",
+      "steps": 1832,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-23",
+      "formatted_date": "Jun 23",
+      "day_name": "Tue",
+      "steps": 16651,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-24",
+      "formatted_date": "Jun 24",
+      "day_name": "Wed",
+      "steps": 16011,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-25",
+      "formatted_date": "Jun 25",
+      "day_name": "Thu",
+      "steps": 15186,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-26",
+      "formatted_date": "Jun 26",
+      "day_name": "Fri",
+      "steps": 14168,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-27",
+      "formatted_date": "Jun 27",
+      "day_name": "Sat",
+      "steps": 4044,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-28",
+      "formatted_date": "Jun 28",
+      "day_name": "Sun",
+      "steps": 2996,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-29",
+      "formatted_date": "Jun 29",
+      "day_name": "Mon",
+      "steps": 877,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-06-30",
+      "formatted_date": "Jun 30",
+      "day_name": "Tue",
+      "steps": 5017,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-01",
+      "formatted_date": "Jul 01",
+      "day_name": "Wed",
+      "steps": 2438,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-02",
+      "formatted_date": "Jul 02",
+      "day_name": "Thu",
+      "steps": 652,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-03",
+      "formatted_date": "Jul 03",
+      "day_name": "Fri",
+      "steps": 9580,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-04",
+      "formatted_date": "Jul 04",
+      "day_name": "Sat",
+      "steps": 6669,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-05",
+      "formatted_date": "Jul 05",
+      "day_name": "Sun",
+      "steps": 15652,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-06",
+      "formatted_date": "Jul 06",
+      "day_name": "Mon",
+      "steps": 18701,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-07",
+      "formatted_date": "Jul 07",
+      "day_name": "Tue",
+      "steps": 9617,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-08",
+      "formatted_date": "Jul 08",
+      "day_name": "Wed",
+      "steps": 6355,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-09",
+      "formatted_date": "Jul 09",
+      "day_name": "Thu",
+      "steps": 17982,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-10",
+      "formatted_date": "Jul 10",
+      "day_name": "Fri",
+      "steps": 11617,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-11",
+      "formatted_date": "Jul 11",
+      "day_name": "Sat",
+      "steps": 10559,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-12",
+      "formatted_date": "Jul 12",
+      "day_name": "Sun",
+      "steps": 2778,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-13",
+      "formatted_date": "Jul 13",
+      "day_name": "Mon",
+      "steps": 8614,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-14",
+      "formatted_date": "Jul 14",
+      "day_name": "Tue",
+      "steps": 4652,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-15",
+      "formatted_date": "Jul 15",
+      "day_name": "Wed",
+      "steps": 3186,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-16",
+      "formatted_date": "Jul 16",
+      "day_name": "Thu",
+      "steps": 8090,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-17",
+      "formatted_date": "Jul 17",
+      "day_name": "Fri",
+      "steps": 5555,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-18",
+      "formatted_date": "Jul 18",
+      "day_name": "Sat",
+      "steps": 2378,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-19",
+      "formatted_date": "Jul 19",
+      "day_name": "Sun",
+      "steps": 2020,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-20",
+      "formatted_date": "Jul 20",
+      "day_name": "Mon",
+      "steps": 1009,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-21",
+      "formatted_date": "Jul 21",
+      "day_name": "Tue",
+      "steps": 1105,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-22",
+      "formatted_date": "Jul 22",
+      "day_name": "Wed",
+      "steps": 349,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-23",
+      "formatted_date": "Jul 23",
+      "day_name": "Thu",
+      "steps": 824,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-24",
+      "formatted_date": "Jul 24",
+      "day_name": "Fri",
+      "steps": 1113,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-25",
+      "formatted_date": "Jul 25",
+      "day_name": "Sat",
+      "steps": 4611,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-26",
+      "formatted_date": "Jul 26",
+      "day_name": "Sun",
+      "steps": 820,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-27",
+      "formatted_date": "Jul 27",
+      "day_name": "Mon",
+      "steps": 7689,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-28",
+      "formatted_date": "Jul 28",
+      "day_name": "Tue",
+      "steps": 1312,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-29",
+      "formatted_date": "Jul 29",
+      "day_name": "Wed",
+      "steps": 7014,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-30",
+      "formatted_date": "Jul 30",
+      "day_name": "Thu",
+      "steps": 1077,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-07-31",
+      "formatted_date": "Jul 31",
+      "day_name": "Fri",
+      "steps": 3801,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-01",
+      "formatted_date": "Aug 01",
+      "day_name": "Sat",
+      "steps": 3563,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-02",
+      "formatted_date": "Aug 02",
+      "day_name": "Sun",
+      "steps": 552,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-03",
+      "formatted_date": "Aug 03",
+      "day_name": "Mon",
+      "steps": 5771,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-04",
+      "formatted_date": "Aug 04",
+      "day_name": "Tue",
+      "steps": 194,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-05",
+      "formatted_date": "Aug 05",
+      "day_name": "Wed",
+      "steps": 7811,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-06",
+      "formatted_date": "Aug 06",
+      "day_name": "Thu",
+      "steps": 1498,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-07",
+      "formatted_date": "Aug 07",
+      "day_name": "Fri",
+      "steps": 5605,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-08",
+      "formatted_date": "Aug 08",
+      "day_name": "Sat",
+      "steps": 8246,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-09",
+      "formatted_date": "Aug 09",
+      "day_name": "Sun",
+      "steps": 1711,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-10",
+      "formatted_date": "Aug 10",
+      "day_name": "Mon",
+      "steps": 7470,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-11",
+      "formatted_date": "Aug 11",
+      "day_name": "Tue",
+      "steps": 3118,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-12",
+      "formatted_date": "Aug 12",
+      "day_name": "Wed",
+      "steps": 2922,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-13",
+      "formatted_date": "Aug 13",
+      "day_name": "Thu",
+      "steps": 1468,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-14",
+      "formatted_date": "Aug 14",
+      "day_name": "Fri",
+      "steps": 4932,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-15",
+      "formatted_date": "Aug 15",
+      "day_name": "Sat",
+      "steps": 7428,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-16",
+      "formatted_date": "Aug 16",
+      "day_name": "Sun",
+      "steps": 8502,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-17",
+      "formatted_date": "Aug 17",
+      "day_name": "Mon",
+      "steps": 7795,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-18",
+      "formatted_date": "Aug 18",
+      "day_name": "Tue",
+      "steps": 3197,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-19",
+      "formatted_date": "Aug 19",
+      "day_name": "Wed",
+      "steps": 12115,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-20",
+      "formatted_date": "Aug 20",
+      "day_name": "Thu",
+      "steps": 10206,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-21",
+      "formatted_date": "Aug 21",
+      "day_name": "Fri",
+      "steps": 17687,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-22",
+      "formatted_date": "Aug 22",
+      "day_name": "Sat",
+      "steps": 5505,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-23",
+      "formatted_date": "Aug 23",
+      "day_name": "Sun",
+      "steps": 8926,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-24",
+      "formatted_date": "Aug 24",
+      "day_name": "Mon",
+      "steps": 14647,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-25",
+      "formatted_date": "Aug 25",
+      "day_name": "Tue",
+      "steps": 1337,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-26",
+      "formatted_date": "Aug 26",
+      "day_name": "Wed",
+      "steps": 5155,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-27",
+      "formatted_date": "Aug 27",
+      "day_name": "Thu",
+      "steps": 18536,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-28",
+      "formatted_date": "Aug 28",
+      "day_name": "Fri",
+      "steps": 4072,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-29",
+      "formatted_date": "Aug 29",
+      "day_name": "Sat",
+      "steps": 4007,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-30",
+      "formatted_date": "Aug 30",
+      "day_name": "Sun",
+      "steps": 11976,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-08-31",
+      "formatted_date": "Aug 31",
+      "day_name": "Mon",
+      "steps": 4540,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-01",
+      "formatted_date": "Sep 01",
+      "day_name": "Tue",
+      "steps": 874,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-02",
+      "formatted_date": "Sep 02",
+      "day_name": "Wed",
+      "steps": 6352,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-03",
+      "formatted_date": "Sep 03",
+      "day_name": "Thu",
+      "steps": 1872,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-04",
+      "formatted_date": "Sep 04",
+      "day_name": "Fri",
+      "steps": 984,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-05",
+      "formatted_date": "Sep 05",
+      "day_name": "Sat",
+      "steps": 3321,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-06",
+      "formatted_date": "Sep 06",
+      "day_name": "Sun",
+      "steps": 575,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-07",
+      "formatted_date": "Sep 07",
+      "day_name": "Mon",
+      "steps": 6035,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-08",
+      "formatted_date": "Sep 08",
+      "day_name": "Tue",
+      "steps": 8046,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-09",
+      "formatted_date": "Sep 09",
+      "day_name": "Wed",
+      "steps": 3197,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-10",
+      "formatted_date": "Sep 10",
+      "day_name": "Thu",
+      "steps": 2691,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-11",
+      "formatted_date": "Sep 11",
+      "day_name": "Fri",
+      "steps": 11117,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-12",
+      "formatted_date": "Sep 12",
+      "day_name": "Sat",
+      "steps": 9476,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-13",
+      "formatted_date": "Sep 13",
+      "day_name": "Sun",
+      "steps": 9333,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-14",
+      "formatted_date": "Sep 14",
+      "day_name": "Mon",
+      "steps": 16984,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-15",
+      "formatted_date": "Sep 15",
+      "day_name": "Tue",
+      "steps": 1799,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-16",
+      "formatted_date": "Sep 16",
+      "day_name": "Wed",
+      "steps": 9057,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-17",
+      "formatted_date": "Sep 17",
+      "day_name": "Thu",
+      "steps": 11311,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-18",
+      "formatted_date": "Sep 18",
+      "day_name": "Fri",
+      "steps": 22222,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-19",
+      "formatted_date": "Sep 19",
+      "day_name": "Sat",
+      "steps": 6985,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-20",
+      "formatted_date": "Sep 20",
+      "day_name": "Sun",
+      "steps": 14498,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-21",
+      "formatted_date": "Sep 21",
+      "day_name": "Mon",
+      "steps": 13541,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-22",
+      "formatted_date": "Sep 22",
+      "day_name": "Tue",
+      "steps": 10463,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-23",
+      "formatted_date": "Sep 23",
+      "day_name": "Wed",
+      "steps": 15895,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-24",
+      "formatted_date": "Sep 24",
+      "day_name": "Thu",
+      "steps": 9699,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-25",
+      "formatted_date": "Sep 25",
+      "day_name": "Fri",
+      "steps": 15310,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-26",
+      "formatted_date": "Sep 26",
+      "day_name": "Sat",
+      "steps": 7845,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-27",
+      "formatted_date": "Sep 27",
+      "day_name": "Sun",
+      "steps": 12928,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-28",
+      "formatted_date": "Sep 28",
+      "day_name": "Mon",
+      "steps": 12277,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-29",
+      "formatted_date": "Sep 29",
+      "day_name": "Tue",
+      "steps": 12262,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-09-30",
+      "formatted_date": "Sep 30",
+      "day_name": "Wed",
+      "steps": 12063,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-01",
+      "formatted_date": "Oct 01",
+      "day_name": "Thu",
+      "steps": 11190,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-02",
+      "formatted_date": "Oct 02",
+      "day_name": "Fri",
+      "steps": 14238,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-03",
+      "formatted_date": "Oct 03",
+      "day_name": "Sat",
+      "steps": 10075,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-04",
+      "formatted_date": "Oct 04",
+      "day_name": "Sun",
+      "steps": 11553,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-05",
+      "formatted_date": "Oct 05",
+      "day_name": "Mon",
+      "steps": 12593,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-06",
+      "formatted_date": "Oct 06",
+      "day_name": "Tue",
+      "steps": 9181,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-07",
+      "formatted_date": "Oct 07",
+      "day_name": "Wed",
+      "steps": 10089,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-08",
+      "formatted_date": "Oct 08",
+      "day_name": "Thu",
+      "steps": 11713,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-09",
+      "formatted_date": "Oct 09",
+      "day_name": "Fri",
+      "steps": 7847,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-10",
+      "formatted_date": "Oct 10",
+      "day_name": "Sat",
+      "steps": 2304,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-11",
+      "formatted_date": "Oct 11",
+      "day_name": "Sun",
+      "steps": 18707,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-12",
+      "formatted_date": "Oct 12",
+      "day_name": "Mon",
+      "steps": 9976,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-13",
+      "formatted_date": "Oct 13",
+      "day_name": "Tue",
+      "steps": 14234,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-14",
+      "formatted_date": "Oct 14",
+      "day_name": "Wed",
+      "steps": 14757,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-15",
+      "formatted_date": "Oct 15",
+      "day_name": "Thu",
+      "steps": 11024,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-16",
+      "formatted_date": "Oct 16",
+      "day_name": "Fri",
+      "steps": 10535,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-17",
+      "formatted_date": "Oct 17",
+      "day_name": "Sat",
+      "steps": 10949,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-18",
+      "formatted_date": "Oct 18",
+      "day_name": "Sun",
+      "steps": 15798,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-19",
+      "formatted_date": "Oct 19",
+      "day_name": "Mon",
+      "steps": 17935,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-20",
+      "formatted_date": "Oct 20",
+      "day_name": "Tue",
+      "steps": 13707,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-21",
+      "formatted_date": "Oct 21",
+      "day_name": "Wed",
+      "steps": 9419,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-22",
+      "formatted_date": "Oct 22",
+      "day_name": "Thu",
+      "steps": 14045,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-23",
+      "formatted_date": "Oct 23",
+      "day_name": "Fri",
+      "steps": 11736,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-24",
+      "formatted_date": "Oct 24",
+      "day_name": "Sat",
+      "steps": 7779,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-25",
+      "formatted_date": "Oct 25",
+      "day_name": "Sun",
+      "steps": 2609,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-26",
+      "formatted_date": "Oct 26",
+      "day_name": "Mon",
+      "steps": 3242,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-27",
+      "formatted_date": "Oct 27",
+      "day_name": "Tue",
+      "steps": 17518,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-28",
+      "formatted_date": "Oct 28",
+      "day_name": "Wed",
+      "steps": 13127,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-29",
+      "formatted_date": "Oct 29",
+      "day_name": "Thu",
+      "steps": 3252,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-30",
+      "formatted_date": "Oct 30",
+      "day_name": "Fri",
+      "steps": 12350,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-10-31",
+      "formatted_date": "Oct 31",
+      "day_name": "Sat",
+      "steps": 4181,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-11-01",
+      "formatted_date": "Nov 01",
+      "day_name": "Sun",
+      "steps": 18586,
+      "goal_met": true,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-11-02",
+      "formatted_date": "Nov 02",
+      "day_name": "Mon",
+      "steps": 6610,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-11-03",
+      "formatted_date": "Nov 03",
+      "day_name": "Tue",
+      "steps": 6610,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    }
+  ]
+}

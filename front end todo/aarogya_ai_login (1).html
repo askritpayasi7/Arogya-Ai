@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarogya AI | Premium Clinical Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #F7F7F2;
+            --card-bg: #FFFFFF;
+            --primary-sage: #718875;
+            --secondary-olive: #A5AE91;
+            --accent-teal: #8BB8AD;
+            --text-main: #343B36;
+            --text-muted: #6B7280;
+            --border-color: #E5E5DC;
+            --grid-line: rgba(113, 136, 117, 0.12); /* Subtle sage green */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Grid */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        /* Scanning Laser Animation */
+        .scanner-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-sage);
+            box-shadow: 0 0 20px 4px rgba(113, 136, 117, 0.25);
+            z-index: 2;
+            animation: scan 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-10px); opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Layout Structure */
+        .layout-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .left-column {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .right-column {
+            flex: 1.2;
+            display: none; /* Hidden on mobile */
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .left-column { margin: 0; }
+            .right-column { display: flex; }
+        }
+
+        /* Login Card */
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 40px -15px rgba(52, 59, 54, 0.08);
+            text-align: center;
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .brand-logo svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* Primary Login Button */
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 24px;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            text-decoration: none;
+        }
+
+        .btn-google:hover {
+            background-color: #FAFAFA;
+            border-color: #D1D1C7;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .btn-google svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Footer Links */
+        .footer-link {
+            margin-top: 32px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .footer-link a {
+            color: var(--primary-sage);
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link a:hover {
+            color: var(--text-main);
+        }
+
+        /* Right Column Graphics */
+        .graphics-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            max-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Silhouette Base */
+        .human-silhouette {
+            position: absolute;
+            height: 80%;
+            opacity: 0.06;
+            z-index: 1;
+        }
+
+        .human-silhouette svg {
+            height: 100%;
+            width: auto;
+            fill: var(--primary-sage);
+        }
+
+        /* Concentric Circles */
+        .circle-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        .circle-1 { width: 300px; height: 300px; }
+        .circle-2 { width: 450px; height: 450px; border-style: dashed; opacity: 0.6; }
+        .circle-3 { width: 600px; height: 600px; opacity: 0.4; }
+
+        /* Floating Info Cards */
+        .floating-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 12px 32px rgba(52, 59, 54, 0.06);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Card Layout Positions */
+        .card-hr {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important; /* Overrides float */
+            width: 240px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 16px 40px rgba(52, 59, 54, 0.08);
+            animation: none;
+            z-index: 20;
+        }
+
+        .card-spo2 {
+            top: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .card-sleep {
+            bottom: 25%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        /* Inner Card Elements */
+        .metric-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .metric-unit {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .metric-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        /* Waveform Data Visuals */
+        .waveform {
+            width: 100%;
+            height: 30px;
+            margin-top: 12px;
+        }
+        .waveform path {
+            fill: none;
+            stroke: var(--primary-sage);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Sleep Progress Bar */
+        .progress-bar {
+            width: 120px;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: flex;
+        }
+        .progress-segment-1 { width: 30%; background: var(--text-main); }
+        .progress-segment-2 { width: 45%; background: var(--primary-sage); }
+        .progress-segment-3 { width: 25%; background: var(--accent-teal); }
+        
+    </style>
+</head>
+<body>
+
+    <!-- CSS Grid Background & Animated Scanner -->
+    <div class="bg-grid"></div>
+    <div class="scanner-line"></div>
+
+    <div class="layout-container">
+        
+        <!-- Left Column: Login Card -->
+        <div class="left-column">
+            <div class="login-card">
+                
+                <div class="brand-logo">
+                    <!-- Aarogya AI Stylized Leaf/A Logo -->
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 45 20 L 15 80 L 32 80 L 41 62 L 65 62 L 53 38 Z" fill="var(--text-main)" />
+                        <path d="M 45 20 C 70 20, 85 40, 85 65 C 85 80, 70 80, 60 80 C 45 80, 50 65, 65 50 C 75 40, 60 30, 45 20 Z" fill="var(--primary-sage)" />
+                    </svg>
+                </div>
+
+                <h1>Welcome to Aarogya AI</h1>
+                <p class="subtitle">Your health insights, thoughtfully connected.</p>
+
+                <!-- Primary Login Method -->
+                <button class="btn-google">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div class="footer-link">
+                    New to Aarogya AI? <a href="#">Sign Up</a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Column: Illustrations -->
+        <div class="right-column">
+            <div class="graphics-container">
+                
+                <!-- Concentric Background Rings -->
+                <div class="circle-ring circle-1"></div>
+                <div class="circle-ring circle-2"></div>
+                <div class="circle-ring circle-3"></div>
+
+                <!-- Abstract Human Silhouette -->
+                <div class="human-silhouette">
+                    <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 20 C115 20, 125 30, 125 45 C125 60, 115 70, 100 70 C85 70, 75 60, 75 45 C75 30, 85 20, 100 20 Z"/>
+                        <path d="M60 85 C80 75, 120 75, 140 85 C160 95, 170 120, 160 150 L140 220 L120 220 L115 160 L85 160 L80 220 L60 220 L40 150 C30 120, 40 95, 60 85 Z"/>
+                        <path d="M80 220 L120 220 L130 380 L105 380 L100 280 L95 380 L70 380 Z"/>
+                    </svg>
+                </div>
+
+                <!-- Sleep Card -->
+                <div class="floating-card card-sleep">
+                    <div class="metric-icon" style="background: rgba(139, 184, 173, 0.15); color: var(--accent-teal);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </div>
+                    <div class="metric-value">
+                        7<span class="metric-unit">h</span> 12<span class="metric-unit">m</span>
+                    </div>
+                    <div class="metric-label">Sleep Duration</div>
+                    <div class="progress-bar">
+                        <div class="progress-segment-1"></div>
+                        <div class="progress-segment-2"></div>
+                        <div class="progress-segment-3"></div>
+                    </div>
+                </div>
+
+                <!-- SpO2 Card -->
+                <div class="floating-card card-spo2">
+                    <div class="metric-icon" style="background: rgba(165, 174, 145, 0.15); color: var(--secondary-olive);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+                    </div>
+                    <div class="metric-value">
+                        98<span class="metric-unit">%</span>
+                    </div>
+                    <div class="metric-label">Blood Oxygen</div>
+                </div>
+
+                <!-- Main Heart Rate / Smartwatch Card -->
+                <div class="floating-card card-hr">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div class="metric-icon" style="background: rgba(113, 136, 117, 0.12); color: var(--primary-sage); margin: 0;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                        </div>
+                        <span style="font-size: 10px; font-weight: 600; color: var(--primary-sage); background: var(--bg-light); padding: 4px 8px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px;">Live Monitor</span>
+                    </div>
+                    
+                    <div class="metric-value" style="font-size: 32px; margin-bottom: 4px;">
+                        64<span class="metric-unit">BPM</span>
+                    </div>
+                    <div class="metric-label">Resting Heart Rate</div>
+                    
+                    <svg class="waveform" viewBox="0 0 200 40">
+                        <path d="M0,20 L30,20 L40,10 L50,35 L65,5 L80,30 L90,20 L130,20 L140,15 L150,25 L160,20 L200,20" />
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

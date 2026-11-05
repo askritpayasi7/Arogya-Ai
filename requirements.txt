@@ -1,0 +1,9 @@
+# Core Dependencies
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+chromadb>=0.4.22
+requests>=2.31.0
+
+# Development & Testing
+pytest>=8.0.0
+pytest-cov>=4.1.0

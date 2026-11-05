@@ -1,0 +1,60 @@
+:root {
+  --navy: #0f3d4c;
+  --teal: #1a7a7a;
+  --mist: #e8f4f4;
+  --paper: #f7fbfb;
+  --warn: #b42318;
+  --amber: #b54708;
+}
+
+.stApp {
+  background: linear-gradient(180deg, #f3f8f9 0%, #ffffff 280px);
+}
+
+.hero {
+  background: linear-gradient(135deg, #0f3d4c 0%, #1a7a7a 100%);
+  color: #fff;
+  padding: 1.4rem 1.6rem;
+  border-radius: 18px;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 30px rgba(15, 61, 76, 0.18);
+}
+
+.hero h1 {
+  font-size: 1.7rem;
+  margin: 0 0 0.35rem 0;
+}
+
+.hero p {
+  margin: 0;
+  opacity: 0.92;
+  line-height: 1.45;
+}
+
+.safety-banner {
+  background: #fff6f5;
+  border: 1px solid #f0c2bc;
+  color: #7a1d16;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  margin: 0.6rem 0 1rem 0;
+}
+
+.metric-card {
+  background: #fff;
+  border: 1px solid #d7e6ea;
+  border-radius: 14px;
+  padding: 0.85rem;
+}
+
+.stButton>button {
+  background: #1a7a7a;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.stDownloadButton>button {
+  border-radius: 10px;
+}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Aarogya AI | VITA My Health OS & Clinical Intelligence{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: ['selector', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        aarogya: {
+                            bg: 'var(--bg)',
+                            card: 'var(--card)',
+                            ink: 'var(--ink)',
+                            mute: 'var(--mute)',
+                            line: 'var(--line)',
+                            g: 'var(--g)',
+                            g2: 'var(--g2)',
+                            teal: 'var(--teal)',
+                            amber: 'var(--amber)',
+                            red: 'var(--red)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #f6faf8;
+            --card: #ffffff;
+            --ink: #0f2a1d;
+            --mute: #53645c;
+            --line: #e4ece7;
+            --g: #22a36a;
+            --g2: #e1f6ea;
+            --amber: #b7791f;
+            --amberbg: #fbf0d8;
+            --red: #d6503f;
+            --redbg: #fbe5e1;
+            --jar: #14352a;
+            --teal: #14b8a6;
+            --grad: linear-gradient(135deg, #4ade80 0%, #14b8a6 55%, #38bdf8 100%);
+            --soft: linear-gradient(135deg, #ecfdf3, #e6f7fb);
+            --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            color-scheme: light;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0a1713;
+                --card: #112620;
+                --ink: #e8f3ec;
+                --mute: #94a89f;
+                --line: #1e3a30;
+                --g: #4cd68a;
+                --g2: #173a2a;
+                --amber: #f0b94a;
+                --amberbg: #3a2f12;
+                --red: #ff8a78;
+                --redbg: #3d1f1b;
+                --jar: #0a1f17;
+                --teal: #2dd4bf;
+                --soft: linear-gradient(135deg, #12332a, #10303a);
+                color-scheme: dark;
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0a1713;
+            --card: #112620;
+            --ink: #e8f3ec;
+            --mute: #94a89f;
+            --line: #1e3a30;
+            --g: #4cd68a;
+            --g2: #173a2a;
+            --amber: #f0b94a;
+            --amberbg: #3a2f12;
+            --red: #ff8a78;
+            --redbg: #3d1f1b;
+            --jar: #0a1f17;
+            --teal: #2dd4bf;
+            --soft: linear-gradient(135deg, #12332a, #10303a);
+            color-scheme: dark;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--font);
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .aarogya-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .pill-green { background: var(--g2); color: var(--g); border: 1px solid rgba(34, 163, 106, 0.25); }
+        .pill-amber { background: var(--amberbg); color: var(--amber); border: 1px solid rgba(183, 121, 31, 0.25); }
+        .pill-red { background: var(--redbg); color: var(--red); border: 1px solid rgba(214, 80, 63, 0.25); }
+        .pill-teal { background: rgba(20, 184, 166, 0.12); color: var(--teal); border: 1px solid rgba(20, 184, 166, 0.25); }
+
+        .btn-aarogya-grad {
+            background: var(--grad);
+            color: #052317;
+            font-weight: 700;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .btn-aarogya-grad:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(20, 184, 166, 0.35);
+        }
+    </style>
+    {% block head_extra %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+    <!-- Theme Initializer -->
+    <script>
+        (function() {
+            var savedTheme = localStorage.getItem('aarogya_theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <!-- Global Aarogya Top Navigation Bar -->
+    <header class="border-b sticky top-0 z-50 backdrop-blur-md transition-colors" style="background: rgba(var(--card), 0.85); border-color: var(--line);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105" style="background: var(--soft); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(34, 163, 106, 0.12);">
+                    <!-- Aarogya AI Stylized Leaf SVG -->
+                    <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M52 22 C42 38, 33 53, 26 66 L38 66 C42 56, 48 44, 55 31 Z" fill="var(--g)"/>
+                        <path d="M52 22 L65 42 L55 42 Z" fill="var(--teal)"/>
+                        <path d="M26 66 C40 45, 60 48, 65 42 C50 60, 36 66, 26 66 Z" fill="var(--g)"/>
+                        <path d="M53 66 C65 52, 77 48, 77 48 C77 48, 73 62, 57 66 Z" fill="var(--teal)"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-lg font-bold tracking-tight flex items-center gap-2" style="color: var(--ink);">
+                        VITA &bull; My Health OS <span class="aarogya-pill pill-teal font-mono text-[10px]">aarogya ai</span>
+                    </span>
+                    <p class="text-[10px] tracking-wider uppercase font-semibold" style="color: var(--mute);">Evidence-Grounded Clinical Health</p>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-3">
+                <!-- Theme Switcher Chip -->
+                <button id="themeToggleBtn" type="button" class="aarogya-pill text-xs font-semibold px-3 py-1.5 transition cursor-pointer" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);" title="Toggle Dark/Light Mode">
+                    <span>◐</span> Theme
+                </button>
+
+                {% if user %}
+                    <a href="/dashboard" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">My Health</a>
+                    <a href="/dashboard/prescriptions" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background: var(--g2); border: 1px solid rgba(34, 163, 106, 0.3); color: var(--g);">Prescriptions</a>
+                    <a href="/logout" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background: var(--redbg); border: 1px solid rgba(214, 80, 63, 0.3); color: var(--red);">Sign Out</a>
+                {% elif is_admin %}
+                    <a href="/admin/dashboard" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background: var(--g2); border: 1px solid rgba(34, 163, 106, 0.3); color: var(--g);">Admin Panel</a>
+                    <a href="/logout" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background: var(--redbg); border: 1px solid rgba(214, 80, 63, 0.3); color: var(--red);">Sign Out</a>
+                {% else %}
+                    <a href="/admin/login" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Admin Portal
+                    </a>
+                    <a href="/api/auth/google/login" class="text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                        Sign in with Google
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t py-6 text-center text-xs font-mono transition-colors" style="background: var(--card); border-color: var(--line); color: var(--mute);">
+        <p>Aarogya AI &bull; My Health OS &bull; Powered by Google Fitness API, Peer-Reviewed Scientific Literature & FSSAI Standards</p>
+    </footer>
+
+    <!-- Global Theme Toggle Script -->
+    <script>
+        (function() {
+            var btn = document.getElementById('themeToggleBtn');
+            if (btn) {
+                btn.addEventListener('click', function() {
+                    var cur = document.documentElement.getAttribute('data-theme');
+                    var isDark = cur === 'dark' || (!cur && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                    var next = isDark ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('aarogya_theme', next);
+                });
+            }
+        })();
+    </script>
+    {% block scripts_extra %}{% endblock %}
+</body>
+</html>

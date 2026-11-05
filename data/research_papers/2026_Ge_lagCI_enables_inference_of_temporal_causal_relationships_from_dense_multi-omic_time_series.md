@@ -1,0 +1,8 @@
+# lagCI enables inference of temporal causal relationships from dense multi-omic time series
+Authors: Ge Y, Bai S, Qiang Z, Liu Y, Wu Y, Shen X.
+Year: 2026
+DOI: 10.1093/bib/bbag464
+Source URL: https://europepmc.org/api/getPdf?pmcid=PMC13557713
+
+## Abstract
+Inferring causal relationships from time-series data is critical for uncovering the dynamics of biological regulation. However, in multi-omics studies, this task is often hampered by sparse temporal sampling and the limitations of existing methods. To address this, we developed Lagged-Correlation Based Causal Inference (lagCI), a computational framework designed to identify time-lagged associations by combining comprehensive lag-correlation profiling with a robust statistical filtering scheme. Rather than relying on simple cross-correlation, lagCI analyzes the entire correlation profile and applies a quality-scoring system to filter out spurious associations that often plague high-dimensional datasets. We first tested lagCI on wearable physiological data, where it successfully captured the well-known causal link between physical activity and heart rate, even accounting for variations in lag times between individuals. Moving to high-frequency human multi-omics, we used lagCI to build a directed network of 1624 molecules connected by over 157 000 predicted interactions. This network recapitulated established biological relationships, including cytokine-hormone crosstalk, and highlighted molecular hubs that may coordinate the timing of metabolic and immune responses. Overall, lagCI provides a data-driven way to extract temporal insights from dense longitudinal omics. The tool is available as an R package with multiple interfaces to support use by both bioinformaticians and clinical researchers.

@@ -1,0 +1,18 @@
+{
+  "email": "form_test@example.com",
+  "age": 32,
+  "profession": "Clinical Data Scientist",
+  "smoking_status": "former_smoker",
+  "alcohol_consumption": "occasional",
+  "chronic_risk_factors": [
+    "Sedentary Workday"
+  ],
+  "primary_health_goal": "Autonomic Stress Modulation",
+  "baseline_status": "active_calibrated",
+  "onboarding_completed": true,
+  "prescriptions": [],
+  "diagnosed_conditions": [],
+  "active_medications": [],
+  "created_at": "2026-11-02T23:56:46.534369+00:00",
+  "updated_at": "2026-11-02T23:56:46.535065+00:00"
+}

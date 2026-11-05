@@ -1,0 +1,273 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Aarogya Admin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: sidebar nav + one working view. Each view opens with a short summary row, then the table or list the admin acts on. Theme matches My Health OS. */
+:root{--bg:#f6faf8;--card:#fff;--ink:#0f2a1d;--mute:#53645c;--line:#e4ece7;--g:#22a36a;--g2:#e1f6ea;--amber:#b7791f;--amberbg:#fbf0d8;--red:#d6503f;--redbg:#fbe5e1;--jar:#14352a;
+--grad:linear-gradient(135deg,#4ade80 0%,#14b8a6 55%,#38bdf8 100%);--soft:linear-gradient(135deg,#ecfdf3,#e6f7fb);--teal:#14b8a6;
+--font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1713;--card:#112620;--ink:#e8f3ec;--mute:#94a89f;--line:#1e3a30;--g:#4cd68a;--g2:#173a2a;--amber:#f0b94a;--amberbg:#3a2f12;--red:#ff8a78;--redbg:#3d1f1b;--jar:#0a1f17;--soft:linear-gradient(135deg,#12332a,#10303a);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1713;--card:#112620;--ink:#e8f3ec;--mute:#94a89f;--line:#1e3a30;--g:#4cd68a;--g2:#173a2a;--amber:#f0b94a;--amberbg:#3a2f12;--red:#ff8a78;--redbg:#3d1f1b;--jar:#0a1f17;--soft:linear-gradient(135deg,#12332a,#10303a);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5;font-variant-numeric:tabular-nums}
+button,input{font-family:inherit;font-size:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+.app{display:flex;min-height:100vh}
+aside{width:236px;background:var(--card);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:30;transition:transform .25s}
+
+/* Brand header styling with clean SVG logo vector matching "My Health OS by aarogya ai" */
+.brand{display:flex;align-items:center;gap:10px;margin:4px 4px 22px;padding:4px}
+.brand-logo-img{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;width:100%}
+.brand-icon{width:42px;height:42px;flex-shrink:0}
+.brand-text{display:flex;flex-direction:column}
+.brand-text b{font-size:16px;line-height:1.15;font-weight:800;color:var(--ink);letter-spacing:-0.2px}
+.brand-text small{font-size:11px;color:var(--mute);font-weight:500;margin-top:1px}
+
+nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;color:var(--mute);text-decoration:none;font-weight:600;font-size:14px;margin-bottom:4px}
+nav a:hover{background:var(--g2);color:var(--g)}
+nav a.on{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(20,184,166,.3)}
+nav a .gl{width:18px;text-align:center}
+nav a .cnt{margin-left:auto}
+.cnt{background:var(--red);color:#fff;border-radius:99px;padding:1px 9px;font-size:11px;font-weight:800}
+nav a.on .cnt{background:#fff;color:#0f5a4a}
+.side-foot{margin-top:auto;padding:12px;border-radius:14px;background:var(--soft);font-size:12px;color:var(--mute)}
+.side-foot b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+main{flex:1;min-width:0;padding-block:20px 40px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.ham{display:none;border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;font-size:18px;color:var(--ink)}
+h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.4px;text-wrap:balance}
+.sub{color:var(--mute);font-size:13px}
+.sp{flex:1}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 13px;font-size:12px;font-weight:600}
+.chip:hover{border-color:var(--teal)}
+.chip.bad{color:var(--red)}
+.chip[disabled]{opacity:.5;cursor:default}
+.btn{background:var(--grad);color:#fff;border:0;border-radius:99px;padding:8px 16px;font-weight:700;font-size:12px}
+.btn:hover{box-shadow:0 6px 16px rgba(20,184,166,.35)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 2px 10px rgba(20,60,40,.04);min-width:0}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--mute);margin:0 0 10px;font-weight:600}
+.stack{display:flex;flex-direction:column;gap:14px}
+.split{display:grid;gap:14px;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+.tiles{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.tile .n{font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1.15}
+.tile .mut{margin-top:2px}
+.mut{color:var(--mute);font-size:12px}
+.bar-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.bar-top h2{margin:0}
+.tabs{display:inline-flex;background:var(--bg);border-radius:99px;padding:3px;border:1px solid var(--line);flex-wrap:wrap}
+.tabs button{border:0;background:none;color:var(--mute);padding:6px 14px;border-radius:99px;font-weight:600;font-size:12px}
+.tabs button.on{background:var(--grad);color:#fff}
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;background:var(--g2);color:var(--g);white-space:nowrap}
+.pill.w{background:var(--amberbg);color:var(--amber)}.pill.b{background:var(--redbg);color:var(--red)}.pill.n{background:var(--line);color:var(--mute)}
+.pp{border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;background:var(--card)}
+.pp:last-child{margin-bottom:0}
+.pt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 18px;align-items:start}
+.pm b{font-size:14px;display:block;margin-bottom:2px}
+.gates{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sc{text-align:right;min-width:96px}
+.sc .v{font-size:22px;font-weight:800;line-height:1}
+.sc .bar{margin:6px 0 0 auto;width:96px}
+.act{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.act .note{font-size:12px;color:var(--mute)}
+.dt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.dt div{font-size:13px;min-width:0;overflow-wrap:anywhere}
+.dt small{display:block;color:var(--mute);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+.dt .w2{grid-column:1/-1}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--grad)}
+.bar i.w{background:var(--amber)}.bar i.b{background:var(--red)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:620px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{color:var(--mute);font-weight:600;font-size:12px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td .mut{margin-top:1px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);margin-right:6px}.dot.on{background:var(--g)}
+input[type=text],input[type=search]{width:100%;border:1px solid var(--line);border-radius:99px;padding:9px 14px;background:var(--card);color:var(--ink);min-width:0}
+.field{display:flex;gap:8px}
+.field .btn{padding:9px 18px;white-space:nowrap}
+.tool{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tool .s{flex:1;min-width:180px}
+.bl{display:flex;flex-direction:column;gap:12px}
+.bl .h{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:5px}
+.bl .h b{font-weight:600;min-width:0}
+.jr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.jr:last-child{border-bottom:0}
+.trk{display:flex;gap:5px}
+.td{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.td.hit{background:var(--g)}.td.pend{background:transparent;border:2px dashed var(--line)}.td.try{background:var(--amber);animation:pl 1s ease-in-out infinite}
+@keyframes pl{50%{transform:scale(1.35);opacity:.6}}
+.jr .res{grid-column:1/-1}
+.sw{width:40px;height:24px;border-radius:99px;border:0;background:var(--line);position:relative;flex-shrink:0}
+.sw:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw.on{background:var(--g)}.sw.on:after{transform:translateX(16px)}
+.empty{padding:26px 10px;text-align:center;color:var(--mute);font-size:13px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--jar);color:#fff;border-radius:99px;padding:10px 18px;font-weight:600;font-size:13px;z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:calc(100vw - 32px)}
+footer{text-align:center;color:var(--mute);font-size:11px;margin-top:24px}
+.scrim{display:none}
+@media(max-width:900px){
+ aside{position:fixed;left:0;top:0;transform:translateX(-100%);height:100dvh;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));padding-left:max(14px,env(safe-area-inset-left,0px))}
+ body.open aside{transform:none;box-shadow:0 0 40px rgba(0,0,0,.25)}
+ body.open .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:20}
+ .ham{display:block}
+ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+ .split{grid-template-columns:minmax(0,1fr)}
+ .pt{grid-template-columns:minmax(0,1fr)}
+ .sc{text-align:left}.sc .bar{margin-left:0}
+ .dt{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){.td.try{animation:none}.sw:after{transition:none}}
+</style>
+
+<div class="scrim" onclick="document.body.classList.remove('open')"></div>
+<div class="app">
+<aside>
+ <div class="brand">
+  <div class="lg-circle-wrap">
+   <div class="lg">
+    <span>
+     <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M52 22 C42 38, 33 53, 26 66 L38 66 C42 56, 48 44, 55 31 Z" fill="#1b2823"/>
+      <path d="M52 22 L65 42 L55 42 Z" fill="#1b2823"/>
+      <path d="M26 66 C40 45, 60 48, 65 42 C50 60, 36 66, 26 66 Z" fill="#1b2823"/>
+      <path d="M53 66 C65 52, 77 48, 77 48 C77 48, 73 62, 57 66 Z" fill="#587363"/>
+      <text x="50" y="84" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="13" fill="#1b2823" text-anchor="middle" letter-spacing="-0.3">aarogya ai</text>
+     </svg>
+    </span>
+   </div>
+  </div>
+  <div><small><h1><b>aarogya ai</b></h1></small></div>
+ </div>
+ <nav id="nav" aria-label="Admin sections"></nav>
+ <div class="side-foot"><b>Admin view</b>Sees pipeline and sync status only, never a user's health readings.</div>
+</aside>
+<main>
+ <div class="top">
+  <button class="ham" onclick="document.body.classList.toggle('open')" aria-label="Menu">☰</button>
+  <div><h1 id="title"></h1><div class="sub" id="subt"></div></div>
+  <div class="sp"></div>
+  <button class="chip" id="theme">◐ Theme</button>
+ </div>
+ <div id="view"></div>
+ <footer>Admin console · Sample data shown · Every approval is logged</footer>
+</main></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=n=>n.toLocaleString('en-IN');
+const T={
+ approval:['Paper approval','Review verified evidence before it reaches retrieval','✓','Paper approval'],
+ fetching:['Paper fetching','Five-tier document resolver','↓','Paper fetching'],
+ users:['Active users','Baseline status and sync health','☺','Active users'],
+ embeddings:['Active embeddings','What the retrieval index can see right now','◈','Active embeddings']};
+let S={pf:'pending',open:null,uf:'all',uq:'',rq:''},tt;
+function toast(m){const e=$('toast');e.textContent=m;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,2600)}
+const tiles=a=>`<div class="tiles">${a.map(t=>`<div class="card tile"><h2>${t[0]}</h2><div class="n">${t[1]}</div><div class="mut">${t[2]}</div></div>`).join('')}</div>`;
+
+/* ---------- Paper approval ---------- */
+const PP=[
+{id:'p1',title:'Short sleep and nicotine use together raise nocturnal heart rate',design:'Prospective cohort',n:4812,year:2024,cat:'Smoking',nli:'Entailment',nliP:94,eff:'HR 1.38 (95% CI 1.12–1.70)',sig:true,rob:'Moderate',tool:'ROBINS-I',score:84.2,rule:'Combined short sleep duration and nicotine use amplify sympathetic activation and nocturnal heart rate.',src:1,rules:6,status:'pending'},
+{id:'p2',title:'Evening alcohol intake and fragmented sleep in adults under 35',design:'Randomised crossover',n:96,year:2023,cat:'Alcohol',nli:'Entailment',nliP:88,eff:'OR 1.90 (95% CI 1.30–2.80)',sig:true,rob:'Low',tool:'RoB 2',score:79.5,rule:'Alcohol close to bedtime fragments sleep and lifts overnight heart rate.',src:2,rules:4,status:'pending'},
+{id:'p3',title:'Resting heart rate trajectories across age brackets in wearable cohorts',design:'Retrospective cohort',n:21340,year:2025,cat:'Age bracket',nli:'Entailment',nliP:81,eff:'HR 1.12 (95% CI 1.04–1.21)',sig:true,rob:'Moderate',tool:'ROBINS-I',score:72.3,rule:'Resting heart rate drifts upward with age bracket, so thresholds should be judged against personal norm.',src:3,rules:5,status:'pending'},
+{id:'p4',title:'Short sleep and next-day step count in office workers',design:'Cross-sectional',n:1204,year:2022,cat:'General lifestyle',nli:'Neutral',nliP:61,eff:'OR 1.21 (95% CI 0.94–1.55)',sig:false,rob:'Serious',tool:'ROBINS-I',score:48.7,rule:'Short sleep is associated with lower next-day activity.',src:4,rules:3,status:'pending'},
+{id:'p5',title:'Smoking cessation and resting heart rate recovery',design:'Cohort',n:2650,year:2021,cat:'Smoking',nli:'Contradiction',nliP:91,eff:'HR 0.71 (95% CI 0.58–0.87)',sig:true,rob:'Serious',tool:'ROBINS-I',score:22.4,rule:'Smoking cessation lowers resting heart rate within weeks.',src:1,rules:2,status:'quarantined',auto:true,why:'Hard gate: the extracted claim is contradicted by the source text.'},
+{id:'p6',title:'Hypertension and resting heart rate thresholds for check-ins',design:'Prospective cohort',n:8120,year:2023,cat:'Chronic risk factors',nli:'Entailment',nliP:90,eff:'HR 1.51 (95% CI 1.20–1.90)',sig:true,rob:'Low',tool:'ROBINS-I',score:86.1,rule:'With hypertension, a resting heart rate above personal norm deserves a blood-pressure check.',src:1,rules:7,status:'approved',inIdx:true},
+{id:'p7',title:'Pulse oximetry below personal norm in current smokers',design:'Cohort',n:1980,year:2024,cat:'Smoking',nli:'Entailment',nliP:85,eff:'OR 2.10 (95% CI 1.40–3.10)',sig:true,rob:'Moderate',tool:'ROBINS-I',score:77.8,rule:'Oxygen readings below personal norm deserve a check-in, especially for smokers.',src:2,rules:4,status:'approved',inIdx:true},
+{id:'p8',title:'Wrist-sensor SpO₂ accuracy in people with asthma',design:'Case series',n:38,year:2020,cat:'Chronic risk factors',nli:'Neutral',nliP:55,eff:'Not reported',sig:null,rob:'Critical',tool:'ROBINS-I',score:31,rule:'Wrist sensors may under-read oxygen in asthma.',src:4,rules:2,status:'quarantined',auto:false,why:'Rejected by admin: very small sample, no effect size.'}];
+const TIERS=['Local cache','Europe PMC XML','Direct PDF','Unpaywall mirror','Abstract fallback'];
+const FMT=['Cached full text','Full text XML','PDF','PDF via Unpaywall','Abstract only'];
+const pill=(c,t)=>`<span class="pill ${c}">${t}</span>`;
+function paperRow(p){
+ const sc=p.score>=75?'':p.score>=50?'w':'b',o=S.open===p.id;
+ const nliC=p.nli==='Entailment'?'':p.nli==='Neutral'?'w':'b';
+ const stC=p.sig===true?'':p.sig===false?'w':'n',stT=p.sig===true?'Stats ✓ '+esc(p.eff.split(' (')[0]):p.sig===false?'Stats: CI crosses 1':'Stats: none reported';
+ const robC=p.rob==='Low'?'':p.rob==='Moderate'?'w':'b';
+ let a='';
+ if(p.status==='pending')a=`<button class="btn" onclick="setSt('${p.id}','approved')">Approve</button><button class="chip bad" onclick="setSt('${p.id}','quarantined')">Quarantine</button>`;
+ else if(p.status==='approved')a=`<button class="chip bad" onclick="setSt('${p.id}','quarantined')">Remove from index</button>`;
+ else if(p.auto)a=`<span class="note">${esc(p.why)}</span>`;
+ else a=`<button class="chip" onclick="setSt('${p.id}','pending')">Restore to review</button>`;
+ a+=`<button class="chip" onclick="S.open=${o?'null':`'${p.id}'`};go()" aria-expanded="${o}">${o?'Hide details':'Details'}</button>`;
+ const d=o?`<div class="dt"><div class="w2"><small>Extracted relationship</small>${esc(p.rule)}</div><div><small>Study</small>${esc(p.design)} · n ${num(p.n)} · ${p.year}</div><div><small>Effect</small>${esc(p.eff)}</div><div><small>NLI check</small>${p.nli} (${p.nliP}%)</div><div><small>Bias tool</small>${p.tool} · ${p.rob} risk</div><div><small>Fetched via</small>${TIERS[p.src]}</div><div><small>Rules to index</small>${p.rules} in ${esc(p.cat)}</div>${p.status==='quarantined'&&p.why&&!p.auto?`<div class="w2"><small>Note</small>${esc(p.why)}</div>`:''}</div>`:'';
+ return `<div class="pp"><div class="pt"><div class="pm"><b>${esc(p.title)}</b><div class="mut">${p.design} · n ${num(p.n)} · ${p.year} · ${p.cat}</div><div class="gates">${pill(nliC,'NLI '+p.nli)}${pill(stC,stT)}${pill(robC,'RoB '+p.rob)}</div></div><div class="sc"><div class="v">${p.score.toFixed(1)}</div><div class="mut">evidence score</div><div class="bar"><i class="${sc}" style="width:${p.score}%"></i></div></div><div class="act">${a}</div></div>${d}</div>`}
+function setSt(id,st){const p=PP.find(x=>x.id===id);p.status=st;
+ toast(st==='approved'?p.rules+' rules added to the index':st==='quarantined'?'Moved to quarantine':'Back in the review queue');go()}
+function vApproval(){const c=s=>PP.filter(p=>p.status===s).length,l=PP.filter(p=>p.status===S.pf);
+ const pend=PP.filter(p=>p.status==='pending');
+ return `<div class="stack">${tiles([['Awaiting review',c('pending'),pend.reduce((s,p)=>s+p.rules,0)+' rules waiting to be indexed'],['Approved',c('approved'),'Live in retrieval'],['Quarantined',c('quarantined'),'Kept out of retrieval']])}
+ <div class="card"><div class="bar-top"><h2>Papers</h2><div class="tabs">${[['pending','Pending'],['approved','Approved'],['quarantined','Quarantined']].map(t=>`<button class="${S.pf===t[0]?'on':''}" onclick="S.pf='${t[0]}';go()">${t[1]} · ${c(t[0])}</button>`).join('')}</div></div>
+ ${l.map(paperRow).join('')||'<div class="empty">Nothing here. Papers that pass the pipeline land in Pending.</div>'}</div></div>`}
+
+/* ---------- Paper fetching ---------- */
+const J=[0,0,0,0,1,1,1,1,1,2,2,3,3,4].map((h,i)=>({ref:'S-'+(1042-i*7),hit:h,run:false,ago:[4,9,15,22,31,47,63,80,104,130,171,215,260,305][i]}));
+const ago=m=>m<1?'just now':m<60?m+' min ago':m<1440?Math.floor(m/60)+' h ago':Math.floor(m/1440)+' d ago';
+const jobDots=j=>TIERS.map((t,i)=>{let c;if(j.run)c=i<j.step?'':i===j.step?'try':'pend';else c=i<j.hit?'':i===j.hit?'hit':'pend';
+ const lab=t+(c==='hit'?' · resolved':c===''?' · no result':c==='try'?' · trying':'');return `<span class="td ${c}" title="${lab}"></span>`}).join('');
+function fTiles(){const D=J.filter(j=>!j.run),ft=D.filter(j=>j.hit<4).length;
+ return tiles([['Fetched today',D.length,'Papers resolved by the waterfall'],['Full text',D.length?Math.round(ft/D.length*100)+'%':'—',ft+' of '+D.length+' papers'],['Abstract only',D.length-ft,'Used when no full text was reachable']])}
+function fBars(){const D=J.filter(j=>!j.run),mx=Math.max(1,...TIERS.map((t,i)=>D.filter(j=>j.hit===i).length));
+ return `<div class="bl">${TIERS.map((t,i)=>{const n=D.filter(j=>j.hit===i).length;return `<div><div class="h"><b>${i+1}. ${t}</b><span class="mut">${n} · ${D.length?Math.round(n/D.length*100):0}%</span></div><div class="bar"><i class="${i===4?'w':''}" style="width:${n/mx*100}%"></i></div></div>`}).join('')}</div>`}
+function fJobs(){return J.map(j=>`<div class="jr"><div><b>${esc(j.ref)}</b><div class="mut">${j.run?'Trying '+TIERS[j.step]+'…':ago(j.ago)}</div></div><div class="trk" aria-label="Tier results">${jobDots(j)}</div>${j.run?'':`<div class="res">${pill(j.hit===4?'w':'',FMT[j.hit])}</div>`}</div>`).join('')}
+function updF(){if(!$('fjobs'))return;$('ftiles').innerHTML=fTiles();$('fbars').innerHTML=fBars();$('fjobs').innerHTML=fJobs()}
+function startFetch(){const el=$('fin'),v=el.value.trim();if(!v){toast('Enter a DOI, PMID or paper URL first.');return}
+ let h=0;for(const ch of v)h=(h*31+ch.charCodeAt(0))>>>0;const m=h%100,hit=m<10?0:m<45?1:m<65?2:m<85?3:4;
+ const j={ref:v,hit,step:0,run:true,ago:0};J.unshift(j);el.value='';updF();
+ j.iv=setInterval(()=>{if(j.step>=j.hit){clearInterval(j.iv);j.run=false;toast('Resolved via '+TIERS[j.hit])}else j.step++;updF()},700)}
+function vFetching(){return `<div class="stack"><div id="ftiles">${fTiles()}</div><div class="split">
+ <div class="stack"><div class="card"><h2>Fetch a paper</h2><div class="field"><input type="text" id="fin" placeholder="DOI, PMID or paper URL" aria-label="DOI, PMID or paper URL" onkeydown="if(event.key==='Enter')startFetch()"><button class="btn" onclick="startFetch()">Fetch</button></div><div class="mut" style="margin-top:8px">Runs the five tiers in order and stops at the first hit. Abstract is the last resort, so no paper is skipped.</div></div>
+ <div class="card"><h2>Where papers were resolved</h2><div id="fbars">${fBars()}</div></div></div>
+ <div class="card"><h2>Fetch log</h2><div class="mut" style="margin-bottom:4px">Dots follow the five tiers in order. Green marks the tier that returned the paper.</div><div id="fjobs">${fJobs()}</div></div></div></div>`}
+
+/* ---------- Active users ---------- */
+const U=[
+['Ravi Sharma',28,12,6,2,3],['Ananya Iyer',31,15,12,6,0],['Kabir Malhotra',45,15,41,6,1],['Meera Nair',36,4,120,2,0],['Arjun Verma',52,15,185,6,2],['Sana Qureshi',24,9,300,4,0],['Vikram Rao',39,15,540,6,0],['Isha Patel',29,15,840,6,1],['Rohan Das',33,2,1200,1,0],['Divya Menon',41,15,1590,6,0],['Harsh Vyas',27,7,4400,3,0],['Pooja Singh',48,15,7300,6,0],['Nikhil Joshi',30,15,13000,6,0],['Tara Bose',57,11,17500,5,0]
+].map(a=>({name:a[0],age:a[1],day:a[2],sync:a[3],chunks:a[4],alerts:a[5]}));
+const uAct=u=>u.sync<=1440;
+function uList(){const q=S.uq.trim().toLowerCase();return U.filter(u=>(S.uf==='all'||(S.uf==='active'&&uAct(u))||(S.uf==='cal'&&u.day<15)||(S.uf==='lock'&&u.day>=15))&&(!q||u.name.toLowerCase().includes(q)))}
+function uTiles(){return tiles([['Active in 24 h',U.filter(uAct).length,'of '+U.length+' registered users'],['Calibrating',U.filter(u=>u.day<15).length,'Fewer than 15 baseline days'],['Baseline locked',U.filter(u=>u.day>=15).length,'Alerts use personal range'],['Open alerts',U.reduce((s,u)=>s+u.alerts,0),'Across all users']])}
+function uTabs(){return [['all','All'],['active','Active 24 h'],['cal','Calibrating'],['lock','Locked']].map(t=>`<button class="${S.uf===t[0]?'on':''}" onclick="S.uf='${t[0]}';updU()">${t[1]}</button>`).join('')}
+function uTable(){const L=uList();if(!L.length)return '<div class="empty">No users match.</div>';
+ return `<table><tr><th>User</th><th>Baseline</th><th>Last sync</th><th>History synced</th><th>Alerts</th><th>Status</th></tr>${L.map(u=>`<tr><td><b>${esc(u.name)}</b><div class="mut">${u.age} yrs</div></td><td style="min-width:130px">${u.day>=15?pill('','Locked · 15/15'):`<div class="mut" style="margin-bottom:4px">Day ${u.day} of 15</div><div class="bar"><i style="width:${u.day/15*100}%"></i></div>`}</td><td>${ago(u.sync)}</td><td>${u.chunks}/6 windows</td><td>${u.alerts?pill('w',u.alerts+' open'):'<span class="mut">None</span>'}</td><td><span class="dot ${uAct(u)?'on':''}"></span>${uAct(u)?'Active':'Idle'}</td></tr>`).join('')}</table>`}
+function updU(){if(!$('utbl'))return;$('utiles').innerHTML=uTiles();$('utabs').innerHTML=uTabs();$('utbl').innerHTML=uTable()}
+function vUsers(){return `<div class="stack"><div id="utiles">${uTiles()}</div><div class="card"><div class="tool"><div class="tabs" id="utabs">${uTabs()}</div><div class="s"><input type="search" id="uq" placeholder="Search by name" aria-label="Search users" value="${esc(S.uq)}" oninput="S.uq=this.value;updU()"></div></div><div class="tw" id="utbl">${uTable()}</div></div></div>`}
+
+/* ---------- Active embeddings ---------- */
+const CATS=[['Smoking',412,81.4],['Alcohol',286,74.9],['Age bracket',224,72.1],['Chronic risk factors',301,78.6],['General lifestyle',155,70.3]];
+const RL=[
+{id:'r1',t:'Combined short sleep and nicotine use amplify sympathetic activation and nocturnal heart rate.',c:'Smoking',s:'Mackenbach et al. (2024)',f:84.2,on:true},
+{id:'r2',t:'Oxygen readings below personal norm deserve a check-in, especially for smokers.',c:'Smoking',s:'Paper S-0198',f:77.8,on:true},
+{id:'r3',t:'With hypertension, a resting heart rate above personal norm deserves a blood-pressure check.',c:'Chronic risk factors',s:'Paper S-0211',f:86.1,on:true},
+{id:'r4',t:'Evening alcohol fragments sleep and lifts overnight heart rate.',c:'Alcohol',s:'Paper S-0176',f:71,on:true},
+{id:'r5',t:'Short sleep is associated with higher resting heart rate and lower next-day activity.',c:'General lifestyle',s:'Paper S-0132',f:76,on:true},
+{id:'r6',t:'Resting heart rate norms shift with age bracket, so compare against the personal mean.',c:'Age bracket',s:'Paper S-0149',f:72.4,on:true},
+{id:'r7',t:'Heavy alcohol use raises resting heart rate for up to two days.',c:'Alcohol',s:'Paper S-0121',f:69.3,on:false},
+{id:'r8',t:'Asthma can lower pulse oximetry readings on wrist sensors during exertion.',c:'Chronic risk factors',s:'Paper S-0204',f:66.8,on:true}];
+const dl=p=>p.status==='approved'?(p.inIdx?0:p.rules):(p.inIdx?-p.rules:0);
+const catN=c=>CATS.find(x=>x[0]===c)[1]+PP.filter(p=>p.cat===c).reduce((s,p)=>s+dl(p),0);
+function eTiles(){const tot=CATS.reduce((s,c)=>s+catN(c[0]),0),off=RL.filter(r=>!r.on).length,add=PP.reduce((s,p)=>s+Math.max(0,dl(p)),0),av=CATS.reduce((s,c)=>s+catN(c[0])*c[2],0)/tot;
+ return tiles([['Active rules',num(tot-off),'Searchable by retrieval'],['Deactivated',off,'Switched off by an admin'],['Added from approvals',add,'New since the last index build'],['Avg confidence',av.toFixed(1),'Weighted across categories']])}
+function eCats(){const mx=Math.max(...CATS.map(c=>catN(c[0])));return `<div class="bl">${CATS.map(c=>{const n=catN(c[0]);return `<div><div class="h"><b>${c[0]}</b><span class="mut">${num(n)} rules · conf ${c[2]}</span></div><div class="bar"><i style="width:${n/mx*100}%"></i></div></div>`}).join('')}</div>`}
+function eRules(){const q=S.rq.trim().toLowerCase(),L=RL.filter(r=>!q||r.t.toLowerCase().includes(q)||r.c.toLowerCase().includes(q)||r.s.toLowerCase().includes(q));
+ if(!L.length)return '<div class="empty">No rules match.</div>';
+ return `<table><tr><th>Rule</th><th>Category</th><th>Source</th><th>Confidence</th><th>Active</th></tr>${L.map(r=>`<tr><td style="min-width:240px">${esc(r.t)}</td><td>${pill('n',r.c)}</td><td>${esc(r.s)}</td><td>${r.f.toFixed(1)}</td><td><button class="sw ${r.on?'on':''}" role="switch" aria-checked="${r.on}" aria-label="Toggle rule ${r.id}" onclick="togRule('${r.id}')"></button></td></tr>`).join('')}</table>`}
+function togRule(id){const r=RL.find(x=>x.id===id);r.on=!r.on;toast(r.on?'Rule is active again':'Rule removed from retrieval');updE()}
+function updE(){if(!$('etiles'))return;$('etiles').innerHTML=eTiles();$('ecats').innerHTML=eCats();$('erules').innerHTML=eRules()}
+function vEmbeddings(){return `<div class="stack"><div id="etiles">${eTiles()}</div><div class="split"><div class="card"><h2>By sub-population filter</h2><div id="ecats">${eCats()}</div></div>
+ <div class="card"><div class="tool"><h2 style="margin:0">Rules in the index</h2><div class="s"><input type="search" id="rq" placeholder="Search rules, category or source" aria-label="Search rules" value="${esc(S.rq)}" oninput="S.rq=this.value;updE()"></div></div><div class="mut" style="margin-bottom:8px">Showing a sample of the index. Turning a rule off removes it from retrieval.</div><div class="tw" id="erules">${eRules()}</div></div></div></div>`}
+
+/* ---------- shell ---------- */
+const V={approval:vApproval,fetching:vFetching,users:vUsers,embeddings:vEmbeddings};
+function go(){const k=V[(location.hash||'').slice(1)]?location.hash.slice(1):'approval',pend=PP.filter(p=>p.status==='pending').length;
+ $('nav').innerHTML=Object.keys(T).map(n=>`<a href="#${n}" class="${n===k?'on':''}"><span class="gl">${T[n][2]}</span>${T[n][3]}${n==='approval'&&pend?`<span class="cnt">${pend}</span>`:''}</a>`).join('');
+ $('title').textContent=T[k][0];$('subt').textContent=T[k][1];$('view').innerHTML=V[k]();document.body.classList.remove('open')}
+addEventListener('hashchange',()=>{scrollTo(0,0);go()});
+$('theme').onclick=()=>{const r=document.documentElement,dk=matchMedia('(prefers-color-scheme:dark)').matches,c=r.dataset.theme||(dk?'dark':'light');r.dataset.theme=c==='dark'?'light':'dark'};
+go();
+</script>
+
+</body></html>

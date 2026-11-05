@@ -1,0 +1,82 @@
+{
+  "email": "rx_test_patient@example.com",
+  "age": 35,
+  "profession": "Architect",
+  "smoking_status": "non_smoker",
+  "alcohol_consumption": "none",
+  "chronic_risk_factors": [
+    "Essential Hypertension",
+    "Mild Tachycardia"
+  ],
+  "primary_health_goal": "Cardiovascular & Sleep Health",
+  "baseline_status": "calibration_mode",
+  "onboarding_completed": false,
+  "prescriptions": [
+    {
+      "id": "rx_test_123",
+      "prescriber_name": "Dr. Elizabeth Reed",
+      "clinic_or_place": "Northwestern Memorial Hospital",
+      "prescription_date": "2026-02-15",
+      "diagnosed_diseases": [
+        "Essential Hypertension",
+        "Mild Tachycardia"
+      ],
+      "medicines": [
+        {
+          "name": "Amlodipine",
+          "strength": "5 mg",
+          "dosage": "1 tablet",
+          "frequency": "Once daily in morning",
+          "duration": null,
+          "route": null,
+          "instructions": null,
+          "notes": null,
+          "included": true
+        },
+        {
+          "name": "Propranolol",
+          "strength": "10 mg",
+          "dosage": "1 tablet",
+          "frequency": "PRN for palpitations",
+          "duration": null,
+          "route": null,
+          "instructions": null,
+          "notes": null,
+          "included": true
+        }
+      ],
+      "raw_transcription": null,
+      "created_at": "2026-11-02T23:56:46.774811+00:00"
+    }
+  ],
+  "diagnosed_conditions": [
+    "Essential Hypertension",
+    "Mild Tachycardia"
+  ],
+  "active_medications": [
+    {
+      "name": "Amlodipine",
+      "strength": "5 mg",
+      "dosage": "1 tablet",
+      "frequency": "Once daily in morning",
+      "duration": null,
+      "route": null,
+      "instructions": null,
+      "notes": null,
+      "included": true
+    },
+    {
+      "name": "Propranolol",
+      "strength": "10 mg",
+      "dosage": "1 tablet",
+      "frequency": "PRN for palpitations",
+      "duration": null,
+      "route": null,
+      "instructions": null,
+      "notes": null,
+      "included": true
+    }
+  ],
+  "created_at": "2026-11-02T23:56:46.774776+00:00",
+  "updated_at": "2026-11-02T23:56:46.775159+00:00"
+}

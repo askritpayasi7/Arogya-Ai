@@ -1,0 +1,33 @@
+{
+  "user_email": "test@quick.com",
+  "last_synced": "2026-11-02T23:56:05.344971+00:00",
+  "records": [
+    {
+      "date": "2024-11-02",
+      "formatted_date": "Nov 02",
+      "day_name": "Sat",
+      "steps": 9500,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-11-02",
+      "formatted_date": "Nov 02",
+      "day_name": "Mon",
+      "steps": 9500,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    },
+    {
+      "date": "2026-11-03",
+      "formatted_date": "Nov 03",
+      "day_name": "Tue",
+      "steps": 9500,
+      "goal_met": false,
+      "heart_rate_bpm": null,
+      "sleep_hours": null
+    }
+  ]
+}

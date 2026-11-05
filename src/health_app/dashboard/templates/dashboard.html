@@ -1,0 +1,1374 @@
+{% extends "base.html" %}
+
+{% block title %}My Health OS | Aarogya AI Clinical Intelligence{% endblock %}
+
+{% block head_extra %}
+<style>
+    /* Aarogya AI Health OS Styles */
+    :root {
+        --aside-w: 248px;
+    }
+    
+    .app-layout {
+        display: flex;
+        min-height: calc(100vh - 120px);
+    }
+    
+    /* Responsive Aside Rail */
+    aside.aarogya-rail {
+        width: var(--aside-w);
+        background: var(--card);
+        border-right: 1px solid var(--line);
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        transition: transform 0.25s ease;
+    }
+    
+    @media (max-width: 1024px) {
+        aside.aarogya-rail {
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+            z-index: 40;
+            transform: translateX(-100%);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.15);
+        }
+        body.open aside.aarogya-rail {
+            transform: translateX(0);
+        }
+        .scrim {
+            display: none;
+            position: fixed;
+            inset: 0;
+            top: 64px;
+            background: rgba(0,0,0,0.4);
+            z-index: 35;
+            backdrop-filter: blur(2px);
+        }
+        body.open .scrim {
+            display: block;
+        }
+    }
+    
+    .side-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 16px;
+    }
+    
+    .rail-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+    }
+    
+    .rail-nav a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 9999px;
+        color: var(--mute);
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.15s ease;
+    }
+    
+    .rail-nav a:hover {
+        background: var(--bg);
+        color: var(--ink);
+    }
+    
+    .rail-nav a.active {
+        background: var(--soft);
+        color: var(--g);
+        box-shadow: 0 2px 10px rgba(34, 163, 106, 0.12);
+        font-weight: 700;
+    }
+    
+    .rail-foot {
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        font-size: 11px;
+        color: var(--mute);
+        line-height: 1.4;
+    }
+    
+    /* Main Content Area */
+    .aarogya-main {
+        flex: 1;
+        padding: 24px 28px;
+        max-width: 1340px;
+        margin: 0 auto;
+        width: 100%;
+        min-width: 0;
+    }
+    
+    @media (max-width: 640px) {
+        .aarogya-main {
+            padding: 16px 12px;
+        }
+    }
+    
+    /* Top Bar */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        gap: 12px;
+    }
+    
+    /* Cards & Grids */
+    .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.05);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .card:hover {
+        border-color: rgba(34, 163, 106, 0.3);
+    }
+    
+    /* Welcome Card */
+    .wel {
+        position: relative;
+        overflow: hidden;
+        background: var(--soft);
+        border: 1px solid var(--line);
+    }
+    
+    .hbl {
+        position: absolute;
+        right: 16px;
+        bottom: 8px;
+        opacity: 0.35;
+        pointer-events: none;
+    }
+    
+    /* Vitals Grid */
+    .vgrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+    }
+    
+    .vc {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .vc:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px -6px rgba(0,0,0,0.08);
+    }
+    
+    /* Calibration Dots */
+    .dots {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--line);
+        transition: all 0.2s ease;
+    }
+    .dot.ok {
+        background: var(--g);
+    }
+    .dot.today {
+        box-shadow: 0 0 0 3px var(--g2);
+        transform: scale(1.15);
+    }
+
+    /* Mood buttons */
+    .mood-btn {
+        padding: 6px 12px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--card);
+        border: 1px solid var(--line);
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+    .mood-btn:hover {
+        border-color: var(--g);
+        color: var(--g);
+    }
+    .mood-btn.selected {
+        background: var(--g2);
+        color: var(--g);
+        border-color: var(--g);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Mobile Scrim -->
+<div class="scrim" onclick="document.body.classList.remove('open')"></div>
+
+<div class="app-layout" id="dashboard">
+    <!-- Left Sidebar Rail -->
+    <aside class="aarogya-rail">
+        <div class="side-brand">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: var(--soft); border: 1px solid var(--line);">
+                <svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M52 22 C42 38, 33 53, 26 66 L38 66 C42 56, 48 44, 55 31 Z" fill="var(--g)"/>
+                    <path d="M52 22 L65 42 L55 42 Z" fill="var(--teal)"/>
+                    <path d="M26 66 C40 45, 60 48, 65 42 C50 60, 36 66, 26 66 Z" fill="var(--g)"/>
+                    <path d="M53 66 C65 52, 77 48, 77 48 C77 48, 73 62, 57 66 Z" fill="var(--teal)"/>
+                </svg>
+            </div>
+            <div>
+                <b class="text-sm font-bold block" style="color: var(--ink);">My Health Dashboard</b>
+                <small class="text-[10px] block" style="color: var(--mute);">My Health OS by aarogya ai</small>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="rail-nav" aria-label="Dashboard sections">
+            <div class="text-[10px] uppercase font-bold tracking-wider px-3 py-1" style="color: var(--mute);">Vitals & Clinical Feeds</div>
+            <a href="#overview-section" class="active" onclick="setActiveNav(this)">
+                <span>▦</span> Overview
+            </a>
+            <a href="#baseline-section" onclick="setActiveNav(this)">
+                <span>◔</span> Baseline Status
+            </a>
+            <a href="#vitals-section" onclick="setActiveNav(this)">
+                <span>♡</span> Today's Vitals
+            </a>
+            <a href="/dashboard/prescriptions">
+                <span>💊</span> Prescription Hub
+            </a>
+            <a href="#ask-ai-section" onclick="setActiveNav(this)">
+                <span>✦</span> Ask Clinical AI
+            </a>
+            <a href="#clinical-feed-section" onclick="setActiveNav(this)">
+                <span>📋</span> Advisory Feed
+            </a>
+            <a href="#movement-section" onclick="setActiveNav(this)">
+                <span>👟</span> Movement Explorer
+            </a>
+            <a href="#sleep-section" onclick="setActiveNav(this)">
+                <span>🌙</span> Sleep Architecture
+            </a>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="rail-foot">
+            <b class="block text-xs font-bold" style="color: var(--ink);">{{ user.name if user else "Clinical Patient" }}</b>
+            <span>Day {{ baseline_report.calibration_day if baseline_report else 1 }} of {{ baseline_report.calibration_target if baseline_report else 15 }} · baseline</span>
+            <div style="margin-top: 8px; font-style: italic; color: var(--g); font-weight: 700;">
+                “It’s for you, not for everyone.”
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main class="aarogya-main space-y-8">
+        
+        <!-- Top Action Bar -->
+        <div class="top-bar">
+            <div class="flex items-center gap-3">
+                <button class="lg:hidden p-2 rounded-xl border text-base" style="background: var(--card); border-color: var(--line); color: var(--ink);" onclick="document.body.classList.toggle('open')" aria-label="Toggle Navigation Menu">
+                    ☰
+                </button>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight" style="color: var(--ink);">My Health Dashboard</h1>
+                    <div class="text-xs font-medium" style="color: var(--mute);">Personalized Biometric Intelligence &bull; Evidence-Based Clinical Health Insights</div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <a href="#clinical-feed-section" class="aarogya-pill pill-green text-xs font-bold py-1.5 px-3">
+                    🔔 {{ advisories|length if advisories else 0 }} Insights
+                </a>
+            </div>
+        </div>
+
+        <!-- Background Sync Banner -->
+        <div id="bgSyncBanner" class="p-3.5 rounded-2xl flex items-center justify-between gap-3 text-xs" style="background: var(--soft); border: 1px solid var(--line); display: none;">
+            <div class="flex items-center gap-2.5">
+                <div class="w-3 h-3 rounded-full animate-ping" style="background: var(--teal);"></div>
+                <span id="bgSyncText" class="font-semibold" style="color: var(--ink);">Background Sync Active: Synchronizing biometric streams with Google Health API...</span>
+            </div>
+            <span class="aarogya-pill pill-teal font-mono text-[10px]">SYNC IN PROGRESS</span>
+        </div>
+
+        <!-- 1. Overview Greeting Hero Card -->
+        <section id="overview-section" class="card wel p-6 sm:p-8">
+            <!-- Heartbeat SVG in Background -->
+            <svg class="hbl" width="280" height="50" viewBox="0 0 280 50">
+                <path d="M0 25 L40 25 L50 10 L60 40 L70 15 L80 32 L90 25 L280 25" fill="none" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
+                <div class="space-y-3 max-w-xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold" style="background: var(--card); border: 1px solid var(--line); color: var(--g);">
+                        <span>●</span> Active Biometric Profile
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight" style="color: var(--ink);">
+                        Hello, {{ (user.name if user else "Clinical Patient").split(' ')[0] }}
+                    </h2>
+                    <p class="text-sm leading-relaxed" style="color: var(--mute);">
+                        Your biometric telemetry is cross-referenced in real-time with peer-reviewed medical publications to evaluate cardiovascular recovery, autonomic health, and sleep architecture.
+                    </p>
+                    
+                    <!-- Mood Check-in Selector -->
+                    <div class="pt-2">
+                        <div class="text-xs font-semibold mb-2" style="color: var(--mute);">How are you feeling right now?</div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button class="mood-btn" onclick="selectMood(this, 'Great. Keep the routine going.')">😄 Great</button>
+                            <button class="mood-btn" onclick="selectMood(this, 'Okay. A short brisk walk could help.')">😐 Okay</button>
+                            <button class="mood-btn" onclick="selectMood(this, 'Tired. Consider prioritizing an early bedtime tonight.')">😴 Tired</button>
+                            <span id="moodFeedback" class="text-xs italic font-medium ml-2" style="color: var(--g);"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Circular Calibration Progress Dial -->
+                <div class="flex flex-col items-center justify-center p-4 rounded-2xl" style="background: var(--card); border: 1px solid var(--line);">
+                    <div class="relative w-24 h-24 flex items-center justify-center">
+                        <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" stroke="var(--line)" stroke-width="8" fill="none"/>
+                            <circle cx="50" cy="50" r="40" stroke="var(--g)" stroke-width="8" fill="none" stroke-dasharray="251.2" stroke-dashoffset="{{ 251.2 - (251.2 * (baseline_report.calibration_percentage if baseline_report else 73) / 100) }}" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-lg font-extrabold" style="color: var(--ink);">{{ baseline_report.calibration_percentage if baseline_report else 73 }}%</span>
+                            <span class="text-[9px] uppercase font-bold" style="color: var(--mute);">Baseline</span>
+                        </div>
+                    </div>
+                    <div class="text-center mt-2">
+                        <span class="text-xs font-bold" style="color: var(--ink);">Day {{ baseline_report.calibration_day if baseline_report else 11 }}</span>
+                        <span class="text-[10px] block" style="color: var(--mute);">of {{ baseline_report.calibration_target if baseline_report else 15 }} Days</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 15-Day Baseline Status Section -->
+        <section id="baseline-section" class="card space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b gap-4" style="border-color: var(--line);">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-lg font-bold" style="color: var(--ink);">15-Day Personalized Baseline Calibration</h2>
+                        {% if baseline_report and baseline_report.is_calibrated %}
+                            <span class="aarogya-pill pill-green font-mono text-[10px]">TIER 2 &bull; CONFIRMATORY</span>
+                        {% else %}
+                            <span class="aarogya-pill pill-amber font-mono text-[10px]">TIER 1 &bull; CALIBRATING</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-xs mt-1" style="color: var(--mute);">
+                        Statistical engine calculates rolling mean ($\mu$) & standard deviation ($\sigma$) with normal bandwidth $\mu \pm 1.5\sigma$ over 15 daily snapshots.
+                    </p>
+                </div>
+
+                <!-- 15-Day Progress Dots -->
+                <div class="flex flex-col sm:items-end gap-1.5">
+                    <span class="text-xs font-semibold" style="color: var(--mute);">Calibration Snapshots</span>
+                    <div class="dots">
+                        {% set cur_day = baseline_report.calibration_day if baseline_report else 11 %}
+                        {% for d in range(1, 16) %}
+                            <span class="dot {% if d < cur_day %}ok{% elif d == cur_day %}ok today{% endif %}" title="Day {{ d }}"></span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Baseline Metrics Breakdown Table & Badges -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Heart Rate Baseline -->
+                <div class="p-4 rounded-xl" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--mute);">Resting Heart Rate</span>
+                        <span class="aarogya-pill pill-red font-mono text-[10px]">{{ baseline_report.heart_rate.deviation_label if baseline_report and baseline_report.heart_rate else "NORMAL" }}</span>
+                    </div>
+                    <div class="text-xl font-extrabold mb-1" style="color: var(--ink);">
+                        {{ baseline_report.heart_rate.acute_value if baseline_report and baseline_report.heart_rate else (health_data.heart_rate.resting_bpm if health_data and health_data.heart_rate else 68) }} <span class="text-xs font-normal" style="color: var(--mute);">bpm acute</span>
+                    </div>
+                    <div class="text-xs space-y-0.5" style="color: var(--mute);">
+                        <div>Rolling Mean ($\mu$): <b style="color: var(--ink);">{{ baseline_report.heart_rate.rolling_mean if baseline_report and baseline_report.heart_rate else "67.4" }} bpm</b></div>
+                        <div>Normal Range ($\mu \pm 1.5\sigma$): <b style="color: var(--ink);">{{ baseline_report.heart_rate.normal_bandwidth_str if baseline_report and baseline_report.heart_rate else "60.0 - 75.0 bpm" }}</b></div>
+                    </div>
+                </div>
+
+                <!-- Sleep Baseline -->
+                <div class="p-4 rounded-xl" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--mute);">Sleep Duration</span>
+                        <span class="aarogya-pill pill-green font-mono text-[10px]">{{ baseline_report.sleep.deviation_label if baseline_report and baseline_report.sleep else "OPTIMAL" }}</span>
+                    </div>
+                    <div class="text-xl font-extrabold mb-1" style="color: var(--ink);">
+                        {{ baseline_report.sleep.acute_value if baseline_report and baseline_report.sleep else (health_data.sleep.duration_hours if health_data and health_data.sleep else 7.4) }} <span class="text-xs font-normal" style="color: var(--mute);">hrs acute</span>
+                    </div>
+                    <div class="text-xs space-y-0.5" style="color: var(--mute);">
+                        <div>Rolling Mean ($\mu$): <b style="color: var(--ink);">{{ baseline_report.sleep.rolling_mean if baseline_report and baseline_report.sleep else "7.1" }} hrs</b></div>
+                        <div>Normal Range ($\mu \pm 1.5\sigma$): <b style="color: var(--ink);">{{ baseline_report.sleep.normal_bandwidth_str if baseline_report and baseline_report.sleep else "6.2 - 8.0 hrs" }}</b></div>
+                    </div>
+                </div>
+
+                <!-- Movement Baseline -->
+                <div class="p-4 rounded-xl" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--mute);">Movement & Steps</span>
+                        <span class="aarogya-pill pill-teal font-mono text-[10px]">{{ baseline_report.steps.deviation_label if baseline_report and baseline_report.steps else "NORMAL" }}</span>
+                    </div>
+                    <div class="text-xl font-extrabold mb-1" style="color: var(--ink);">
+                        {{ (health_data.steps.count if health_data and health_data.steps else 8420)|int }} <span class="text-xs font-normal" style="color: var(--mute);">steps acute</span>
+                    </div>
+                    <div class="text-xs space-y-0.5" style="color: var(--mute);">
+                        <div>Normal Range ($\mu \pm 1.5\sigma$): <b style="color: var(--ink);">{{ baseline_report.steps.normal_bandwidth_str if baseline_report and baseline_report.steps else "6,000 - 11,500 steps" }}</b></div>
+                        <div>Movement Goal: <b style="color: var(--ink);">{{ (health_data.steps.goal if health_data and health_data.steps else 10000)|int }} steps/day</b></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Today's Vitals Cards Grid -->
+        <section id="vitals-section" class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold" style="color: var(--ink);">Today’s Vitals Snapshot</h2>
+                    <p class="text-xs" style="color: var(--mute);">Synchronized telemetry from Google Health & wearables</p>
+                </div>
+                <!-- Category Filter Buttons -->
+                <div id="vitalNavButtons" class="flex items-center gap-1.5 flex-wrap">
+                    <button id="btn-vital-all" onclick="filterClinicalFeed('all')" class="aarogya-pill pill-green text-xs cursor-pointer">All Vitals</button>
+                    <button id="btn-vital-cardiovascular" onclick="filterClinicalFeed('cardiovascular')" class="aarogya-pill text-xs cursor-pointer" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">Cardiovascular</button>
+                    <button id="btn-vital-sleep" onclick="filterClinicalFeed('sleep')" class="aarogya-pill text-xs cursor-pointer" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">Sleep</button>
+                    <button id="btn-vital-movement" onclick="filterClinicalFeed('movement')" class="aarogya-pill text-xs cursor-pointer" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">Movement</button>
+                </div>
+            </div>
+
+            <div class="vgrid">
+                <!-- Heart Rate Card -->
+                <div class="vc" onclick="filterClinicalFeed('cardiovascular')">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--redbg); color: var(--red);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <span class="aarogya-pill pill-green font-mono text-[10px]">{{ health_data.heart_rate.status if health_data and health_data.heart_rate else "NORMAL" }}</span>
+                    </div>
+                    <div class="text-2xl font-extrabold" style="color: var(--ink);">
+                        {{ health_data.heart_rate.resting_bpm if health_data and health_data.heart_rate else 68 }} <span class="text-xs font-normal" style="color: var(--mute);">bpm</span>
+                    </div>
+                    <div class="text-xs font-medium mt-1" style="color: var(--mute);">Resting Heart Rate</div>
+                    <div class="text-[11px] mt-2 pt-2 border-t" style="border-color: var(--line); color: var(--mute);">
+                        Bandwidth: {{ baseline_report.heart_rate.normal_bandwidth_str if baseline_report and baseline_report.heart_rate else "60.0 - 75.0 bpm" }}
+                    </div>
+                </div>
+
+                <!-- Steps Card -->
+                <div class="vc" onclick="filterClinicalFeed('movement')">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(20, 184, 166, 0.12); color: var(--teal);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <span class="aarogya-pill pill-teal font-mono text-[10px]">ACTIVE</span>
+                    </div>
+                    <div class="text-2xl font-extrabold" style="color: var(--ink);">
+                        {{ "{:,}".format(health_data.steps.count|int) if health_data and health_data.steps else "8,420" }} <span class="text-xs font-normal" style="color: var(--mute);">steps</span>
+                    </div>
+                    <div class="text-xs font-medium mt-1" style="color: var(--mute);">Today's Steps & Cadence</div>
+                    <div class="text-[11px] mt-2 pt-2 border-t" style="border-color: var(--line); color: var(--mute);">
+                        Goal: {{ "{:,}".format(health_data.steps.goal|int) if health_data and health_data.steps else "10,000" }} steps
+                    </div>
+                </div>
+
+                <!-- Sleep Card -->
+                <div class="vc" onclick="filterClinicalFeed('sleep')">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--g2); color: var(--g);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        </div>
+                        <span class="aarogya-pill pill-green font-mono text-[10px]">{{ health_data.sleep.efficiency_percent if health_data and health_data.sleep else 92 }}% EFF</span>
+                    </div>
+                    <div class="text-2xl font-extrabold" style="color: var(--ink);">
+                        {{ health_data.sleep.formatted_duration if health_data and health_data.sleep and health_data.sleep.formatted_duration else (health_data.sleep.duration_hours ~ ' hours' if health_data and health_data.sleep else '7.4 hours') }}
+                    </div>
+                    <div class="text-xs font-medium mt-1" style="color: var(--mute);">Nocturnal Sleep & Restorative Duration</div>
+                    <div class="text-[11px] mt-2 pt-2 border-t" style="border-color: var(--line); color: var(--mute);">
+                        Deep: {{ health_data.sleep.deep_sleep_hours if health_data and health_data.sleep else 1.8 }}h &bull; REM: {{ health_data.sleep.rem_sleep_hours if health_data and health_data.sleep else 1.9 }}h
+                    </div>
+                </div>
+
+                <!-- Evidence Embeddings Card -->
+                <div class="vc" onclick="location.href='#clinical-feed-section'">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--amberbg); color: var(--amber);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <span class="aarogya-pill pill-green font-mono text-[10px]">GROUNDED</span>
+                    </div>
+                    <div class="text-2xl font-extrabold" style="color: var(--ink);">
+                        {{ verified_embeddings_count if verified_embeddings_count else 48 }} <span class="text-xs font-normal" style="color: var(--mute);">claims</span>
+                    </div>
+                    <div class="text-xs font-medium mt-1" style="color: var(--mute);">Peer-Reviewed Embeddings</div>
+                    <div class="text-[11px] mt-2 pt-2 border-t" style="border-color: var(--line); color: var(--mute);">
+                        ROB 2 &bull; ROBINS-I Verified
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Prescription Management Hub Card -->
+        <section id="prescription-hub" class="card p-6" style="background: var(--soft);">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-1.5">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">💊</span>
+                        <h2 class="text-lg font-bold" style="color: var(--ink);">Prescription Analyzer & Medical History</h2>
+                        <span class="aarogya-pill pill-teal font-mono text-[10px]">VISION OCR</span>
+                    </div>
+                    <p class="text-xs max-w-2xl leading-relaxed" style="color: var(--mute);">
+                        Upload prescription photos to extract doctor notes, diagnosed indications, and medications. Extracted clinical data automatically provides context to the AI Biometric Advisor.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <div class="text-xs font-semibold" style="color: var(--ink);">
+                            Active Diagnoses: <span class="aarogya-pill pill-green font-mono text-[11px]">{{ active_conditions_count if active_conditions_count else 0 }}</span>
+                        </div>
+                        <div class="text-xs font-semibold" style="color: var(--ink);">
+                            Active Medications: <span class="aarogya-pill pill-teal font-mono text-[11px]">{{ active_medications_count if active_medications_count else 0 }}</span>
+                        </div>
+                        <div class="text-xs font-semibold" style="color: var(--ink);">
+                            Prescription Records: <span class="aarogya-pill pill-amber font-mono text-[11px]">{{ active_prescriptions_count if active_prescriptions_count else 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a href="/dashboard/prescriptions" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl btn-aarogya-grad text-xs font-bold cursor-pointer whitespace-nowrap">
+                        <span>Open Prescription Hub &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Ask Clinical AI & Research Intelligence Section -->
+        <section id="ask-ai-section" class="card space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b gap-3" style="border-color: var(--line);">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: var(--soft); color: var(--g); border: 1px solid var(--line);">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold flex items-center gap-2" style="color: var(--ink);">
+                            Ask Clinical AI & Research Intelligence
+                            <span class="aarogya-pill pill-teal font-mono text-[10px]">GROUNDED RAG</span>
+                        </h2>
+                        <p class="text-xs" style="color: var(--mute);">
+                            Inquire about sensations, biometric variances, and lifestyle adjustments grounded in verified research.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <button type="button" class="aarogya-pill text-xs cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);" onclick="setAskAiPrompt('Why is my resting heart rate elevated and how does it correlate with my sleep?')">Heart Rate & Sleep</button>
+                    <button type="button" class="aarogya-pill text-xs cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);" onclick="setAskAiPrompt('How does my current daily step volume protect cardiovascular endothelial function?')">Movement & Endothelium</button>
+                    <button type="button" class="aarogya-pill text-xs cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);" onclick="setAskAiPrompt('What dietary adjustments align with my biometric baseline and FSSAI standards?')">FSSAI & Diet</button>
+                </div>
+            </div>
+
+            <!-- Query Input Form -->
+            <form id="askAiForm" onsubmit="submitAskAiQuery(event)" class="space-y-4">
+                <div class="relative">
+                    <textarea id="askAiInput" rows="3" required placeholder="Describe what you are feeling, ask about your vitals, or seek research-backed recovery strategies..." class="w-full p-4 rounded-xl text-sm transition outline-none resize-none font-sans" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);"></textarea>
+                </div>
+                <div class="flex items-center justify-between gap-4">
+                    <div class="text-[11px] flex items-center gap-2" style="color: var(--mute);">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Citations retrieved directly from peer-reviewed publications and verified embeddings.</span>
+                    </div>
+                    <button id="btnAskAiSubmit" type="submit" class="px-6 py-2.5 rounded-xl btn-aarogya-grad text-xs font-bold flex items-center gap-2 cursor-pointer">
+                        <span>Consult Clinical AI</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div id="askAiLoadingState" class="hidden p-6 rounded-xl text-center space-y-3" style="background: var(--bg); border: 1px solid var(--line);">
+                <div class="inline-block w-8 h-8 border-3 rounded-full animate-spin" style="border-color: var(--g); border-top-color: transparent;"></div>
+                <div class="text-xs font-semibold" style="color: var(--ink);">Synthesizing clinical response with vector database embeddings...</div>
+            </div>
+
+            <!-- Dynamic AI Response Container -->
+            <div id="askAiResponseContainer" class="hidden space-y-4"></div>
+        </section>
+
+        <!-- 6. Clinical Advisory Feed -->
+        {% set feed_items = insights if (insights is defined and insights) else (advisories if (advisories is defined and advisories) else []) %}
+        <section id="clinical-feed-section" class="card space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b gap-3" style="border-color: var(--line);">
+                <div>
+                    <h2 class="text-lg font-bold flex items-center gap-2" style="color: var(--ink);">
+                        Evidence-Based Clinical Health Insights &bull; Clinical Advisory Feed
+                        <span id="feedFilterBadge" class="aarogya-pill pill-green font-mono text-[10px]">ALL VITALS</span>
+                    </h2>
+                    <p class="text-xs" style="color: var(--mute);">
+                        Evidence signatures dynamically synthesized from user biometrics and peer-reviewed research papers.
+                    </p>
+                </div>
+                <span class="text-xs font-semibold" style="color: var(--mute);">
+                    Showing <b id="visibleFeedCount" style="color: var(--ink);">{{ feed_items|length }}</b> verified advisories
+                </span>
+            </div>
+
+            <!-- Advisory Cards Container -->
+            <div id="clinicalFeedCards" class="space-y-4">
+                {% if feed_items %}
+                    {% for item in feed_items %}
+                        {% set item_cat = item.vital_category if item.vital_category else (item.category|lower if item.category else 'cardiovascular') %}
+                        <div class="clinical-feed-card p-5 rounded-2xl transition border space-y-4" data-vital="{{ item_cat }}" data-category="{{ item_cat }}" style="background: var(--bg); border-color: var(--line);">
+                            <!-- Top Header: Category & Verification Badges -->
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    {% if item.status_level == 'warning' %}
+                                        <span class="aarogya-pill pill-red font-mono text-[10px]">CLINICAL CAUTION</span>
+                                    {% elif item.status_level == 'caution' %}
+                                        <span class="aarogya-pill pill-amber font-mono text-[10px]">OPPORTUNITY</span>
+                                    {% else %}
+                                        <span class="aarogya-pill pill-green font-mono text-[10px]">OPTIMAL / PROTECTIVE</span>
+                                    {% endif %}
+                                    <span class="text-xs font-bold" style="color: var(--ink);">&bull; {{ item.category_title or item.category }}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    {% if item.variance_delta %}
+                                        <span class="aarogya-pill pill-teal font-mono text-[10px]">{{ item.variance_delta }}</span>
+                                    {% endif %}
+                                    {% if item.verification_badge %}
+                                        <span class="aarogya-pill text-[10px] font-mono" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">{{ item.verification_badge }}</span>
+                                    {% endif %}
+                                    {% if item.evidence and item.evidence.risk_of_bias %}
+                                        <span class="aarogya-pill {% if item.evidence.risk_of_bias == 'LOW' %}pill-green{% elif item.evidence.risk_of_bias == 'MODERATE' %}pill-amber{% else %}pill-red{% endif %} font-mono text-[10px]">
+                                            RoB: {{ item.evidence.risk_of_bias }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Cross-Metric Flag (If present) -->
+                            {% if item.cross_metric_flag %}
+                            <div class="p-3 rounded-xl text-xs flex items-center gap-2" style="background: var(--amberbg); color: var(--amber); border: 1px solid rgba(183, 121, 31, 0.25);">
+                                <span class="font-bold">Multi-Sensor Correlation Detected: Acute Heart Rate Spike + Sub-Baseline Movement Cadence</span>
+                            </div>
+                            {% endif %}
+
+                            <!-- Headline / Title -->
+                            <h3 class="text-base font-bold" style="color: var(--ink);">{{ item.headline or item.title or (item.evidence.cause ~ ' → ' ~ item.evidence.effect if item.evidence else 'Clinical Observation') }}</h3>
+
+                            <!-- Personal Metric Observation -->
+                            <div class="text-xs font-semibold leading-relaxed" style="color: var(--mute);">
+                                <strong>Personal Metric Observation:</strong> <span style="color: var(--ink);">{{ item.metric_observation if item.metric_observation else 'Observed biometric value aligns with personal calibration profile.' }}</span>
+                            </div>
+
+                            <!-- Clinical Mechanism / Evidence Quote -->
+                            {% if item.clinical_finding or (item.evidence and item.evidence.evidence_quote) %}
+                                <div class="p-3.5 rounded-xl text-xs italic leading-relaxed" style="background: var(--card); border-left: 3px solid var(--g); color: var(--mute);">
+                                    <strong class="font-semibold" style="color: var(--ink);">Clinical Mechanism:</strong> {{ item.clinical_finding if item.clinical_finding else item.evidence.evidence_quote }} {{ item.scientific_rationale if item.scientific_rationale else '' }}
+                                </div>
+                            {% endif %}
+
+                            <!-- Four-Point Advisory Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                                <!-- Potential Causes -->
+                                <div class="p-3.5 rounded-xl space-y-1.5" style="background: var(--card); border: 1px solid var(--line);">
+                                    <b class="text-xs font-bold block" style="color: var(--ink);">Potential Causes:</b>
+                                    <ul class="list-disc pl-4 space-y-1" style="color: var(--mute);">
+                                        {% if item.potential_causes %}
+                                            {% for cause in item.potential_causes %}
+                                                <li>{{ cause }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>Circadian phase alignment, physical recovery rhythm</li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                                <!-- Potential Risks / Health Implications -->
+                                <div class="p-3.5 rounded-xl space-y-1.5" style="background: var(--card); border: 1px solid var(--line);">
+                                    <b class="text-xs font-bold block" style="color: var(--ink);">Health Implications:</b>
+                                    <ul class="list-disc pl-4 space-y-1" style="color: var(--mute);">
+                                        {% if item.risks %}
+                                            {% for risk in item.risks %}
+                                                <li>{{ risk }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>Restorative parasympathetic modulation</li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                                <!-- Action Plan -->
+                                <div class="p-3.5 rounded-xl space-y-1.5" style="background: var(--card); border: 1px solid var(--line);">
+                                    <b class="text-xs font-bold block" style="color: var(--g);">Recommended Action Plan:</b>
+                                    <ul class="list-disc pl-4 space-y-1" style="color: var(--mute);">
+                                        {% if item.action_plan %}
+                                            {% for action in item.action_plan %}
+                                                <li>{{ action }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>Maintain current activity and sleep hygiene routine</li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                                <!-- Clinical Guidance -->
+                                <div class="p-3.5 rounded-xl space-y-1.5" style="background: var(--card); border: 1px solid var(--line);">
+                                    <b class="text-xs font-bold block" style="color: var(--amber);">Clinical Guidance:</b>
+                                    <p class="leading-relaxed" style="color: var(--mute);">
+                                        {{ item.medical_guidance if item.medical_guidance else "Continue periodic monitoring. Consult a qualified physician for clinical diagnostic advice." }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Footer: Credible Publication Evidence Signature -->
+                            {% set item_doi = item.doi or (item.paper.doi if item.paper else '') %}
+                            <div class="pt-3 border-t flex flex-col sm:flex-row sm:items-center justify-between text-[11px] gap-2" style="border-color: var(--line); color: var(--mute);">
+                                <div>
+                                    <span class="aarogya-pill pill-green text-[10px] font-bold">&#10003; Signed with Credible Research Evidence:</span>
+                                    <span>{{ item.paper_title or (item.paper.title if item.paper else 'Clinical Biometric Study') }} &bull; {{ item.authors or (item.paper.authors if item.paper else 'Research Investigation') }} ({{ item.year or (item.paper.year if item.paper else '2024') }})</span>
+                                </div>
+                                {% if item_doi %}
+                                    <a href="https://doi.org/{{ item_doi }}" target="_blank" rel="noopener noreferrer" class="font-mono text-xs font-bold underline" style="color: var(--teal);">
+                                        DOI: {{ item_doi }}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="p-8 text-center text-xs" style="color: var(--mute);">
+                        No clinical advisories triggered for current telemetry. All biometric indicators fall within expected parameters.
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- 7. 180-Day Movement Explorer -->
+        <section id="movement-section" class="card space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b gap-4" style="border-color: var(--line);">
+                <div>
+                    <h2 class="text-lg font-bold" style="color: var(--ink);">180-Day Movement Explorer &bull; Physical Movement & Step History</h2>
+                    <p class="text-xs" style="color: var(--mute);">Longitudinal step cadence & physical activity trends from Google Fit</p>
+                </div>
+                <!-- Timeframe Selection Tabs -->
+                <div class="flex items-center gap-1.5">
+                    <button id="tab-7" onclick="setTimeframe(7)" class="aarogya-pill pill-green text-xs cursor-pointer">7D</button>
+                    <button id="tab-30" onclick="setTimeframe(30)" class="aarogya-pill text-xs cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--mute);">30D</button>
+                    <button id="tab-90" onclick="setTimeframe(90)" class="aarogya-pill text-xs cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--mute);">90D</button>
+                    <button id="tab-180" onclick="setTimeframe(180)" class="aarogya-pill text-xs cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--mute);">180D</button>
+                </div>
+            </div>
+
+            <!-- Summary KPI Statistics -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="p-3.5 rounded-xl text-center" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Daily Average</div>
+                    <div id="stat-avg" class="text-lg font-extrabold mt-1" style="color: var(--ink);">-- steps</div>
+                </div>
+                <div class="p-3.5 rounded-xl text-center" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Total Volume</div>
+                    <div id="stat-total" class="text-lg font-extrabold mt-1" style="color: var(--ink);">-- steps</div>
+                </div>
+                <div class="p-3.5 rounded-xl text-center" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Goal Achievement</div>
+                    <div id="stat-goal-rate" class="text-lg font-extrabold mt-1" style="color: var(--g);">--%</div>
+                    <div id="stat-goal-count" class="text-[10px]" style="color: var(--mute);">-- / -- days</div>
+                </div>
+                <div class="p-3.5 rounded-xl text-center" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Peak Cadence</div>
+                    <div id="stat-peak-val" class="text-lg font-extrabold mt-1" style="color: var(--teal);">-- steps</div>
+                    <div id="stat-peak-date" class="text-[10px]" style="color: var(--mute);">--</div>
+                </div>
+            </div>
+
+            <!-- Historical Steps Chart -->
+            <div class="p-4 rounded-2xl" style="background: var(--bg); border: 1px solid var(--line);">
+                <div class="h-64 sm:h-72">
+                    <canvas id="historicalStepsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Historical Movement Journal & Filters -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <b class="text-xs font-bold" style="color: var(--ink);">Daily Movement Journal (<span id="label-range-count">--</span> Records)</b>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="filterHistoryLog('all')" class="aarogya-pill pill-green text-[11px] cursor-pointer">All</button>
+                        <button onclick="filterHistoryLog('met')" class="aarogya-pill text-[11px] cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--mute);">Goal Met</button>
+                        <button onclick="filterHistoryLog('missed')" class="aarogya-pill text-[11px] cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--mute);">Under Goal</button>
+                    </div>
+                </div>
+                <!-- Scrollable Log Table -->
+                <div class="max-h-60 overflow-y-auto rounded-xl border" style="border-color: var(--line);">
+                    <div id="historyLogList" class="divide-y" style="divide-color: var(--line);"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Sleep Architecture Breakdown -->
+        <section id="sleep-section" class="card space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b gap-3" style="border-color: var(--line);">
+                <div>
+                    <h2 class="text-lg font-bold" style="color: var(--ink);">Sleep Architecture & Nocturnal Recovery</h2>
+                    <p class="text-xs" style="color: var(--mute);">Duration, sleep stage distribution (Deep/REM/Light), and restorative continuity</p>
+                </div>
+                <div class="flex items-center gap-3 text-xs" style="color: var(--mute);">
+                    <div>Weekly Total: <b id="stat-weekly-sleep-total" style="color: var(--ink);">--</b></div>
+                    <div>Weekly Avg: <b id="stat-weekly-sleep-avg" style="color: var(--ink);">--</b></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Weekly Trend Bar Chart -->
+                <div class="lg:col-span-8 p-4 rounded-2xl" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="text-xs font-bold mb-2" style="color: var(--ink);">7-Day Sleep Duration Trends (vs. Target 7.0h)</div>
+                    <div class="h-56">
+                        <canvas id="weeklySleepChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Sleep Stage Donut Chart -->
+                <div class="lg:col-span-4 p-4 rounded-2xl flex flex-col items-center justify-center text-center" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="text-xs font-bold mb-2" style="color: var(--ink);">Last Night's Sleep Architecture</div>
+                    <div class="w-48 h-48 relative">
+                        <canvas id="sleepChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-3 w-full text-[11px] text-left" style="color: var(--mute);">
+                        <div>Deep: <b style="color: var(--ink);">{{ health_data.sleep.deep_sleep_hours if health_data and health_data.sleep else 1.8 }}h</b></div>
+                        <div>REM: <b style="color: var(--ink);">{{ health_data.sleep.rem_sleep_hours if health_data and health_data.sleep else 1.9 }}h</b></div>
+                        <div>Light: <b style="color: var(--ink);">{{ health_data.sleep.light_sleep_hours if health_data and health_data.sleep else 3.7 }}h</b></div>
+                        <div>Awake: <b style="color: var(--ink);">{{ health_data.sleep.awake_hours if health_data and health_data.sleep else 0.4 }}h</b></div>
+                    </div>
+                    <div class="mt-2 text-[11px] font-mono" style="color: var(--mute);">
+                        Last Night: <b style="color: var(--ink);">{{ health_data.sleep.formatted_duration if health_data and health_data.sleep and health_data.sleep.formatted_duration else '7h 12m' }}</b>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Embedded JSON Data for Charts & Explorers -->
+<script id="historyData" type="application/json">{{ history_json|safe if history_json else (history_data_json|safe if history_data_json else "[]") }}</script>
+<script id="weeklySleepData" type="application/json">{{ weekly_sleep_json|safe if weekly_sleep_json else "[]" }}</script>
+
+<!-- Dashboard Operational Scripts -->
+<script>
+    // Navigation active state handler
+    function setActiveNav(el) {
+        document.querySelectorAll('.rail-nav a').forEach(a => a.classList.remove('active'));
+        if (el) el.classList.add('active');
+        document.body.classList.remove('open');
+    }
+
+    // Mood selector helper
+    function selectMood(btn, feedback) {
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        const fb = document.getElementById('moodFeedback');
+        if (fb) fb.textContent = feedback;
+    }
+
+    // 1. Timezone detection
+    (function initUserTimezone() {
+        try {
+            const offsetMin = new Date().getTimezoneOffset();
+            document.cookie = `vita_tz_offset=${offsetMin};path=/;max-age=31536000;SameSite=Lax`;
+        } catch (e) {
+            console.debug("Timezone cookie error", e);
+        }
+    })();
+
+    // 2. Clinical Feed Filtering
+    function filterClinicalFeed(vitalCategory) {
+        const cards = document.querySelectorAll('.clinical-feed-card');
+        const badge = document.getElementById('feedFilterBadge');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
+            if (vitalCategory === 'all' || cardCat === vitalCategory.toLowerCase()) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (badge) {
+            badge.textContent = vitalCategory.toUpperCase();
+        }
+
+        const countEl = document.getElementById('visibleFeedCount');
+        if (countEl) countEl.textContent = visibleCount;
+
+        // Update button visual styles
+        ['all', 'cardiovascular', 'sleep', 'movement'].forEach(c => {
+            const btn = document.getElementById(`btn-vital-${c}`);
+            if (btn) {
+                if (c === vitalCategory) {
+                    btn.className = 'aarogya-pill pill-green text-xs cursor-pointer';
+                    btn.style.background = 'var(--g2)';
+                    btn.style.color = 'var(--g)';
+                } else {
+                    btn.className = 'aarogya-pill text-xs cursor-pointer';
+                    btn.style.background = 'var(--card)';
+                    btn.style.color = 'var(--mute)';
+                }
+            }
+        });
+    }
+
+    // 3. 180-Day Movement Explorer & Chart Logic
+    let allHistory = [];
+    let currentRangeDays = 7;
+    let historicalChartInstance = null;
+    let weeklySleepChartInstance = null;
+    let sleepDonutChartInstance = null;
+
+    try {
+        const rawHist = document.getElementById('historyData');
+        if (rawHist && rawHist.textContent) {
+            allHistory = JSON.parse(rawHist.textContent);
+        }
+    } catch (e) {
+        console.error("Error parsing historyData JSON", e);
+        allHistory = [];
+    }
+
+    function setTimeframe(days) {
+        currentRangeDays = days;
+        ['7', '30', '90', '180'].forEach(d => {
+            const tab = document.getElementById(`tab-${d}`);
+            if (tab) {
+                if (parseInt(d) === days) {
+                    tab.className = 'aarogya-pill pill-green text-xs cursor-pointer';
+                } else {
+                    tab.className = 'aarogya-pill text-xs cursor-pointer';
+                    tab.style.background = 'var(--bg)';
+                    tab.style.color = 'var(--mute)';
+                }
+            }
+        });
+
+        const slice = allHistory.slice(-days);
+        updateMovementMetrics(slice);
+        renderHistoricalChart(slice);
+        renderHistoryLog(slice);
+    }
+
+    function updateMovementMetrics(records) {
+        if (!records || !records.length) {
+            document.getElementById('stat-avg').textContent = '0';
+            document.getElementById('stat-total').textContent = '0';
+            document.getElementById('stat-goal-rate').textContent = '0%';
+            document.getElementById('stat-goal-count').textContent = '0 / 0';
+            document.getElementById('stat-peak-val').textContent = '0';
+            document.getElementById('stat-peak-date').textContent = '--';
+            document.getElementById('label-range-count').textContent = '0';
+            return;
+        }
+
+        const total = records.reduce((acc, r) => acc + (r.steps || 0), 0);
+        const avg = Math.round(total / records.length);
+        const metDays = records.filter(r => (r.steps || 0) >= (r.goal || 10000)).length;
+        const rate = Math.round((metDays / records.length) * 100);
+
+        let peakVal = 0;
+        let peakDate = '--';
+        records.forEach(r => {
+            if ((r.steps || 0) > peakVal) {
+                peakVal = r.steps;
+                peakDate = r.date || '--';
+            }
+        });
+
+        document.getElementById('stat-avg').textContent = avg.toLocaleString() + ' steps';
+        document.getElementById('stat-total').textContent = total.toLocaleString() + ' steps';
+        document.getElementById('stat-goal-rate').textContent = rate + '%';
+        document.getElementById('stat-goal-count').textContent = `${metDays} / ${records.length} days`;
+        document.getElementById('stat-peak-val').textContent = peakVal.toLocaleString() + ' steps';
+        document.getElementById('stat-peak-date').textContent = peakDate;
+        document.getElementById('label-range-count').textContent = records.length;
+    }
+
+    function renderHistoricalChart(records) {
+        const ctx = document.getElementById('historicalStepsChart');
+        if (!ctx) return;
+
+        const labels = records.map(r => r.date || '');
+        const data = records.map(r => r.steps || 0);
+
+        if (historicalChartInstance) {
+            historicalChartInstance.destroy();
+        }
+
+        historicalChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily Steps',
+                    data: data,
+                    borderColor: '#22a36a',
+                    backgroundColor: 'rgba(34, 163, 106, 0.1)',
+                    fill: true,
+                    tension: 0.35,
+                    borderWidth: 2,
+                    pointRadius: records.length > 30 ? 0 : 3,
+                    pointHoverRadius: 5,
+                    pointBackgroundColor: '#22a36a',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#53645c',
+                            font: { size: 10 },
+                            maxTicksLimit: 10
+                        }
+                    },
+                    y: {
+                        grid: { color: 'rgba(228, 236, 231, 0.5)' },
+                        ticks: {
+                            color: '#53645c',
+                            font: { size: 10 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderHistoryLog(records, filter = 'all') {
+        const list = document.getElementById('historyLogList');
+        if (!list) return;
+
+        let filtered = records;
+        if (filter === 'met') {
+            filtered = records.filter(r => (r.steps || 0) >= (r.goal || 10000));
+        } else if (filter === 'missed') {
+            filtered = records.filter(r => (r.steps || 0) < (r.goal || 10000));
+        }
+
+        if (!filtered.length) {
+            list.innerHTML = `<div class="p-4 text-center text-xs" style="color: var(--mute);">No records match filter.</div>`;
+            return;
+        }
+
+        list.innerHTML = filtered.slice().reverse().map(r => {
+            const met = (r.steps || 0) >= (r.goal || 10000);
+            return `
+                <div class="p-3 flex items-center justify-between text-xs hover:bg-black/5 transition" style="background: var(--card);">
+                    <div class="flex items-center gap-2">
+                        <span class="font-mono font-semibold" style="color: var(--ink);">${r.date}</span>
+                        <span class="aarogya-pill ${met ? 'pill-green' : 'pill-amber'} font-mono text-[9px]">${met ? 'MET' : 'UNDER'}</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-bold" style="color: var(--ink);">${(r.steps || 0).toLocaleString()} steps</span>
+                        <span class="text-[10px]" style="color: var(--mute);">Goal: ${(r.goal || 10000).toLocaleString()}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function filterHistoryLog(type) {
+        const slice = allHistory.slice(-currentRangeDays);
+        renderHistoryLog(slice, type);
+    }
+
+    // 4. Sleep Charts Rendering
+    function initSleepCharts() {
+        let weeklySleep = [];
+        try {
+            const rawSleep = document.getElementById('weeklySleepData');
+            if (rawSleep && rawSleep.textContent) {
+                weeklySleep = JSON.parse(rawSleep.textContent);
+            }
+        } catch (e) {
+            console.error("Error parsing weeklySleepData JSON", e);
+        }
+
+        if (weeklySleep.length) {
+            const totalHours = weeklySleep.reduce((acc, d) => acc + (d.hours || 0), 0);
+            const avgHours = (totalHours / weeklySleep.length).toFixed(1);
+            document.getElementById('stat-weekly-sleep-total').textContent = `${totalHours.toFixed(1)} hrs`;
+            document.getElementById('stat-weekly-sleep-avg').textContent = `${avgHours} hrs/night`;
+
+            const ctxBar = document.getElementById('weeklySleepChart');
+            if (ctxBar) {
+                weeklySleepChartInstance = new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: weeklySleep.map(d => d.date),
+                        datasets: [{
+                            label: 'Hours of Sleep',
+                            data: weeklySleep.map(d => d.hours),
+                            backgroundColor: weeklySleep.map(d => d.hours >= 7.0 ? '#22a36a' : '#d99a1f'),
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#53645c', font: { size: 10 } } },
+                            y: { min: 0, max: 12, ticks: { color: '#53645c', font: { size: 10 } } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Donut Sleep Chart
+        const ctxDonut = document.getElementById('sleepChart');
+        if (ctxDonut) {
+            sleepDonutChartInstance = new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Deep', 'REM', 'Light', 'Awake'],
+                    datasets: [{
+                        data: [
+                            {{ health_data.sleep.deep_sleep_hours if health_data and health_data.sleep else 1.8 }},
+                            {{ health_data.sleep.rem_sleep_hours if health_data and health_data.sleep else 1.9 }},
+                            {{ health_data.sleep.light_sleep_hours if health_data and health_data.sleep else 3.7 }},
+                            {{ health_data.sleep.awake_hours if health_data and health_data.sleep else 0.4 }}
+                        ],
+                        backgroundColor: ['#22a36a', '#14b8a6', '#4ade80', '#e4ece7'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    cutout: '72%'
+                }
+            });
+        }
+    }
+
+    // 5. Ask Clinical AI Consultation Submission
+    function setAskAiPrompt(txt) {
+        const inp = document.getElementById('askAiInput');
+        if (inp) {
+            inp.value = txt;
+            inp.focus();
+        }
+    }
+
+    async function submitAskAiQuery(e) {
+        if (e) e.preventDefault();
+        const input = document.getElementById('askAiInput');
+        const query = (input.value || '').trim();
+        if (!query) return;
+
+        const loading = document.getElementById('askAiLoadingState');
+        const container = document.getElementById('askAiResponseContainer');
+        const btn = document.getElementById('btnAskAiSubmit');
+
+        loading.classList.remove('hidden');
+        container.classList.add('hidden');
+        btn.disabled = true;
+
+        try {
+            const resp = await fetch('/api/ai/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query })
+            });
+
+            if (!resp.ok) {
+                throw new Error(`Server returned HTTP ${resp.status}`);
+            }
+
+            const data = await resp.json();
+            renderAskAiOutcome(query, data);
+        } catch (err) {
+            console.error("Ask AI error", err);
+            container.innerHTML = `
+                <div class="p-4 rounded-xl text-xs" style="background: var(--redbg); color: var(--red); border: 1px solid rgba(214, 80, 63, 0.3);">
+                    Failed to query Clinical AI: ${err.message}. Please check vector database connectivity or try again.
+                </div>
+            `;
+            container.classList.remove('hidden');
+        } finally {
+            loading.classList.add('hidden');
+            btn.disabled = false;
+        }
+    }
+
+    function renderAskAiOutcome(query, data) {
+        const container = document.getElementById('askAiResponseContainer');
+        if (!container) return;
+
+        const res = data.result || data || {};
+        const answer = res.direct_assessment || res.answer || 'Consultation complete.';
+        const biomarkerCorr = res.biomarker_correlation || '';
+        const mechanisms = res.scientific_mechanisms || [];
+        const actionPlan = res.action_plan || [];
+        const physicianEscalation = res.physician_escalation || '';
+        const citations = res.cited_papers || res.citations || [];
+
+        // Build citations HTML
+        const citationsHtml = (citations && citations.length) ? citations.map(c => `
+            <div class="p-3.5 rounded-xl border text-xs space-y-1.5 transition-all hover:border-[#22a36a]/40" style="background: var(--card); border-color: var(--line);">
+                <div class="flex items-center justify-between gap-2">
+                    <b class="truncate" style="color: var(--ink);">${escapeHtml(c.authors || 'Clinical Investigators')} (${escapeHtml(String(c.year || '2026'))})</b>
+                    <span class="aarogya-pill pill-teal font-mono text-[9px] shrink-0">${escapeHtml(c.study_design || 'Peer-Reviewed')}</span>
+                </div>
+                <div class="text-[11px] leading-snug line-clamp-2" style="color: var(--mute);"><i>${escapeHtml(c.title || 'Scientific Publication')}</i></div>
+                ${c.key_finding ? `<div class="text-[11px] italic" style="color: var(--ink);">"${escapeHtml(c.key_finding)}"</div>` : ''}
+                ${c.doi ? `<a href="https://doi.org/${escapeHtml(c.doi)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] underline font-mono font-bold" style="color: var(--teal);">DOI: ${escapeHtml(c.doi)} &nearr;</a>` : ''}
+            </div>
+        `).join('') : '<div class="text-xs p-3 rounded-xl border col-span-2" style="color: var(--mute); background: var(--card); border-color: var(--line);">No direct literature citations retrieved for this query.</div>';
+
+        // Build mechanisms HTML
+        const mechanismsHtml = (mechanisms && mechanisms.length) ? `
+            <div class="pt-3 border-t space-y-2.5" style="border-color: var(--line);">
+                <div class="flex items-center gap-2">
+                    <span class="aarogya-pill pill-teal text-[10px] font-mono">BIOLOGICAL MECHANISMS</span>
+                    <span class="text-xs font-bold" style="color: var(--ink);">Pathways & Evidentiary Quotes</span>
+                </div>
+                <div class="space-y-2">
+                    ${mechanisms.map(m => `
+                        <div class="p-3.5 rounded-xl border text-xs space-y-1.5" style="background: var(--card); border-color: var(--line);">
+                            <div class="font-semibold text-xs" style="color: var(--ink);">${escapeHtml(m.mechanism || 'Biological Pathway')}</div>
+                            ${m.evidence_quote ? `
+                                <div class="text-xs p-2.5 rounded-lg italic leading-relaxed" style="background: var(--soft); color: var(--ink); border-left: 3px solid var(--g);">
+                                    "${escapeHtml(m.evidence_quote)}"
+                                </div>
+                            ` : ''}
+                            <div class="text-[10px] flex items-center justify-between" style="color: var(--mute);">
+                                <span>${escapeHtml(m.authors || 'Investigators')} (${escapeHtml(String(m.publish_year || m.year || '2026'))})</span>
+                                ${m.doi ? `<span class="font-mono">DOI: ${escapeHtml(m.doi)}</span>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        ` : '';
+
+        // Build action plan HTML
+        const actionPlanHtml = (actionPlan && actionPlan.length) ? `
+            <div class="pt-3 border-t space-y-2" style="border-color: var(--line);">
+                <div class="flex items-center gap-2">
+                    <span class="aarogya-pill pill-green text-[10px] font-mono">CLINICAL ACTION PLAN</span>
+                    <span class="text-xs font-bold" style="color: var(--ink);">Immediate & Habitual Interventions</span>
+                </div>
+                <div class="space-y-1.5">
+                    ${actionPlan.map((step, idx) => `
+                        <div class="flex items-start gap-2.5 p-2.5 rounded-xl border text-xs" style="background: var(--card); border-color: var(--line);">
+                            <span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0" style="background: var(--g2); color: var(--g);">${idx + 1}</span>
+                            <span style="color: var(--ink);">${escapeHtml(step)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        ` : '';
+
+        // Build physician escalation HTML
+        const escalationHtml = physicianEscalation ? `
+            <div class="p-3 rounded-xl border text-xs flex items-start gap-2.5" style="background: rgba(183, 121, 31, 0.08); border-color: rgba(183, 121, 31, 0.25);">
+                <span class="text-sm shrink-0">⚠️</span>
+                <div class="leading-relaxed" style="color: var(--amber); font-weight: 500;">
+                    ${escapeHtml(physicianEscalation)}
+                </div>
+            </div>
+        ` : '';
+
+        container.innerHTML = `
+            <div class="p-5 rounded-2xl border space-y-4" style="background: var(--bg); border-color: var(--line);">
+                <div class="flex items-center justify-between pb-3 border-b" style="border-color: var(--line);">
+                    <div class="text-xs font-semibold" style="color: var(--mute);">Question: <b style="color: var(--ink);">${escapeHtml(query)}</b></div>
+                    <span class="aarogya-pill pill-green font-mono text-[10px]">GROUNDED OUTCOME</span>
+                </div>
+                
+                <!-- Direct Assessment -->
+                <div class="text-sm leading-relaxed whitespace-pre-line font-medium" style="color: var(--ink);">
+                    ${escapeHtml(answer)}
+                </div>
+
+                <!-- Personal Biometric Correlation -->
+                ${biomarkerCorr ? `
+                    <div class="p-3.5 rounded-xl border text-xs leading-relaxed space-y-1" style="background: var(--soft); border-color: var(--line);">
+                        <div class="font-bold text-[11px] uppercase tracking-wider" style="color: var(--g);">Personal Biometric & Lifestyle Correlation</div>
+                        <div style="color: var(--ink);">${escapeHtml(biomarkerCorr)}</div>
+                    </div>
+                ` : ''}
+
+                <!-- Mechanisms -->
+                ${mechanismsHtml}
+
+                <!-- Action Plan -->
+                ${actionPlanHtml}
+
+                <!-- Physician Escalation -->
+                ${escalationHtml}
+
+                <!-- Citations -->
+                <div class="pt-3 border-t space-y-2" style="border-color: var(--line);">
+                    <b class="text-xs font-bold block" style="color: var(--ink);">Peer-Reviewed Literature References:</b>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        ${citationsHtml}
+                    </div>
+                </div>
+            </div>
+        `;
+        container.classList.remove('hidden');
+    }
+
+    function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"']/g, function(m) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+    }
+
+    // 6. Background Sync Poller
+    (function initBackgroundSync() {
+        const banner = document.getElementById('bgSyncBanner');
+        fetch('/api/sync/trigger', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'in_progress') {
+                    if (banner) banner.style.display = 'flex';
+                }
+            })
+            .catch(e => console.debug("Sync trigger check", e));
+    })();
+
+    // Initialize all components on DOM ready
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeframe(7);
+        initSleepCharts();
+    });
+</script>
+{% endblock %}

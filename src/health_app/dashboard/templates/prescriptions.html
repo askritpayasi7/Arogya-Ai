@@ -1,0 +1,867 @@
+{% extends "base.html" %}
+
+{% block title %}Prescription Analyzer & Medical History | Aarogya AI{% endblock %}
+
+{% block head_extra %}
+<style>
+    .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.05);
+    }
+    .fld-input {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.15s ease;
+    }
+    .fld-input:focus {
+        border-color: var(--g);
+    }
+    .dropzone-box {
+        border: 2px dashed var(--line);
+        background: var(--bg);
+        border-radius: 18px;
+        transition: all 0.2s ease;
+    }
+    .dropzone-box:hover, .dropzone-box.dragover {
+        border-color: var(--g);
+        background: var(--soft);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Top Breadcrumb & Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b" style="border-color: var(--line);">
+        <div>
+            <div class="flex items-center gap-2 text-xs font-semibold mb-1" style="color: var(--g);">
+                <a href="/dashboard" class="hover:underline" style="color: var(--mute);">Dashboard</a>
+                <span>/</span>
+                <span>Clinical Intelligence</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold flex items-center gap-3" style="color: var(--ink);">
+                <span>Prescription Analyzer & Hub</span>
+                <span class="aarogya-pill pill-teal font-mono text-xs">
+                    Gemini Vision OCR
+                </span>
+            </h1>
+            <p class="text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed" style="color: var(--mute);">
+                Scan handwritten or printed doctor prescriptions. Extracted diseases and active medications automatically synchronize into your clinical profile and feed into the AI Biometric Advisor.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <a href="/dashboard" class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Return to My Health OS
+            </a>
+        </div>
+    </div>
+
+    <!-- Active Profile Clinical Summary Strip -->
+    <div class="card p-4 flex flex-wrap items-center justify-between gap-4 text-xs" style="background: var(--soft);">
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--mute);">Active Medical Context:</span>
+            <span class="aarogya-pill text-[11px]" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                {{ user_profile.prescriptions | length if user_profile and user_profile.prescriptions else (prescriptions|length if prescriptions else 0) }} Saved Prescriptions
+            </span>
+            <span class="aarogya-pill pill-green text-[11px]">
+                {{ user_profile.active_medications | length if user_profile and user_profile.active_medications else (active_medications|length if active_medications else 0) }} Active Medications
+            </span>
+            <span class="aarogya-pill pill-teal text-[11px]">
+                {{ user_profile.diagnosed_conditions | length if user_profile and user_profile.diagnosed_conditions else (diagnosed_conditions|length if diagnosed_conditions else 0) }} Diagnosed Conditions
+            </span>
+        </div>
+        <div class="text-[11px] font-mono" style="color: var(--mute);">
+            Patient: <span class="font-bold" style="color: var(--ink);">{{ user_profile.email if user_profile else (user.email if user else "Clinical Patient") }}</span>
+        </div>
+    </div>
+
+    <!-- Main Grid: Uploader & Active Verification / History -->
+    <div class="grid grid-cols-12 gap-8 items-start">
+
+        <!-- LEFT COLUMN: Image Upload & Dropzone -->
+        <div class="col-span-12 lg:col-span-5 space-y-6">
+            <div class="card p-6 space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider flex items-center gap-2" style="color: var(--ink);">
+                        <svg class="w-4 h-4" style="color: var(--g);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span>Upload Prescription</span>
+                    </h2>
+                    <span class="text-[10px] font-mono" style="color: var(--mute);">JPG, PNG, WEBP</span>
+                </div>
+
+                <!-- Dropzone Area -->
+                <div id="dropzone" class="dropzone-box relative p-6 text-center transition cursor-pointer group">
+                    <input type="file" id="prescriptionFileInput" accept="image/*,.pdf" class="hidden">
+                    
+                    <div id="dropzoneContent" class="space-y-3">
+                        <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center transition group-hover:scale-110" style="background: var(--soft); border: 1px solid var(--line); color: var(--g);">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold" style="color: var(--ink);">Drag & drop your prescription image here</p>
+                            <p class="text-[11px] mt-0.5" style="color: var(--mute);">or <span class="underline font-semibold" style="color: var(--g);">browse from device</span></p>
+                        </div>
+                        <p class="text-[10px] font-mono" style="color: var(--mute);">Deskewing & CLAHE adaptive contrast applied automatically</p>
+                    </div>
+
+                    <!-- Image Preview Area -->
+                    <div id="previewContainer" class="hidden space-y-3">
+                        <img id="imagePreview" src="" alt="Prescription Preview" class="max-h-64 mx-auto rounded-xl border shadow-md object-contain" style="border-color: var(--line);">
+                        <p id="fileNameLabel" class="text-xs font-mono truncate max-w-xs mx-auto" style="color: var(--mute);"></p>
+                        <button type="button" id="btnChangeImage" class="text-xs font-semibold underline cursor-pointer" style="color: var(--red);">
+                            Choose a different photo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button type="button" id="btnAnalyze" disabled 
+                        class="w-full py-3 px-4 rounded-xl btn-aarogya-grad disabled:opacity-40 disabled:cursor-not-allowed text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    <span>Analyze Prescription with AI</span>
+                </button>
+
+                <!-- Processing Loader State -->
+                <div id="analyzeLoader" class="hidden p-4 rounded-xl space-y-3 text-center" style="background: var(--bg); border: 1px solid var(--line);">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-2 border-t-transparent" style="border-color: var(--g); border-top-color: transparent;"></div>
+                    <p class="text-xs font-bold" style="color: var(--ink);">Analyzing prescription document...</p>
+                    <p class="text-[11px]" style="color: var(--mute);">Deskewing image & extracting doctor, clinic, diseases, and medications.</p>
+                </div>
+            </div>
+
+            <!-- Clinical Safety Notice Card -->
+            <div class="card p-4 space-y-2 text-xs" style="background: var(--bg);">
+                <div class="flex items-center gap-2 font-bold" style="color: var(--ink);">
+                    <svg class="w-4 h-4" style="color: var(--teal);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Automated Extraction Notice</span>
+                </div>
+                <p class="text-[11px] leading-relaxed" style="color: var(--mute);">
+                    Prescription extraction utilizes multi-modal computer vision and does not replace medical consultation. Always verify extracted medication dosages, frequency, and instructions against your physical prescription before saving.
+                </p>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Verification Review Screen or Prescriptions History -->
+        <div class="col-span-12 lg:col-span-7 space-y-6">
+
+            <!-- REVIEW & VERIFICATION CARD (Appears when extraction completes) -->
+            <div id="reviewCard" class="hidden card p-6 space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b" style="border-color: var(--line);">
+                    <div>
+                        <h2 class="text-lg font-bold flex items-center gap-2" style="color: var(--ink);">
+                            <span>Review Extracted Details</span>
+                            <span id="reviewConfidenceBadge" class="aarogya-pill pill-green font-mono text-[10px]">HIGH CONFIDENCE</span>
+                        </h2>
+                        <p class="text-xs mt-0.5" style="color: var(--mute);">
+                            Please verify each extracted detail. Untick any unwanted item or edit fields before saving.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CLINICAL WARNING BANNER (Shown whenever user edits or unticks) -->
+                <div id="clinicalWarningAlert" class="p-4 rounded-xl text-xs flex items-start gap-3" style="background: var(--amberbg); color: var(--amber); border: 1px solid rgba(183, 121, 31, 0.25);">
+                    <span class="text-base select-none">⚠️</span>
+                    <div>
+                        <span class="font-bold block">Clinical Verification Warning</span>
+                        <p class="mt-0.5 leading-relaxed opacity-90">
+                            Modifying or unticking clinical details alters your recorded medical history and changes how the AI evaluates drug interactions and biometric risk factors. Ensure edits match your physical prescription.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Form Fields (ONLY non-empty fields rendered) -->
+                <div class="space-y-4" id="reviewFormFields">
+                    <!-- Populated dynamically by renderReviewForm() -->
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-end gap-3 pt-4 border-t" style="border-color: var(--line);">
+                    <button type="button" id="btnCancelReview" 
+                            class="px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);">
+                        Cancel & Discard
+                    </button>
+                    <button type="button" id="btnSavePrescription" 
+                            class="px-5 py-2.5 rounded-xl btn-aarogya-grad text-xs font-bold transition flex items-center gap-2 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Confirm & Save to Medical History</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SAVED PRESCRIPTIONS & CLINICAL HISTORY SECTION -->
+            <div class="card p-6 space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b" style="border-color: var(--line);">
+                    <div>
+                        <h2 class="text-sm font-bold uppercase tracking-wider flex items-center gap-2" style="color: var(--ink);">
+                            <svg class="w-4 h-4" style="color: var(--teal);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <span>Medical History & Past Prescriptions</span>
+                        </h2>
+                        <span class="text-xs" style="color: var(--mute);">Context active for AI Biometric Advisor</span>
+                    </div>
+                </div>
+
+                <!-- Active Medications Pills Bar -->
+                {% if active_medications %}
+                <div class="space-y-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--mute);">Current Active Medications:</span>
+                    <div class="flex flex-wrap gap-2">
+                        {% for med in active_medications %}
+                        <div class="px-3 py-1.5 rounded-xl text-xs flex items-center gap-2" style="background: var(--soft); border: 1px solid var(--line); color: var(--ink);">
+                            <span class="font-bold">{{ med.name }}</span>
+                            {% if med.strength %}
+                            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded" style="background: var(--g2); color: var(--g);">{{ med.strength }}</span>
+                            {% endif %}
+                            {% if med.frequency %}
+                            <span class="text-[10px]" style="color: var(--mute);">({{ med.frequency }})</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Diagnosed Conditions Badges -->
+                {% if diagnosed_conditions %}
+                <div class="space-y-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--mute);">Diagnosed Conditions on Record:</span>
+                    <div class="flex flex-wrap gap-2">
+                        {% for cond in diagnosed_conditions %}
+                        <span class="aarogya-pill pill-teal text-xs font-semibold">
+                            {{ cond }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Prescriptions List -->
+                <div id="savedPrescriptionsContainer" class="space-y-4">
+                    {% if prescriptions %}
+                        {% for rx in prescriptions %}
+                        <div class="p-4 rounded-xl space-y-3" id="rx-card-{{ rx.id }}" style="background: var(--bg); border: 1px solid var(--line);">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        {% if rx.prescriber_name %}
+                                        <span class="text-sm font-bold" style="color: var(--ink);">{{ rx.prescriber_name }}</span>
+                                        {% endif %}
+                                        {% if rx.prescription_date %}
+                                        <span class="aarogya-pill text-[10px] font-mono" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">{{ rx.prescription_date }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if rx.clinic_or_place %}
+                                    <p class="text-xs mt-0.5 flex items-center gap-1" style="color: var(--mute);">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        <span>{{ rx.clinic_or_place }}</span>
+                                    </p>
+                                    {% endif %}
+                                </div>
+                                <button type="button" onclick="deletePrescription('{{ rx.id }}')" 
+                                        class="text-xs p-1 cursor-pointer transition hover:opacity-80" style="color: var(--red);" title="Remove from medical history">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+
+                            <!-- Diagnoses in this prescription -->
+                            {% if rx.diagnosed_diseases %}
+                            <div class="flex flex-wrap gap-1.5 items-center">
+                                <span class="text-[10px] font-bold" style="color: var(--mute);">Indications:</span>
+                                {% for d in rx.diagnosed_diseases %}
+                                <span class="aarogya-pill pill-teal text-[10px]">{{ d }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Medicines in this prescription -->
+                            {% if rx.medicines %}
+                            <div class="space-y-1.5 pt-2 border-t" style="border-color: var(--line);">
+                                {% for m in rx.medicines %}
+                                <div class="p-2.5 rounded-lg text-xs flex flex-wrap items-center justify-between gap-2" style="background: var(--card); border: 1px solid var(--line);">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full" style="background: var(--g);"></span>
+                                        <span class="font-bold" style="color: var(--ink);">{{ m.name }}</span>
+                                        {% if m.strength %}<span class="text-[11px] font-mono" style="color: var(--mute);">{{ m.strength }}</span>{% endif %}
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[11px]" style="color: var(--mute);">
+                                        {% if m.dosage %}<span>{{ m.dosage }}</span>{% endif %}
+                                        {% if m.frequency %}<span class="font-bold font-mono" style="color: var(--g);">{{ m.frequency }}</span>{% endif %}
+                                        {% if m.duration %}<span>&bull; {{ m.duration }}</span>{% endif %}
+                                        {% if m.route %}<span class="aarogya-pill text-[9px]" style="background: var(--bg); color: var(--mute);">{{ m.route }}</span>{% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div id="noPrescriptionsNotice" class="p-8 text-center rounded-xl" style="background: var(--bg); border: 1px solid var(--line);">
+                            <svg class="w-10 h-10 mx-auto mb-2" style="color: var(--mute);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <p class="text-xs font-semibold" style="color: var(--ink);">No prescriptions recorded yet.</p>
+                            <p class="text-[11px] mt-1" style="color: var(--mute);">Upload a prescription photo on the left to extract clinical context.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- CLIENT JAVASCRIPT LOGIC -->
+<script>
+    let selectedImageFile = null;
+    let extractedData = null;
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('prescriptionFileInput');
+    const dropzoneContent = document.getElementById('dropzoneContent');
+    const previewContainer = document.getElementById('previewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const fileNameLabel = document.getElementById('fileNameLabel');
+    const btnChangeImage = document.getElementById('btnChangeImage');
+    const btnAnalyze = document.getElementById('btnAnalyze');
+    const analyzeLoader = document.getElementById('analyzeLoader');
+    const reviewCard = document.getElementById('reviewCard');
+    const reviewFormFields = document.getElementById('reviewFormFields');
+    const btnCancelReview = document.getElementById('btnCancelReview');
+    const btnSavePrescription = document.getElementById('btnSavePrescription');
+
+    // Click dropzone to open file dialog
+    dropzone.addEventListener('click', (e) => {
+        if (e.target !== btnChangeImage && !previewContainer.contains(e.target)) {
+            fileInput.click();
+        }
+    });
+
+    btnChangeImage.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.click();
+    });
+
+    // File selected
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+
+    // Drag and drop handlers
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+    });
+    dropzone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+    });
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleFileSelect(e.dataTransfer.files[0]);
+        }
+    });
+
+    function handleFileSelect(file) {
+        selectedImageFile = file;
+        fileNameLabel.textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            dropzoneContent.classList.add('hidden');
+            previewContainer.classList.remove('hidden');
+            btnAnalyze.disabled = false;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Analyze Prescription Button
+    btnAnalyze.addEventListener('click', async () => {
+        if (!selectedImageFile) return;
+
+        btnAnalyze.disabled = true;
+        btnAnalyze.classList.add('hidden');
+        analyzeLoader.classList.remove('hidden');
+        reviewCard.classList.add('hidden');
+
+        const formData = new FormData();
+        formData.append('prescription_image', selectedImageFile);
+
+        try {
+            const resp = await fetch('/api/prescriptions/analyze', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await resp.json();
+
+            if (result.status === 'success' && result.data) {
+                extractedData = result.data;
+                renderReviewForm(extractedData);
+                reviewCard.classList.remove('hidden');
+                reviewCard.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Analysis failed: ' + (result.message || 'Unknown error'));
+                btnAnalyze.disabled = false;
+                btnAnalyze.classList.remove('hidden');
+            }
+        } catch (err) {
+            console.error('Extraction error:', err);
+            alert('Failed to connect to extraction server. Please retry.');
+            btnAnalyze.disabled = false;
+            btnAnalyze.classList.remove('hidden');
+        } finally {
+            analyzeLoader.classList.add('hidden');
+        }
+    });
+
+    // RENDER REVIEW FORM (Strict rule: NEVER show empty or "Not Found" placeholder fields)
+    function renderReviewForm(data) {
+        reviewFormFields.innerHTML = '';
+
+        // 1. PRESCRIPTION METADATA (Doctor, Clinic, Date)
+        let metaHtml = `
+            <div class="p-4 rounded-xl space-y-3" style="background: var(--bg); border: 1px solid var(--line);">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--mute);">Prescription Details</span>
+                    <button type="button" onclick="promptAddMetadataField()" class="text-[11px] font-semibold underline cursor-pointer" style="color: var(--g);">+ Add Missing Field</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="metadataFieldsGrid">
+        `;
+
+        if (data.prescriber_name) {
+            metaHtml += `
+                <div id="field-wrap-prescriber" class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold" style="color: var(--mute);">Doctor / Prescriber</label>
+                        <input type="checkbox" id="check-prescriber" checked onchange="handleCheckboxToggle('prescriber')" class="w-3.5 h-3.5 rounded cursor-pointer">
+                    </div>
+                    <input type="text" id="input-prescriber" value="${escapeHtml(data.prescriber_name)}" 
+                           oninput="triggerEditWarning()" 
+                           class="w-full text-xs rounded-lg px-2.5 py-1.5 focus:outline-none" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                </div>
+            `;
+        }
+
+        if (data.clinic_or_place) {
+            metaHtml += `
+                <div id="field-wrap-clinic" class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold" style="color: var(--mute);">Clinic / Place</label>
+                        <input type="checkbox" id="check-clinic" checked onchange="handleCheckboxToggle('clinic')" class="w-3.5 h-3.5 rounded cursor-pointer">
+                    </div>
+                    <input type="text" id="input-clinic" value="${escapeHtml(data.clinic_or_place)}" 
+                           oninput="triggerEditWarning()" 
+                           class="w-full text-xs rounded-lg px-2.5 py-1.5 focus:outline-none" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                </div>
+            `;
+        }
+
+        if (data.prescription_date) {
+            metaHtml += `
+                <div id="field-wrap-date" class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold" style="color: var(--mute);">Prescription Date</label>
+                        <input type="checkbox" id="check-date" checked onchange="handleCheckboxToggle('date')" class="w-3.5 h-3.5 rounded cursor-pointer">
+                    </div>
+                    <input type="text" id="input-date" value="${escapeHtml(data.prescription_date)}" 
+                           oninput="triggerEditWarning()" 
+                           class="w-full text-xs rounded-lg px-2.5 py-1.5 focus:outline-none" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                </div>
+            `;
+        }
+
+        metaHtml += `
+                </div>
+            </div>
+        `;
+        reviewFormFields.innerHTML += metaHtml;
+
+        // 2. DIAGNOSED DISEASES & INDICATIONS
+        const diseases = data.diagnosed_diseases || [];
+        let diseaseHtml = `
+            <div class="p-4 rounded-xl space-y-3" style="background: var(--bg); border: 1px solid var(--line);">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--mute);">Diagnosed Conditions & Indications</span>
+                        <span class="text-[10px]" style="color: var(--mute);">Untick or edit to modify medical history</span>
+                    </div>
+                    <button type="button" onclick="addCustomCondition()" class="text-[11px] font-semibold underline cursor-pointer" style="color: var(--teal);">+ Add Condition</button>
+                </div>
+                <div id="diseasesList" class="flex flex-wrap gap-2">
+        `;
+
+        if (diseases.length > 0) {
+            diseases.forEach((d, idx) => {
+                diseaseHtml += `
+                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs" id="disease-item-${idx}" style="background: var(--card); border-color: var(--line);">
+                        <input type="checkbox" id="check-disease-${idx}" checked onchange="handleCheckboxToggle('disease-${idx}')" class="w-3.5 h-3.5 rounded cursor-pointer">
+                        <input type="text" id="input-disease-${idx}" value="${escapeHtml(d)}" oninput="triggerEditWarning()" 
+                               class="bg-transparent border-none text-xs focus:outline-none w-36 font-semibold" style="color: var(--ink);">
+                        <button type="button" onclick="removeDiseaseItem(${idx})" class="hover:opacity-75 cursor-pointer" style="color: var(--red);">&times;</button>
+                    </div>
+                `;
+            });
+        } else {
+            diseaseHtml += `<p id="noDiseasesMsg" class="text-xs italic" style="color: var(--mute);">No specific diagnoses detected. Click '+ Add Condition' if needed.</p>`;
+        }
+
+        diseaseHtml += `
+                </div>
+            </div>
+        `;
+        reviewFormFields.innerHTML += diseaseHtml;
+
+        // 3. PRESCRIBED MEDICINES
+        const meds = data.medicines || [];
+        let medsHtml = `
+            <div class="p-4 rounded-xl space-y-3" style="background: var(--bg); border: 1px solid var(--line);">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider block" style="color: var(--mute);">Prescribed Medicines & Dosages</span>
+                        <span class="text-[10px]" style="color: var(--mute);">Uncheck to exclude from your active profile</span>
+                    </div>
+                    <button type="button" onclick="addCustomMedicine()" class="text-[11px] font-semibold underline cursor-pointer" style="color: var(--g);">+ Add Medicine</button>
+                </div>
+                <div id="medicinesReviewList" class="space-y-3">
+        `;
+
+        if (meds.length > 0) {
+            meds.forEach((m, idx) => {
+                medsHtml += renderMedicineCard(m, idx);
+            });
+        } else {
+            medsHtml += `<p id="noMedsMsg" class="text-xs italic" style="color: var(--mute);">No medicines detected in image. Click '+ Add Medicine' to enter manually.</p>`;
+        }
+
+        medsHtml += `
+                </div>
+            </div>
+        `;
+        reviewFormFields.innerHTML += medsHtml;
+    }
+
+    // Helper to render a medicine card (ONLY populated fields are rendered)
+    function renderMedicineCard(m, idx) {
+        return `
+            <div class="p-3.5 rounded-xl border transition space-y-2.5" id="med-card-${idx}" style="background: var(--card); border-color: var(--line);">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 flex-1">
+                        <input type="checkbox" id="check-med-${idx}" checked onchange="toggleMedCard(${idx})" class="w-4 h-4 rounded cursor-pointer">
+                        <input type="text" id="input-med-name-${idx}" value="${escapeHtml(m.name || '')}" placeholder="Medicine Name" 
+                               oninput="triggerEditWarning()" 
+                               class="text-xs font-bold bg-transparent border-b border-transparent hover:border-emerald-500 focus:border-emerald-500 focus:outline-none flex-1" style="color: var(--ink);">
+                    </div>
+                    <button type="button" onclick="removeMedCard(${idx})" class="text-xs font-semibold hover:opacity-75 cursor-pointer" style="color: var(--red);">Delete</button>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]" id="med-attrs-${idx}">
+                    ${m.strength ? `
+                    <div>
+                        <label class="block text-[9px] uppercase font-bold" style="color: var(--mute);">Strength</label>
+                        <input type="text" id="input-med-strength-${idx}" value="${escapeHtml(m.strength)}" oninput="triggerEditWarning()" 
+                               class="w-full text-xs rounded px-2 py-1 focus:outline-none" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);">
+                    </div>` : ''}
+
+                    ${m.dosage ? `
+                    <div>
+                        <label class="block text-[9px] uppercase font-bold" style="color: var(--mute);">Dosage</label>
+                        <input type="text" id="input-med-dosage-${idx}" value="${escapeHtml(m.dosage)}" oninput="triggerEditWarning()" 
+                               class="w-full text-xs rounded px-2 py-1 focus:outline-none" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);">
+                    </div>` : ''}
+
+                    ${m.frequency ? `
+                    <div>
+                        <label class="block text-[9px] uppercase font-bold" style="color: var(--mute);">Frequency</label>
+                        <input type="text" id="input-med-freq-${idx}" value="${escapeHtml(m.frequency)}" oninput="triggerEditWarning()" 
+                               class="w-full text-xs rounded px-2 py-1 focus:outline-none font-bold" style="background: var(--bg); border: 1px solid var(--line); color: var(--g);">
+                    </div>` : ''}
+
+                    ${m.duration ? `
+                    <div>
+                        <label class="block text-[9px] uppercase font-bold" style="color: var(--mute);">Duration</label>
+                        <input type="text" id="input-med-duration-${idx}" value="${escapeHtml(m.duration)}" oninput="triggerEditWarning()" 
+                               class="w-full text-xs rounded px-2 py-1 focus:outline-none" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);">
+                    </div>` : ''}
+
+                    ${m.route ? `
+                    <div>
+                        <label class="block text-[9px] uppercase font-bold" style="color: var(--mute);">Route</label>
+                        <input type="text" id="input-med-route-${idx}" value="${escapeHtml(m.route)}" oninput="triggerEditWarning()" 
+                               class="w-full text-xs rounded px-2 py-1 focus:outline-none" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);">
+                    </div>` : ''}
+
+                    ${m.instructions ? `
+                    <div class="col-span-2 sm:col-span-4">
+                        <label class="block text-[9px] uppercase font-bold" style="color: var(--mute);">Instructions</label>
+                        <input type="text" id="input-med-instructions-${idx}" value="${escapeHtml(m.instructions)}" oninput="triggerEditWarning()" 
+                               class="w-full text-xs rounded px-2 py-1 focus:outline-none italic" style="background: var(--bg); border: 1px solid var(--line); color: var(--mute);">
+                    </div>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    // Interactive Trigger Warnings
+    function triggerEditWarning() {
+        const warn = document.getElementById('clinicalWarningAlert');
+        if (warn) {
+            warn.classList.remove('hidden');
+            warn.classList.add('animate-pulse');
+            setTimeout(() => warn.classList.remove('animate-pulse'), 1000);
+        }
+    }
+
+    function toggleMedCard(idx) {
+        triggerEditWarning();
+        const cb = document.getElementById(`check-med-${idx}`);
+        const card = document.getElementById(`med-card-${idx}`);
+        if (cb && card) {
+            if (cb.checked) {
+                card.style.opacity = '1';
+            } else {
+                card.style.opacity = '0.4';
+            }
+        }
+    }
+
+    function removeMedCard(idx) {
+        triggerEditWarning();
+        const card = document.getElementById(`med-card-${idx}`);
+        if (card) card.remove();
+    }
+
+    function removeDiseaseItem(idx) {
+        triggerEditWarning();
+        const item = document.getElementById(`disease-item-${idx}`);
+        if (item) item.remove();
+    }
+
+    function handleCheckboxToggle(key) {
+        triggerEditWarning();
+    }
+
+    function addCustomCondition() {
+        triggerEditWarning();
+        const list = document.getElementById('diseasesList');
+        const noMsg = document.getElementById('noDiseasesMsg');
+        if (noMsg) noMsg.remove();
+
+        const newIdx = 'custom_' + Date.now();
+        const el = document.createElement('div');
+        el.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs';
+        el.style.background = 'var(--card)';
+        el.style.borderColor = 'var(--line)';
+        el.id = `disease-item-${newIdx}`;
+        el.innerHTML = `
+            <input type="checkbox" id="check-disease-${newIdx}" checked class="w-3.5 h-3.5 rounded cursor-pointer">
+            <input type="text" id="input-disease-${newIdx}" placeholder="Enter condition..." 
+                   class="bg-transparent border-none text-xs focus:outline-none w-36 font-semibold" style="color: var(--ink);">
+            <button type="button" onclick="document.getElementById('disease-item-${newIdx}').remove()" class="hover:opacity-75 cursor-pointer" style="color: var(--red);">&times;</button>
+        `;
+        list.appendChild(el);
+        const inp = el.querySelector('input[type="text"]');
+        if (inp) inp.focus();
+    }
+
+    function addCustomMedicine() {
+        triggerEditWarning();
+        const list = document.getElementById('medicinesReviewList');
+        const noMsg = document.getElementById('noMedsMsg');
+        if (noMsg) noMsg.remove();
+
+        const newIdx = 'custom_' + Date.now();
+        const dummy = { name: '', strength: '', dosage: '1 tablet', frequency: 'Twice daily', duration: '', route: 'Oral', instructions: '' };
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = renderMedicineCard(dummy, newIdx);
+        list.appendChild(wrapper.firstElementChild);
+    }
+
+    function promptAddMetadataField() {
+        triggerEditWarning();
+        const grid = document.getElementById('metadataFieldsGrid');
+        if (!document.getElementById('field-wrap-prescriber')) {
+            grid.innerHTML += `
+                <div id="field-wrap-prescriber" class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold" style="color: var(--mute);">Doctor / Prescriber</label>
+                        <input type="checkbox" id="check-prescriber" checked class="w-3.5 h-3.5 rounded cursor-pointer">
+                    </div>
+                    <input type="text" id="input-prescriber" placeholder="Dr. Name" 
+                           class="w-full text-xs rounded-lg px-2.5 py-1.5 focus:outline-none" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                </div>
+            `;
+            return;
+        }
+        if (!document.getElementById('field-wrap-clinic')) {
+            grid.innerHTML += `
+                <div id="field-wrap-clinic" class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold" style="color: var(--mute);">Clinic / Place</label>
+                        <input type="checkbox" id="check-clinic" checked class="w-3.5 h-3.5 rounded cursor-pointer">
+                    </div>
+                    <input type="text" id="input-clinic" placeholder="Clinic or Hospital name" 
+                           class="w-full text-xs rounded-lg px-2.5 py-1.5 focus:outline-none" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                </div>
+            `;
+            return;
+        }
+        if (!document.getElementById('field-wrap-date')) {
+            grid.innerHTML += `
+                <div id="field-wrap-date" class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] font-bold" style="color: var(--mute);">Prescription Date</label>
+                        <input type="checkbox" id="check-date" checked class="w-3.5 h-3.5 rounded cursor-pointer">
+                    </div>
+                    <input type="date" id="input-date" 
+                           class="w-full text-xs rounded-lg px-2.5 py-1.5 focus:outline-none" style="background: var(--card); border: 1px solid var(--line); color: var(--ink);">
+                </div>
+            `;
+        }
+    }
+
+    // Cancel Review
+    btnCancelReview.addEventListener('click', () => {
+        if (confirm('Discard extracted details? This image will not be saved to your medical history.')) {
+            reviewCard.classList.add('hidden');
+            btnAnalyze.classList.remove('hidden');
+            btnAnalyze.disabled = false;
+        }
+    });
+
+    // Save Verified Prescription
+    btnSavePrescription.addEventListener('click', async () => {
+        btnSavePrescription.disabled = true;
+        btnSavePrescription.innerHTML = `<span class="inline-block animate-spin mr-2">⏳</span> Saving...`;
+
+        // Harvest verified metadata
+        let prescriberName = null;
+        let clinicOrPlace = null;
+        let prescriptionDate = null;
+
+        const checkPrescriber = document.getElementById('check-prescriber');
+        if (checkPrescriber && checkPrescriber.checked) {
+            prescriberName = (document.getElementById('input-prescriber')?.value || '').trim() || null;
+        }
+
+        const checkClinic = document.getElementById('check-clinic');
+        if (checkClinic && checkClinic.checked) {
+            clinicOrPlace = (document.getElementById('input-clinic')?.value || '').trim() || null;
+        }
+
+        const checkDate = document.getElementById('check-date');
+        if (checkDate && checkDate.checked) {
+            prescriptionDate = (document.getElementById('input-date')?.value || '').trim() || null;
+        }
+
+        // Harvest verified conditions
+        const verifiedDiseases = [];
+        const diseaseItems = document.querySelectorAll('#diseasesList > div');
+        diseaseItems.forEach(item => {
+            const cb = item.querySelector('input[type="checkbox"]');
+            const txt = item.querySelector('input[type="text"]');
+            if (cb && cb.checked && txt && txt.value.trim()) {
+                verifiedDiseases.push(txt.value.trim());
+            }
+        });
+
+        // Harvest verified medicines
+        const verifiedMedicines = [];
+        const medCards = document.querySelectorAll('#medicinesReviewList > div');
+        medCards.forEach(card => {
+            const cb = card.querySelector('input[type="checkbox"]');
+            if (cb && cb.checked) {
+                const name = (card.querySelector('input[id^="input-med-name"]')?.value || '').trim();
+                if (name) {
+                    verifiedMedicines.push({
+                        name: name,
+                        strength: (card.querySelector('input[id^="input-med-strength"]')?.value || '').trim() || null,
+                        dosage: (card.querySelector('input[id^="input-med-dosage"]')?.value || '').trim() || null,
+                        frequency: (card.querySelector('input[id^="input-med-freq"]')?.value || '').trim() || null,
+                        duration: (card.querySelector('input[id^="input-med-duration"]')?.value || '').trim() || null,
+                        route: (card.querySelector('input[id^="input-med-route"]')?.value || '').trim() || null,
+                        instructions: (card.querySelector('input[id^="input-med-instructions"]')?.value || '').trim() || null,
+                    });
+                }
+            }
+        });
+
+        const payload = {
+            prescriber_name: prescriberName,
+            clinic_or_place: clinicOrPlace,
+            prescription_date: prescriptionDate,
+            diagnosed_diseases: verifiedDiseases,
+            medicines: verifiedMedicines,
+            extracted_metadata: extractedData?.extracted_metadata || {}
+        };
+
+        try {
+            const resp = await fetch('/api/prescriptions/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await resp.json();
+
+            if (result.status === 'success') {
+                alert('Prescription successfully saved to your medical history! The AI Biometric Advisor has been updated with your current diagnoses.');
+                window.location.reload();
+            } else {
+                alert('Save failed: ' + (result.message || 'Unknown error'));
+                btnSavePrescription.disabled = false;
+                btnSavePrescription.textContent = 'Confirm & Save to Medical History';
+            }
+        } catch (err) {
+            console.error('Save error:', err);
+            alert('Failed to save prescription. Please try again.');
+            btnSavePrescription.disabled = false;
+            btnSavePrescription.textContent = 'Confirm & Save to Medical History';
+        }
+    });
+
+    // Delete Prescription
+    async function deletePrescription(rxId) {
+        if (!confirm('Are you sure you want to remove this prescription from your active medical history?')) {
+            return;
+        }
+
+        try {
+            const resp = await fetch(`/api/prescriptions/${rxId}`, {
+                method: 'DELETE',
+            });
+            const result = await resp.json();
+
+            if (result.status === 'success') {
+                const card = document.getElementById(`rx-card-${rxId}`);
+                if (card) {
+                    card.classList.add('opacity-0', 'transition-opacity');
+                    setTimeout(() => card.remove(), 300);
+                }
+            } else {
+                alert('Delete failed: ' + (result.message || 'Unknown error'));
+            }
+        } catch (err) {
+            console.error('Delete error:', err);
+            alert('Failed to delete prescription.');
+        }
+    }
+
+    function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"']/g, function(m) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+    }
+</script>
+{% endblock %}

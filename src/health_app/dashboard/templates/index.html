@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Aarogya AI | Welcome to My Health OS{% endblock %}
+
+{% block head_extra %}
+<style>
+    /* Aarogya AI Medical Scanner & Grid */
+    .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-size: 36px 36px;
+        background-image: 
+            linear-gradient(to right, rgba(34, 163, 106, 0.06) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(34, 163, 106, 0.06) 1px, transparent 1px);
+        mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 80%);
+        -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 80%);
+        pointer-events: none;
+    }
+
+    .scanner-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, var(--g) 50%, transparent 100%);
+        opacity: 0.6;
+        animation: scan 7s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scan {
+        0% { top: 0%; opacity: 0; }
+        20% { opacity: 0.8; }
+        80% { opacity: 0.8; }
+        100% { top: 98%; opacity: 0; }
+    }
+
+    /* Concentric pulse rings */
+    .circle-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px dashed rgba(34, 163, 106, 0.22);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+    .circle-1 { width: 260px; height: 260px; }
+    .circle-2 { width: 380px; height: 380px; }
+    .circle-3 { width: 500px; height: 500px; }
+
+    .float-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.12);
+        transition: transform 0.3s ease;
+    }
+    .float-card:hover {
+        transform: translateY(-3px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[calc(100vh-140px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <!-- Medical Scanner Background -->
+    <div class="bg-grid"></div>
+    <div class="scanner-line"></div>
+
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        
+        <!-- Left Column: Hero & Sign-In Card -->
+        <div class="lg:col-span-7 space-y-8">
+            <!-- Brand Pill -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold" style="background: var(--g2); border: 1px solid rgba(34, 163, 106, 0.3); color: var(--g);">
+                <span class="w-2 h-2 rounded-full animate-pulse" style="background: var(--g);"></span>
+                VITA &bull; Aarogya AI &bull; Google Fitness API &bull; 4-Phase Clinical Verification &bull; FSSAI Standards
+            </div>
+
+            <div class="space-y-4">
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight" style="color: var(--ink);">
+                    My Health OS <br>
+                    <span class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent">Grounded in Peer-Reviewed Science</span>
+                </h1>
+                <p class="text-base sm:text-lg max-w-2xl leading-relaxed" style="color: var(--mute);">
+                    Connect your Google Health account to track daily steps, nocturnal sleep stages, and resting heart rate. Our AI pipeline cross-examines your vitals against verified scientific research to eliminate medical hallucinations.
+                </p>
+                <div style="font-style: italic; color: var(--g); font-weight: 700;">
+                    “It’s for you, not for everyone.”
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+                <a href="/api/auth/google/login" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-bold text-sm transition-all transform hover:-translate-y-0.5" style="background: var(--card); border: 1px solid var(--line); color: var(--ink); box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                    Continue with Google
+                </a>
+
+                <a href="/admin/login" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm transition" style="background: var(--card); border: 1px solid var(--line); color: var(--mute);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Admin Account Portal
+                </a>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
+                <!-- Daily Steps -->
+                <div class="p-5 rounded-2xl transition" style="background: var(--card); border: 1px solid var(--line);">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style="background: var(--soft); color: var(--teal);">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-sm font-bold mb-1" style="color: var(--ink);">Daily Steps & Cadence</h3>
+                    <p class="text-xs mb-3 leading-relaxed" style="color: var(--mute);">Syncs 7-day to 180-day movement metrics. Evaluates cardiovascular protective thresholds against prospective cohort literature.</p>
+                    <span class="aarogya-pill pill-teal font-mono text-[10px]">Activity.read</span>
+                </div>
+
+                <!-- Heart Rate -->
+                <div class="p-5 rounded-2xl transition" style="background: var(--card); border: 1px solid var(--line);">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style="background: var(--soft); color: var(--red);">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <h3 class="text-sm font-bold mb-1" style="color: var(--ink);">Resting Heart Rate & Pulse</h3>
+                    <p class="text-xs mb-3 leading-relaxed" style="color: var(--mute);">Tracks basal resting BPM and autonomic stability. Audits elevated pulse correlations with peer-reviewed clinical trials.</p>
+                    <span class="aarogya-pill pill-red font-mono text-[10px]">HeartRate.read</span>
+                </div>
+
+                <!-- Sleep Stages -->
+                <div class="p-5 rounded-2xl transition" style="background: var(--card); border: 1px solid var(--line);">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style="background: var(--soft); color: var(--g);">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </div>
+                    <h3 class="text-sm font-bold mb-1" style="color: var(--ink);">Sleep Architecture & Stages</h3>
+                    <p class="text-xs mb-3 leading-relaxed" style="color: var(--mute);">Ingests nocturnal sleep duration, Deep, and REM cycles. Correlates restorative sleep with metabolic recovery.</p>
+                    <span class="aarogya-pill pill-green font-mono text-[10px]">Sleep.read</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Interactive Graphic & Human Body Silhouette -->
+        <div class="lg:col-span-5 relative flex items-center justify-center min-h-[460px]">
+            <!-- Concentric Pulse Rings -->
+            <div class="circle-ring circle-1"></div>
+            <div class="circle-ring circle-2"></div>
+            <div class="circle-ring circle-3"></div>
+
+            <!-- Stylized Human Silhouette SVG -->
+            <div class="relative z-10 opacity-75">
+                <svg width="220" height="380" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <!-- Head -->
+                    <circle cx="100" cy="50" r="28" stroke="var(--g)" stroke-width="2.5" fill="var(--soft)" />
+                    <!-- Body & Shoulders -->
+                    <path d="M60 110 C75 95, 125 95, 140 110 L148 180 C148 230, 130 250, 120 260 L120 370 L80 370 L80 260 C70 250, 52 230, 52 180 Z" stroke="var(--teal)" stroke-width="2.5" fill="var(--card)" fill-opacity="0.8"/>
+                    <!-- Core Heart Pulse Node -->
+                    <circle cx="100" cy="140" r="10" fill="var(--red)" fill-opacity="0.2"/>
+                    <circle cx="100" cy="140" r="5" fill="var(--red)">
+                        <animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <!-- Vitals Wave Line -->
+                    <path d="M70 170 L90 170 L95 155 L105 185 L110 170 L130 170" stroke="var(--g)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- Floating Card 1: Heart Rate -->
+            <div class="float-card absolute top-8 left-0 sm:-left-4 p-3.5 rounded-2xl flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: var(--redbg); color: var(--red);">
+                    <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Resting Heart Rate</div>
+                    <div class="text-base font-extrabold" style="color: var(--ink);">68 <span class="text-xs font-normal" style="color: var(--mute);">bpm &bull; Stable</span></div>
+                </div>
+            </div>
+
+            <!-- Floating Card 2: Sleep Score -->
+            <div class="float-card absolute bottom-12 left-2 p-3.5 rounded-2xl flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: var(--g2); color: var(--g);">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Restorative Sleep</div>
+                    <div class="text-base font-extrabold" style="color: var(--ink);">7.6 <span class="text-xs font-normal" style="color: var(--mute);">hrs &bull; 91% Eff.</span></div>
+                </div>
+            </div>
+
+            <!-- Floating Card 3: Evidence Grounding -->
+            <div class="float-card absolute top-28 right-0 sm:-right-4 p-3.5 rounded-2xl flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(20, 184, 166, 0.12); color: var(--teal);">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-[11px] font-semibold" style="color: var(--mute);">Clinical Evidence</div>
+                    <div class="text-base font-extrabold" style="color: var(--ink);">100% <span class="text-xs font-normal" style="color: var(--g);">Verified</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

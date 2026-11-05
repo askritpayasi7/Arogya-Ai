@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Baseline Profile Onboarding | Aarogya AI{% endblock %}
+
+{% block head_extra %}
+<style>
+    .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.05);
+    }
+    .fld-input {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        width: 100%;
+        transition: border-color 0.15s ease;
+    }
+    .fld-input:focus {
+        border-color: var(--g);
+    }
+    .radio-card {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+    .radio-card:hover {
+        border-color: var(--g);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto py-10 px-4">
+    <!-- Header Card -->
+    <div class="mb-8 text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold" style="background: var(--g2); border: 1px solid rgba(34, 163, 106, 0.3); color: var(--g);">
+            <span class="w-2 h-2 rounded-full animate-pulse" style="background: var(--g);"></span>
+            Personalized Medical Profile Setup
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight" style="color: var(--ink);">Establish Your Behavioral Baseline</h1>
+        <p class="text-xs sm:text-sm max-w-lg mx-auto leading-relaxed" style="color: var(--mute);">
+            To eliminate generic clinical advice, Aarogya AI factors your specific occupation, age, and lifestyle habits into your telemetry baselines and literature retrieval.
+        </p>
+        <div style="font-style: italic; color: var(--g); font-weight: 700; font-size: 13px;">
+            “It’s for you, not for everyone.”
+        </div>
+    </div>
+
+    <!-- Questionnaire Form Card -->
+    <div class="card p-6 sm:p-8 space-y-6">
+        <form action="/api/user/onboarding" method="POST" class="space-y-6">
+            <!-- Email (Read-only reference) -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Connected Account Email</label>
+                <input type="text" name="email" value="{{ user_email }}" readonly class="fld-input font-mono text-xs opacity-70 cursor-not-allowed">
+            </div>
+
+            <!-- Age & Profession Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Age</label>
+                    <input type="number" name="age" min="18" max="110" value="{{ current_profile.age if current_profile else 28 }}" required class="fld-input font-mono">
+                    <span class="text-[11px] mt-1 block" style="color: var(--mute);">Used for age-bracketed epidemiological norms</span>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Profession / Occupation</label>
+                    <input type="text" name="profession" value="{{ current_profile.profession if current_profile else 'Software Engineer (Desk Job)' }}" placeholder="e.g. Desk Job, Shift Worker, Nurse" required class="fld-input">
+                    <span class="text-[11px] mt-1 block" style="color: var(--mute);">Identifies sedentary or shift-work patterns</span>
+                </div>
+            </div>
+
+            <!-- Smoking Status -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Tobacco & Nicotine Use</label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <label class="radio-card flex items-center gap-3">
+                        <input type="radio" name="smoking_status" value="non_smoker" class="w-4 h-4 cursor-pointer" {% if not current_profile or current_profile.smoking_status == 'non_smoker' %}checked{% endif %}>
+                        <div>
+                            <span class="text-xs font-bold block" style="color: var(--ink);">Non-Smoker</span>
+                            <span class="text-[10px]" style="color: var(--mute);">Never smoked regularly</span>
+                        </div>
+                    </label>
+                    <label class="radio-card flex items-center gap-3">
+                        <input type="radio" name="smoking_status" value="former_smoker" class="w-4 h-4 cursor-pointer" {% if current_profile and current_profile.smoking_status == 'former_smoker' %}checked{% endif %}>
+                        <div>
+                            <span class="text-xs font-bold block" style="color: var(--ink);">Former Smoker</span>
+                            <span class="text-[10px]" style="color: var(--mute);">Quit &gt; 6 months ago</span>
+                        </div>
+                    </label>
+                    <label class="radio-card flex items-center gap-3">
+                        <input type="radio" name="smoking_status" value="current_smoker" class="w-4 h-4 cursor-pointer" {% if current_profile and current_profile.smoking_status == 'current_smoker' %}checked{% endif %}>
+                        <div>
+                            <span class="text-xs font-bold block" style="color: var(--red);">Current Smoker</span>
+                            <span class="text-[10px]" style="color: var(--mute);">Cigarettes or nicotine vape</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Alcohol Consumption -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Alcohol Consumption Frequency</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <label class="radio-card flex items-center gap-2.5 text-xs">
+                        <input type="radio" name="alcohol_consumption" value="none" class="w-3.5 h-3.5 cursor-pointer" {% if not current_profile or current_profile.alcohol_consumption == 'none' %}checked{% endif %}>
+                        <span style="color: var(--ink);">None</span>
+                    </label>
+                    <label class="radio-card flex items-center gap-2.5 text-xs">
+                        <input type="radio" name="alcohol_consumption" value="occasional" class="w-3.5 h-3.5 cursor-pointer" {% if current_profile and current_profile.alcohol_consumption == 'occasional' %}checked{% endif %}>
+                        <span style="color: var(--ink);">Occasional</span>
+                    </label>
+                    <label class="radio-card flex items-center gap-2.5 text-xs">
+                        <input type="radio" name="alcohol_consumption" value="moderate" class="w-3.5 h-3.5 cursor-pointer" {% if current_profile and current_profile.alcohol_consumption == 'moderate' %}checked{% endif %}>
+                        <span class="font-bold" style="color: var(--amber);">Moderate</span>
+                    </label>
+                    <label class="radio-card flex items-center gap-2.5 text-xs">
+                        <input type="radio" name="alcohol_consumption" value="heavy" class="w-3.5 h-3.5 cursor-pointer" {% if current_profile and current_profile.alcohol_consumption == 'heavy' %}checked{% endif %}>
+                        <span class="font-bold" style="color: var(--red);">Frequent</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Chronic Risk Factors -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Known Risk Factors / Conditions</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <label class="radio-card flex items-center gap-2 text-xs">
+                        <input type="checkbox" name="chronic_risk_factors" value="Sedentary Workday" class="w-3.5 h-3.5 rounded cursor-pointer">
+                        <span style="color: var(--ink);">&ge; 7h Daily Screen/Desk Time</span>
+                    </label>
+                    <label class="radio-card flex items-center gap-2 text-xs">
+                        <input type="checkbox" name="chronic_risk_factors" value="Elevated Blood Pressure" class="w-3.5 h-3.5 rounded cursor-pointer">
+                        <span style="color: var(--ink);">Hypertension / High BP</span>
+                    </label>
+                    <label class="radio-card flex items-center gap-2 text-xs">
+                        <input type="checkbox" name="chronic_risk_factors" value="Elevated Lipids" class="w-3.5 h-3.5 rounded cursor-pointer">
+                        <span style="color: var(--ink);">High Cholesterol / Triglycerides</span>
+                    </label>
+                    <label class="radio-card flex items-center gap-2 text-xs">
+                        <input type="checkbox" name="chronic_risk_factors" value="None Reported" class="w-3.5 h-3.5 rounded cursor-pointer" checked>
+                        <span class="font-bold" style="color: var(--g);">No Known Chronic Conditions</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Primary Health Objective -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--mute);">Primary Health Focus</label>
+                <select name="primary_health_goal" class="fld-input">
+                    <option value="Cardiovascular & Sleep Health">Cardiovascular Health & Nocturnal Recovery</option>
+                    <option value="Physical Activity & Longevity">Physical Activity, Cadence & Weight Management</option>
+                    <option value="Autonomic Stress Modulation">Autonomic Tone & Heart Rate Variability</option>
+                    <option value="FSSAI Dietary Safety">Dietary Safety & Industrial Trans-Fat Avoidance</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4 border-t flex items-center justify-between" style="border-color: var(--line);">
+                <a href="/dashboard?demo=true" class="text-xs transition hover:underline" style="color: var(--mute);">&larr; Skip (Enter Demo View)</a>
+                <button type="submit" class="px-6 py-3 rounded-xl btn-aarogya-grad text-xs font-bold flex items-center gap-2 cursor-pointer">
+                    <span>Lock In Profile & Proceed</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
